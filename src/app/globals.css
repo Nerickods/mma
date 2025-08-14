@@ -1,0 +1,118 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #000000;    /* Negro puro */
+  --foreground: #ffffff;    /* Blanco puro */
+  --accent: #FFD700;        /* Amarillo conversion */
+  --gray: #B0B0B0;          /* Gris neutro */
+  --gray-light: #F5F5F5;    /* Gris claro para fondos */
+}
+
+html { 
+  scroll-behavior: smooth; 
+  scroll-padding-top: 4rem;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  color: var(--foreground);
+  background: var(--background);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+/* Mejoras de rendimiento */
+* {
+  box-sizing: border-box;
+}
+
+/* Botones CTA principales */
+.cta-button {
+  background: var(--accent);
+  color: var(--background);
+  border-radius: 8px;
+  padding: 16px 32px;
+  font-weight: 600;
+  font-size: 18px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.cta-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+}
+
+/* Animaciones de aparición */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+/* Overlays para imágenes */
+.overlay {
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6));
+}
+
+/* Efectos adicionales premium */
+.shimmer {
+  background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.2), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Scroll suave mejorado */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
+/* Efectos de hover globales */
+.hover-lift {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+}
+
+/* Gradientes premium */
+.gradient-gold {
+  background: linear-gradient(135deg, #FFD700, #FFA500, #FFD700);
+}
+
+.gradient-black {
+  background: linear-gradient(135deg, #000000, #1a1a1a, #000000);
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
