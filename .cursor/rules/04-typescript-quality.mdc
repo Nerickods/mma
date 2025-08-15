@@ -1,0 +1,338 @@
+---
+alwaysApply: true
+description: "Estándares de TypeScript, calidad de código y mejores prácticas"
+---
+
+# Estándares TypeScript y Calidad - Blackbird House
+
+## Configuración TypeScript OBLIGATORIA
+
+### tsconfig.json ESTRICTO
+Configuración definida en [tsconfig.json](mdc:tsconfig.json):
+```json
+{
+  "compilerOptions": {
+    "strict": true,              // Modo estricto OBLIGATORIO
+    "noEmit": true,             // Solo verificación de tipos
+    "moduleResolution": "bundler",
+    "paths": {
+      "@/*": ["./src/*"]        // Alias OBLIGATORIO
+    }
+  }
+}
+```
+
+### Reglas de Importación CRÍTICAS
+```typescript
+// ✅ CORRECTO - Orden de imports
+import { useState, useEffect } from 'react';
+import type { Metadata } from 'next';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FaIcon } from 'react-icons/fa';
+import Header from '@/components/Header';
+import { FormData, ApiResponse } from '@/types/forms';
+
+// ❌ INCORRECTO - imports desordenados
+import Header from '@/components/Header';
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+```
+
+## Tipado OBLIGATORIO
+
+### Interfaces para Props
+```typescript
+// ✅ SIEMPRE definir interface antes del componente
+interface HeaderProps {
+  isFixed?: boolean;
+  showLogo?: boolean;
+  onMenuToggle?: () => void;
+  className?: string;
+  children?: React.ReactNode;
+}
+
+export default function Header({ 
+  isFixed = true, 
+  showLogo = true,
+  onMenuToggle,
+  className = '',
+  children 
+}: HeaderProps) {
+  // Componente tipado
+}
+```
+
+### Estado Tipado EXPLÍCITO
+```typescript
+// ✅ CORRECTO - tipos explícitos
+const [isLoading, setIsLoading] = useState<boolean>(false);
+const [userData, setUserData] = useState<User | null>(null);
+const [formData, setFormData] = useState<FormData>({
+  name: '',
+  email: '',
+  phone: ''
+});
+
+// ❌ INCORRECTO - inferencia ambigua
+const [isLoading, setIsLoading] = useState(false);
+const [userData, setUserData] = useState(null);
+```
+
+### Event Handlers TIPADOS
+```typescript
+// Formularios
+const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  event.preventDefault();
+  // lógica del formulario
+};
+
+// Inputs
+const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const { name, value } = event.target;
+  setFormData(prev => ({ ...prev, [name]: value }));
+};
+
+// Buttons
+const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  event.stopPropagation();
+  // lógica del click
+};
+
+// Custom handlers
+const handleSectionClick = (sectionId: string) => {
+  document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+};
+```
+
+## Interfaces y Types ESPECÍFICOS
+
+### Tipos de Formulario
+```typescript
+interface ContactFormData {
+  name: string;
+  email: string;
+  phone: string;
+  age: string;
+  goal: 'fitness' | 'competition' | 'selfdefense' | 'weight-loss';
+  schedule: 'morning' | 'afternoon' | 'evening' | 'flexible';
+}
+
+interface FormState {
+  data: ContactFormData;
+  isSubmitting: boolean;
+  isSuccess: boolean;
+  errors: Partial<ContactFormData>;
+}
+```
+
+### Tipos de Componente
+```typescript
+interface TrainerData {
+  id: number;
+  name: string;
+  specialty: string;
+  experience: string;
+  achievements: string;
+  bio: string;
+  image: string;
+  social: {
+    instagram: string;
+    facebook: string;
+  };
+}
+
+interface NavigationItem {
+  name: string;
+  id: string;
+  icon: string;
+  href?: string;
+}
+```
+
+### API Response Types
+```typescript
+interface ApiResponse<T = any> {
+  success: boolean;
+  data?: T;
+  error?: string;
+  message?: string;
+}
+
+interface WebhookPayload {
+  name: string;
+  email: string;
+  phone: string;
+  timestamp: string;
+  source: string;
+  [key: string]: any;
+}
+```
+
+## Async/Await y Manejo de Errores
+
+### Fetch Tipado
+```typescript
+async function submitForm(formData: ContactFormData): Promise<ApiResponse> {
+  try {
+    const response = await fetch('/api/contact', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData)
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data: ApiResponse = await response.json();
+    return data;
+  } catch (error) {
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : 'Unknown error'
+    };
+  }
+}
+```
+
+### Error Boundaries (si es necesario)
+```typescript
+interface ErrorBoundaryState {
+  hasError: boolean;
+  error?: Error;
+}
+
+class ErrorBoundary extends React.Component<
+  React.PropsWithChildren<{}>, 
+  ErrorBoundaryState
+> {
+  constructor(props: React.PropsWithChildren<{}>) {
+    super(props);
+    this.state = { hasError: false };
+  }
+  // Implementación del error boundary
+}
+```
+
+## Hooks Personalizados TIPADOS
+
+### Hook de Formulario
+```typescript
+interface UseFormReturn<T> {
+  data: T;
+  updateField: (field: keyof T, value: any) => void;
+  resetForm: () => void;
+  isValid: boolean;
+}
+
+function useForm<T>(initialData: T): UseFormReturn<T> {
+  const [data, setData] = useState<T>(initialData);
+  
+  const updateField = (field: keyof T, value: any) => {
+    setData(prev => ({ ...prev, [field]: value }));
+  };
+  
+  const resetForm = () => setData(initialData);
+  
+  const isValid = Object.values(data).every(value => 
+    value !== '' && value !== null && value !== undefined
+  );
+  
+  return { data, updateField, resetForm, isValid };
+}
+```
+
+## Validaciones y Guards
+
+### Type Guards
+```typescript
+function isValidEmail(email: string): boolean {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
+
+function isFormData(data: any): data is ContactFormData {
+  return (
+    typeof data === 'object' &&
+    typeof data.name === 'string' &&
+    typeof data.email === 'string' &&
+    typeof data.phone === 'string'
+  );
+}
+```
+
+### Assertion Functions
+```typescript
+function assertIsFormData(data: unknown): asserts data is ContactFormData {
+  if (!isFormData(data)) {
+    throw new Error('Invalid form data structure');
+  }
+}
+```
+
+## Configuración ESLint OBLIGATORIA
+
+### Reglas Críticas (ya configuradas)
+```json
+{
+  "extends": ["next/core-web-vitals"],
+  "rules": {
+    "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/no-explicit-any": "warn",
+    "react-hooks/exhaustive-deps": "error"
+  }
+}
+```
+
+## Comentarios y Documentación
+
+### JSDoc para Funciones Complejas
+```typescript
+/**
+ * Submits contact form data to webhook endpoint
+ * @param formData - The contact form data to submit
+ * @param webhookUrl - The webhook URL to send data to
+ * @returns Promise resolving to API response
+ */
+async function submitContactForm(
+  formData: ContactFormData, 
+  webhookUrl: string
+): Promise<ApiResponse> {
+  // implementación
+}
+```
+
+### Comentarios en Código Complejo
+```typescript
+// Debounce scroll handler to improve performance
+useEffect(() => {
+  let timeoutId: NodeJS.Timeout;
+  
+  const handleScroll = () => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => {
+      setIsScrolled(window.scrollY > 50);
+    }, 10);
+  };
+  
+  window.addEventListener('scroll', handleScroll);
+  return () => {
+    window.removeEventListener('scroll', handleScroll);
+    clearTimeout(timeoutId);
+  };
+}, []);
+```
+
+## Prohibiciones de Código
+
+❌ **NO permitido:**
+- `any` type sin justificación
+- Variables sin tipo explícito en formularios
+- Event handlers sin tipado
+- Props sin interface
+- Imports sin order específico
+- `@ts-ignore` comentarios
+- `console.log` en producción
+- Funciones sin return type en casos complejos

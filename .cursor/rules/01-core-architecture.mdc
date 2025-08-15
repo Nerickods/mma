@@ -1,0 +1,83 @@
+---
+alwaysApply: true
+description: "Arquitectura fundamental y stack tecnológico del proyecto Blackbird House"
+---
+
+# Arquitectura Fundamental - Blackbird House MMA
+
+## Stack Tecnológico OBLIGATORIO
+
+### Framework y Runtime
+- **Next.js 14.2.30** con App Router únicamente - NO usar Pages Router
+- **React 18** - componentes funcionales con hooks únicamente
+- **TypeScript 5** en modo estricto - TODO código debe estar tipado
+- **Node.js** - versiones LTS únicamente
+
+### Librerías de UI y Estilos
+- **Tailwind CSS 3.4.1** - NO usar CSS-in-JS ni styled-components
+- **Framer Motion 12.23.12** - para TODAS las animaciones
+- **React Icons 5.5.0** - iconografía estandarizada
+
+### Estructura de Directorios OBLIGATORIA
+```
+src/
+├── app/                 # App Router de Next.js
+│   ├── layout.tsx      # Layout principal con metadata
+│   ├── page.tsx        # Página principal
+│   ├── globals.css     # Estilos globales y variables CSS
+│   └── fonts/          # Fuentes locales (Geist)
+└── components/         # Componentes reutilizables
+    ├── Header.tsx
+    ├── Footer.tsx
+    ├── EnrollForm.tsx
+    └── TrainersSection.tsx
+```
+
+## Reglas de Arquitectura CRÍTICAS
+
+### 1. Imports y Alias
+- SIEMPRE usar alias `@/*` para imports internos
+- Estructura de imports: React/Next → Librerías → Componentes internos → Tipos/Interfaces
+```typescript
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import Header from '@/components/Header';
+import { FormData } from '@/types/forms';
+```
+
+### 2. Archivos de Configuración
+- [package.json](mdc:package.json) - dependencias exactas, NO modificar versiones sin análisis
+- [tsconfig.json](mdc:tsconfig.json) - configuración TypeScript estricta
+- [tailwind.config.ts](mdc:tailwind.config.ts) - configuración Tailwind con tokens personalizados
+- [next.config.js](mdc:next.config.js) - configuración Next.js con optimizaciones de imagen
+
+### 3. Estructura de Componentes
+- Un componente por archivo
+- Exportación por defecto únicamente
+- 'use client' obligatorio para componentes interactivos
+- Props interface antes del componente
+- JSX.Element como tipo de retorno implícito
+
+## Prohibiciones ABSOLUTAS
+
+❌ **NO usar estas tecnologías/patrones:**
+- Create React App
+- Vite (fuera del contexto Next.js)
+- CSS Modules
+- Styled Components
+- Material-UI o similares
+- Class components
+- JavaScript sin TypeScript
+- useState sin tipos
+- Componentes sin Framer Motion para animaciones
+
+❌ **NO modificar:**
+- Estructura de directorios base
+- Configuraciones de TypeScript/ESLint
+- Variables CSS del tema principal
+- Versiones de dependencias core
+
+## Comando de Desarrollo
+```bash
+npm run dev  # Puerto 3000 por defecto
+```

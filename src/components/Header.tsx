@@ -22,11 +22,11 @@ export default function Header() {
   };
 
   const navigationItems = [
-    { name: 'Inicio', id: 'inicio', icon: '🏠' },
-    { name: 'Beneficios', id: 'beneficios', icon: '💪' },
-    { name: 'Instalaciones', id: 'instalaciones', icon: '🏢' },
-    { name: 'Entrenadores', id: 'entrenadores', icon: '🥊' },
-    { name: 'Testimonios', id: 'testimonios', icon: '💬' },
+    { name: 'Inicio', id: 'inicio' },
+    { name: 'Beneficios', id: 'beneficios' },
+    { name: 'Instalaciones', id: 'instalaciones' },
+    { name: 'Entrenadores', id: 'entrenadores' },
+    { name: 'Testimonios', id: 'testimonios' },
   ];
 
   return (
@@ -76,8 +76,7 @@ export default function Header() {
               onClick={() => scrollToSection(item.id)}
               className="group relative px-4 py-2 rounded-lg font-medium text-white/80 hover:text-[var(--accent)] transition-all duration-300 hover:bg-[var(--accent)]/10"
             >
-              <span className="flex items-center gap-2">
-                <span className="text-lg">{item.icon}</span>
+              <span className="flex items-center">
                 {item.name}
               </span>
               
@@ -173,8 +172,7 @@ export default function Header() {
                     onClick={() => scrollToSection(item.id)}
                     className="group w-full text-left px-4 py-3 rounded-lg bg-[var(--accent)]/5 hover:bg-[var(--accent)]/15 border border-[var(--accent)]/20 hover:border-[var(--accent)]/50 transition-all duration-300"
                   >
-                    <span className="flex items-center gap-3 text-white group-hover:text-[var(--accent)] transition-colors duration-300">
-                      <span className="text-xl">{item.icon}</span>
+                    <span className="flex items-center text-white group-hover:text-[var(--accent)] transition-colors duration-300">
                       <span className="font-medium">{item.name}</span>
                     </span>
                   </motion.button>
@@ -190,7 +188,7 @@ export default function Header() {
                   onClick={() => scrollToSection('formulario')}
                   className="w-full cta-button text-lg py-4 mt-4"
                 >
-                  🥊 Reservar Clase Gratuita
+                  Reservar Clase Gratuita
                 </motion.button>
               </div>
             </div>

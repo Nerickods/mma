@@ -1,0 +1,180 @@
+---
+alwaysApply: true
+description: "Patrones de desarrollo de componentes y estructura de código"
+---
+
+# Patrones de Componentes - Blackbird House
+
+## Estructura de Componente OBLIGATORIA
+
+### Template Base para Componentes
+```typescript
+'use client';
+
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { IconName } from 'react-icons/fa';
+
+interface ComponentProps {
+  // Props tipadas explícitamente
+}
+
+export default function ComponentName({ prop1, prop2 }: ComponentProps) {
+  // 1. Estado con tipos explícitos
+  const [state, setState] = useState<Type>(initialValue);
+  
+  // 2. Efectos y handlers
+  useEffect(() => {
+    // lógica de efectos
+  }, []);
+  
+  const handleEvent = (event: React.FormEvent<HTMLFormElement>) => {
+    // handlers tipados
+  };
+  
+  // 3. Return con motion wrapper
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.6 }}
+      className="classes tailwind"
+    >
+      {/* Contenido del componente */}
+    </motion.div>
+  );
+}
+```
+
+## Animaciones OBLIGATORIAS
+
+### Usar Framer Motion en TODOS los componentes
+- **motion.div/section/header** para containers principales
+- **AnimatePresence** para elementos condicionales
+- **whileHover/whileTap** para elementos interactivos
+- **initial/animate/exit** para transiciones de página
+
+### Configuraciones Estándar de Animación
+```typescript
+// Animación de entrada estándar
+const fadeInUp = {
+  initial: { opacity: 0, y: 30 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.6 }
+};
+
+// Hover effects estándar
+const hoverLift = {
+  whileHover: { scale: 1.05, y: -4 },
+  whileTap: { scale: 0.95 }
+};
+
+// Staggered animations para listas
+const staggerContainer = {
+  animate: {
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+};
+```
+
+## Eventos y Handlers
+
+### Tipado de Eventos OBLIGATORIO
+```typescript
+// Formularios
+const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {};
+
+// Clicks
+const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {};
+
+// Inputs
+const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {};
+
+// Scroll personalizado
+const scrollToSection = (sectionId: string) => {
+  document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+};
+```
+
+## Hooks y Estado
+
+### Estado Tipado
+```typescript
+// Estados simples
+const [isLoading, setIsLoading] = useState<boolean>(false);
+const [formData, setFormData] = useState<FormData>({});
+
+// Estados complejos con interface
+interface UserPreferences {
+  theme: 'light' | 'dark';
+  language: 'es' | 'en';
+}
+const [preferences, setPreferences] = useState<UserPreferences>({
+  theme: 'dark',
+  language: 'es'
+});
+```
+
+### useEffect Patterns
+```typescript
+// Cleanup obligatorio para listeners
+useEffect(() => {
+  const handleScroll = () => setScrolled(window.scrollY > 50);
+  window.addEventListener('scroll', handleScroll);
+  return () => window.removeEventListener('scroll', handleScroll);
+}, []);
+
+// Dependencies explícitas
+useEffect(() => {
+  // lógica que depende de props/state
+}, [dependency1, dependency2]);
+```
+
+## Estructura de Props
+
+### Interface antes del componente
+```typescript
+interface HeaderProps {
+  isFixed?: boolean;
+  showCTA?: boolean;
+  onMenuToggle?: () => void;
+  className?: string;
+}
+
+export default function Header({ 
+  isFixed = true, 
+  showCTA = true, 
+  onMenuToggle,
+  className = ''
+}: HeaderProps) {
+  // componente
+}
+```
+
+## Responsividad OBLIGATORIA
+
+### Breakpoints Estándar Tailwind
+```typescript
+// Clases responsive obligatorias
+className="text-sm md:text-base lg:text-lg xl:text-xl"
+className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+className="px-4 md:px-6 lg:px-8 xl:px-12"
+className="hidden md:block" // para navegación desktop
+className="block md:hidden" // para navegación móvil
+```
+
+## Componentización
+
+### Reglas de División de Componentes
+- **Más de 150 líneas** → dividir en subcomponentes
+- **Lógica reutilizable** → extraer hook personalizado
+- **UI repetitiva** → crear componente reutilizable
+- **Formularios complejos** → dividir en secciones
+
+### Referencias a Componentes Existentes
+- [Header.tsx](mdc:src/components/Header.tsx) - Navegación con animaciones
+- [EnrollForm.tsx](mdc:src/components/EnrollForm.tsx) - Formulario con validación
+- [TrainersSection.tsx](mdc:src/components/TrainersSection.tsx) - Grid de entrenadores
+- [Footer.tsx](mdc:src/components/Footer.tsx) - Footer institucional

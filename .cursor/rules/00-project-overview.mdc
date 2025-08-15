@@ -1,0 +1,172 @@
+---
+alwaysApply: true
+description: "Resumen ejecutivo y índice de reglas del proyecto Blackbird House"
+---
+
+# 🥊 Blackbird House - Reglas Fundamentales del Proyecto
+
+## 📋 Resumen Ejecutivo
+
+**Proyecto:** Landing Page Premium para Blackbird House MMA  
+**Stack:** Next.js 14 + TypeScript + Tailwind + Framer Motion  
+**Branding:** Negro/Dorado Premium  
+**Target:** Conversión de leads para clases gratuitas de MMA  
+**Ubicación:** Palermo, Buenos Aires, Argentina
+
+## 🎯 Objetivo de las Reglas
+
+Estas reglas **CRÍTICAS** garantizan que cualquier desarrollo futuro:
+- ✅ Mantenga la coherencia arquitectónica
+- ✅ Preserve el branding premium establecido
+- ✅ Respete los patrones de desarrollo existentes
+- ✅ Evite incompatibilidades tecnológicas
+- ✅ Mantenga la calidad de código profesional
+
+## 📚 Índice de Reglas (LEER EN ORDEN)
+
+### 01. [Arquitectura Fundamental](mdc:.cursor/rules/01-core-architecture.mdc)
+- Stack tecnológico OBLIGATORIO
+- Estructura de directorios
+- Configuraciones base
+- Prohibiciones absolutas
+
+### 02. [Patrones de Componentes](mdc:.cursor/rules/02-component-patterns.mdc)
+- Template de componentes React
+- Animaciones con Framer Motion
+- Hooks y estado tipado
+- Responsividad obligatoria
+
+### 03. [Branding y Estilos](mdc:.cursor/rules/03-styling-branding.mdc)
+- Paleta de colores SAGRADA
+- Tipografía y fuentes
+- Clases CSS personalizadas
+- Grid systems y espaciados
+
+### 04. [TypeScript y Calidad](mdc:.cursor/rules/04-typescript-quality.mdc)
+- Tipado estricto obligatorio
+- Interfaces y event handlers
+- Hooks personalizados
+- Estándares de código
+
+### 05. [SEO y Performance](mdc:.cursor/rules/05-seo-performance.mdc)
+- Metadata y estructura SEO
+- Optimización de imágenes
+- Core Web Vitals
+- Accesibilidad
+
+## 🚨 ALERTAS CRÍTICAS
+
+### ⛔ NUNCA Modificar Sin Consultar:
+- Variables CSS del tema (negro/dorado)
+- Configuraciones de TypeScript/Next.js
+- Estructura de componentes base
+- Versiones de dependencias core
+
+### ⚡ SIEMPRE Seguir:
+- Template de componentes con Framer Motion
+- Tipado estricto en todo el código
+- Mobile-first responsive design
+- Alias `@/*` para imports
+
+### 🎨 BRANDING Inquebrantable:
+```css
+:root {
+  --background: #000000;    /* Negro puro */
+  --foreground: #ffffff;    /* Blanco puro */
+  --accent: #FFD700;        /* Dorado conversion */
+}
+```
+
+## 📊 Stack Tecnológico Definido
+
+```json
+{
+  "core": {
+    "next": "14.2.30",
+    "react": "^18",
+    "typescript": "^5"
+  },
+  "ui": {
+    "tailwindcss": "^3.4.1",
+    "framer-motion": "^12.23.12",
+    "react-icons": "^5.5.0"
+  },
+  "fonts": {
+    "primary": "Poppins (Google)",
+    "mono": "Geist (Local)"
+  }
+}
+```
+
+## 🏗️ Arquitectura Visual
+
+```
+mma1/
+├── src/
+│   ├── app/                 # Next.js App Router
+│   │   ├── layout.tsx      # Layout + metadata
+│   │   ├── page.tsx        # Página principal
+│   │   ├── globals.css     # Variables + estilos
+│   │   └── fonts/          # Fuentes locales
+│   └── components/         # Componentes reutilizables
+│       ├── Header.tsx      # Navegación premium
+│       ├── Footer.tsx      # Footer institucional
+│       ├── EnrollForm.tsx  # Formulario conversión
+│       └── TrainersSection.tsx # Grid entrenadores
+├── .cursor/rules/          # ESTAS REGLAS
+├── tailwind.config.ts      # Configuración estilos
+├── tsconfig.json          # TypeScript estricto
+└── next.config.js         # Optimizaciones Next.js
+```
+
+## 🎯 Flujo de Desarrollo OBLIGATORIO
+
+1. **LEER** todas las reglas antes de programar
+2. **VERIFICAR** compatibilidad con stack existente
+3. **SEGUIR** template de componentes (Regla 02)
+4. **APLICAR** branding correcto (Regla 03)
+5. **TIPAR** todo el código TypeScript (Regla 04)
+6. **OPTIMIZAR** para SEO/performance (Regla 05)
+7. **TESTEAR** responsive en móvil/desktop
+
+## 🔍 Cómo Usar Estas Reglas
+
+### Para Nuevos Componentes:
+1. Revisar [template en Regla 02](mdc:.cursor/rules/02-component-patterns.mdc)
+2. Aplicar [branding de Regla 03](mdc:.cursor/rules/03-styling-branding.mdc)
+3. Seguir [tipado de Regla 04](mdc:.cursor/rules/04-typescript-quality.mdc)
+
+### Para Modificaciones:
+1. Verificar que no se rompa [arquitectura base](mdc:.cursor/rules/01-core-architecture.mdc)
+2. Mantener [performance standards](mdc:.cursor/rules/05-seo-performance.mdc)
+
+### Para Debugging:
+1. Verificar imports y alias
+2. Revisar tipado TypeScript
+3. Validar responsive design
+
+## 📞 Referencias Rápidas
+
+- **Layout principal:** [src/app/layout.tsx](mdc:src/app/layout.tsx)
+- **Página principal:** [src/app/page.tsx](mdc:src/app/page.tsx)
+- **Estilos globales:** [src/app/globals.css](mdc:src/app/globals.css)
+- **Configuración TS:** [tsconfig.json](mdc:tsconfig.json)
+- **Configuración Tailwind:** [tailwind.config.ts](mdc:tailwind.config.ts)
+
+## ✅ Checklist de Desarrollo
+
+Antes de cualquier commit, verificar:
+- [ ] Componente sigue template de Regla 02
+- [ ] Branding negro/dorado respetado
+- [ ] TypeScript sin errores
+- [ ] Responsive en móvil/desktop  
+- [ ] Animaciones con Framer Motion
+- [ ] Performance optimizada
+- [ ] SEO metadata correcta
+
+---
+
+**Creado por:** Desarrollador full stack  
+**Fecha:** Enero 2025  
+**Versión:** 1.0 - Reglas Fundamentales  
+**Estado:** Producción - SEGUIR ESTRICTAMENTE

@@ -38,7 +38,7 @@ export default function EnrollForm() {
       } else {
         throw new Error('Error en el envío');
       }
-    } catch (error) {
+    } catch {
       // Fallback: log local para demo
       console.log('Datos del lead capturado:', payload);
       setIsSuccess(true);

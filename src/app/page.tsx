@@ -7,8 +7,6 @@ import TrainersSection from "@/components/TrainersSection";
 import Footer from "@/components/Footer";
 import { 
   FaCheckCircle, 
-  FaExclamationTriangle, 
-  FaUsers, 
   FaBrain, 
   FaTrophy, 
   FaGift, 
@@ -128,59 +126,141 @@ export default function Home() {
           </div>
         </section>
 
-        {/* 3. Puntos de dolor + solución */}
+        {/* 3. Realidad vs Transformación */}
         <section className="py-20 bg-gradient-to-br from-black via-gray-900 to-black relative overflow-hidden">
-          {/* Efectos de fondo dinámicos */}
+          {/* Efectos de fondo premium */}
           <div className="absolute inset-0">
-            <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[var(--accent)]/5 via-transparent to-transparent"></div>
-            <div className="absolute top-20 right-20 w-64 h-64 bg-[var(--accent)]/3 rounded-full blur-3xl animate-pulse"></div>
-            <div className="absolute bottom-20 left-20 w-48 h-48 bg-[var(--accent)]/5 rounded-full blur-3xl animate-pulse delay-1000"></div>
+            <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[var(--accent)]/8 via-transparent to-transparent"></div>
+            <div className="absolute top-20 right-20 w-64 h-64 bg-[var(--accent)]/4 rounded-full blur-3xl animate-pulse"></div>
+            <div className="absolute bottom-20 left-20 w-48 h-48 bg-[var(--accent)]/6 rounded-full blur-3xl animate-pulse delay-1000"></div>
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[var(--accent)]/3 rounded-full blur-3xl opacity-50"></div>
           </div>
+          
           <div className="container mx-auto px-6">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0.8 }}
               viewport={{ once: true }}
-              className="text-center mb-16"
+              className="text-center mb-20"
             >
-              <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">
-                Si te sientes así, esta <span className="text-[var(--accent)]">clase es para ti</span>
+              <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+                ¿Te reconoces en estas <span className="text-[var(--accent)]">frustraciones?</span>
               </h2>
+              <p className="text-white/80 text-lg md:text-xl max-w-3xl mx-auto">
+                Cada día que pasa sin el entrenamiento correcto, te alejas más de quien podrías ser...
+              </p>
             </motion.div>
             
-            <div className="grid gap-8 md:grid-cols-3 mb-12">
+            <div className="grid gap-8 lg:grid-cols-3 mb-16 max-w-7xl mx-auto">
               {[
-                "Sientes que no mejoras por más que entrenas",
-                "Pierdes motivación rápidamente",
-                "No encuentras un método que realmente funcione"
-              ].map((pain, index) => (
-            <motion.div 
+                {
+                  title: "Estancamiento Frustrante",
+                  description: "Entrenas duro pero los resultados no llegan. Sientes que no importa cuánto esfuerzo pongas, sigues en el mismo lugar.",
+                  intensity: "Months of effort... zero progress"
+                },
+                {
+                  title: "Motivación Que Se Desvanece", 
+                  description: "Empiezas con energía pero después de unas semanas lo dejas. El ciclo se repite y la culpa crece.",
+                  intensity: "Starting again... and again..."
+                },
+                {
+                  title: "Métodos Que No Funcionan",
+                  description: "Has probado diferentes enfoques pero ninguno te da la confianza y resultados que buscas realmente.",
+                  intensity: "Wasted time, wasted money"
+                }
+              ].map((struggle, index) => (
+                <motion.div 
                   key={index}
-              initial={{ opacity: 0, y: 50 }}
+                  initial={{ opacity: 0, y: 60 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  transition={{ duration: 0.8, delay: index * 0.2 }}
                   viewport={{ once: true }}
-                  className="group text-center p-8 rounded-2xl bg-black/20 border border-red-500/20 hover:border-red-500/50 hover:bg-red-500/5 transition-all duration-500 hover:scale-105"
+                  className="group relative"
                 >
-                  <FaExclamationTriangle className="text-red-500 text-5xl mx-auto mb-6 group-hover:animate-bounce" />
-                  <p className="text-white text-xl font-medium group-hover:text-red-300 transition-colors duration-300">"{pain}"</p>
+                  {/* Borde animado */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-gray-600/20 via-gray-400/30 to-gray-600/20 rounded-2xl blur-sm group-hover:from-[var(--accent)]/30 group-hover:via-[var(--accent)]/50 group-hover:to-[var(--accent)]/30 transition-all duration-700"></div>
+                  
+                  <div className="relative bg-gradient-to-br from-gray-900/80 to-gray-800/60 backdrop-blur-sm rounded-2xl p-8 border border-gray-600/30 group-hover:border-[var(--accent)]/40 transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl hover:shadow-[var(--accent)]/20">
+                    {/* Indicador de intensidad */}
+                    <div className="flex items-center gap-3 mb-6">
+                      <div className="flex gap-1">
+                        {[...Array(3)].map((_, i) => (
+                          <div key={i} className="w-2 h-8 bg-gradient-to-t from-gray-600 to-gray-400 rounded-full group-hover:from-[var(--accent)]/60 group-hover:to-[var(--accent)] transition-all duration-500" />
+                        ))}
+                      </div>
+                      <span className="text-gray-400 text-sm font-medium group-hover:text-[var(--accent)] transition-colors duration-300">{struggle.intensity}</span>
+                    </div>
+                    
+                    <h3 className="text-2xl md:text-3xl font-bold text-white mb-4 group-hover:text-[var(--accent)] transition-colors duration-300">
+                      {struggle.title}
+                    </h3>
+                    <p className="text-gray-300 text-lg leading-relaxed group-hover:text-white transition-colors duration-300">
+                      {struggle.description}
+                    </p>
+                    
+                    {/* Línea de progreso que simula frustración */}
+                    <div className="mt-6 w-full bg-gray-700 rounded-full h-1 overflow-hidden">
+                      <div className="w-0 group-hover:w-full h-full bg-gradient-to-r from-gray-500 to-[var(--accent)] transition-all duration-1000 ease-out"></div>
+                    </div>
+                  </div>
                 </motion.div>
               ))}
             </div>
 
+            {/* Transición visual hacia la solución */}
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1, delay: 0.3 }}
               viewport={{ once: true }}
-              className="bg-gradient-to-br from-[var(--accent)] via-yellow-400 to-[var(--accent)] rounded-3xl p-8 md:p-12 text-center max-w-4xl mx-auto shadow-2xl shadow-[var(--accent)]/40 hover:shadow-[var(--accent)]/60 hover:scale-105 transition-all duration-500 border-4 border-[var(--accent)]/50"
+              className="text-center mb-12"
             >
-              <h3 className="text-3xl md:text-4xl font-black text-black mb-8 tracking-tight">💡 LA SOLUCIÓN</h3>
-              <p className="text-black text-xl md:text-2xl font-bold leading-relaxed">
-                En una sola clase gratuita descubrirás un método probado, recibirás atención personalizada 
-                y sentirás la diferencia desde el primer día.
-              </p>
+              <div className="inline-flex items-center gap-4 bg-gradient-to-r from-gray-800/50 to-gray-700/30 backdrop-blur-sm rounded-full px-8 py-4 border border-gray-600/30">
+                <div className="w-4 h-4 bg-gray-500 rounded-full animate-pulse"></div>
+                <div className="w-4 h-4 bg-gray-400 rounded-full animate-pulse delay-200"></div>
+                <div className="w-4 h-4 bg-[var(--accent)] rounded-full animate-pulse delay-500"></div>
+                <span className="text-white/70 font-medium">Pero existe una mejor manera...</span>
+              </div>
+            </motion.div>
+
+            {/* Solución premium */}
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.5 }}
+              viewport={{ once: true }}
+              className="relative max-w-5xl mx-auto"
+            >
+              {/* Resplandor de fondo */}
+              <div className="absolute inset-0 bg-gradient-to-r from-[var(--accent)]/20 via-[var(--accent)]/30 to-[var(--accent)]/20 rounded-3xl blur-xl"></div>
+              
+              <div className="relative bg-gradient-to-br from-[var(--accent)] via-yellow-400 to-[var(--accent)] rounded-3xl p-1">
+                <div className="bg-gradient-to-br from-black/5 to-black/10 rounded-3xl p-8 md:p-12 text-center backdrop-blur-sm">
+                  <h3 className="text-3xl md:text-5xl font-black text-black mb-6 tracking-tight">
+                    LA TRANSFORMACIÓN
+                  </h3>
+                  <div className="w-24 h-1 bg-black/30 rounded-full mx-auto mb-8"></div>
+                  <p className="text-black text-xl md:text-2xl font-bold leading-relaxed mb-8">
+                    En una sola clase <span className="underline decoration-black/30 decoration-4">gratuita</span> experimentarás 
+                    un método probado que te dará resultados inmediatos y la claridad que necesitas para avanzar.
+                  </p>
+                  <div className="flex flex-wrap justify-center gap-6 text-black/80 font-semibold">
+                    <span className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-black/50 rounded-full"></div>
+                      Técnicas efectivas al instante
+                    </span>
+                    <span className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-black/50 rounded-full"></div>
+                      Atención 100% personalizada
+                    </span>
+                    <span className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-black/50 rounded-full"></div>
+                      Resultados desde el día 1
+                    </span>
+                  </div>
+                </div>
+              </div>
             </motion.div>
           </div>
         </section>
@@ -286,7 +366,7 @@ export default function Home() {
                   className="group bg-gradient-to-br from-white to-gray-50 rounded-3xl p-10 shadow-xl hover:shadow-2xl hover:shadow-[var(--accent)]/20 text-center transition-all duration-500 hover:scale-105 border-2 border-transparent hover:border-[var(--accent)]/30"
                 >
                   <FaQuoteLeft className="text-[var(--accent)] text-4xl mx-auto mb-8 group-hover:scale-125 group-hover:rotate-12 transition-all duration-500" />
-                  <p className="text-black text-xl mb-8 italic font-medium leading-relaxed group-hover:text-gray-700 transition-colors duration-300">"{testimonial.quote}"</p>
+                  <p className="text-black text-xl mb-8 italic font-medium leading-relaxed group-hover:text-gray-700 transition-colors duration-300">&ldquo;{testimonial.quote}&rdquo;</p>
                   <div className="flex items-center justify-center gap-4">
                     <img 
                       src={testimonial.photo} 
