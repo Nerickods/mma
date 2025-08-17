@@ -1,86 +1,181 @@
-# TAREAS - Blackbird House Landing Page PREMIUM ✅
+# 🔥 REESTRUCTURACIÓN COMPLETA - BLACKBIRD HOUSE MMA v3.0 
+## 🎯 REVOLUCIÓN TOTAL INSPIRADA EN GIMNASIO ACE
 
-CONFIANZA ALCANZADA: Landing premium completamente funcional para Blackbird House (MMA) con diseño profesional, copy optimizado para SEO y experiencia de usuario premium.
+**FILOSOFÍA:** Pareto 20/80 - Planificación estratégica máxima, ejecución magistral  
+**INSPIRACIÓN:** Diseño ACE Combat Sports (Chennai) - Estadísticas impactantes, diferenciadores claros  
+**OBJETIVO:** Landing de conversión premium con estructura redefinida desde cero  
 
-## Objetivo CUMPLIDO ✅
-Landing funcional PREMIUM con: Header optimizado, Hero con SEO, nueva sección Entrenadores, video embed mejorado, beneficios con iconos, formulario premium y footer completo. Branding negro/dorado con efectos visuales avanzados.
+---
 
-## Plan de trabajo
+## 🗂️ NUEVA ESTRUCTURA OBLIGATORIA (7 SECCIONES)
 
-- [x] Estructura base (Next.js 14, TS, Tailwind)
-  - [x] Crear proyecto con `app/` y Tailwind
-  - [x] Configurar alias `@/*` y tipado
-  - [x] Ajustar metadata y `lang="es"`
-- [x] Branding y estilos globales
-  - [x] Definir tokens CSS: `--background`, `--foreground`, `--accent`
-  - [x] Activar `scroll-behavior: smooth`
-  - [x] Ver contraste accesible (AA)
-- [x] Header (sticky) con navegación interna y CTA
-  - [x] Logo tipográfico y enlaces: `#entrenamiento`, `#beneficios`, `#formulario`
-  - [x] CTA "Quiero Inscribirme" hacia `#formulario`
-- [x] Hero
-  - [x] Titular y subtítulo concisos
-  - [x] CTA primario hacia formulario
-  - [x] Fondo con gradientes sutiles
-- [x] Sección: Nuestro Entrenamiento
-  - [x] Título y copy breve
-  - [x] `iframe` de YouTube (video de prueba)
-  - [x] Contenedor `aspect-video` y borde suave
-- [x] Sección: Beneficios
-  - [x] Lista de 6 beneficios en grid responsivo
-  - [x] Indicador visual (punto dorado)
-- [x] Sección: Formulario de inscripción
-  - [x] Campos: nombre, correo, teléfono, edad
-  - [x] Select: objetivo, horario
-  - [x] Botón submit con estado de carga
-  - [x] Manejo básico en cliente (console + alert)
-- [x] Accesibilidad y UX
-  - [x] Labels asociados y tamaños de toque adecuados
-  - [x] Estados `:focus` visibles
-  - [x] `scroll-mt` para anclas bajo header
-- [x] Revisión visual PREMIUM
-  - [x] Testing en móvil y desktop
-  - [x] Ajuste de espaciados y jerarquías
-- [x] NUEVAS MEJORAS PREMIUM IMPLEMENTADAS
-  - [x] Sección "Nuestros Entrenadores" con 3 tarjetas profesionales
-  - [x] Footer premium con 4 columnas (logo, navegación, contacto, redes)
-  - [x] Optimización SEO completa (title, description, keywords, OpenGraph)
-  - [x] Copy persuasivo centrado en "clase GRATUITA"
-  - [x] Placeholders motivadores en formulario
-  - [x] Iconos profesionales (react-icons) en beneficios y formulario
-  - [x] Animaciones sutiles con Framer Motion
-  - [x] Gradientes y efectos visuales premium
-  - [x] Hover effects avanzados en todos los elementos
-  - [x] Datos de contacto realistas (Palermo, Buenos Aires)
-- [x] Preparación para futuras personalizaciones
-  - [x] Componentizar header y formulario
-  - [x] Tokens de color centralizados
+### 1. 🏠 INICIO (Hero + Estadísticas)
+- Hero optimizado con CTA principal
+- **NUEVA:** Sección estadísticas impactantes estilo ACE
+  - "2K+ Transformaciones exitosas"
+  - "500+ Miembros activos"
+  - "15+ Años de experiencia"
+  - "3 Especialistas certificados"
 
-## Instrucciones de prueba PREMIUM ✅
+### 2. 🎯 MISIÓN 
+- Rediseño manteniendo esencia Blackbird
+- Integración con filosofía "formamos guerreros íntegros"
+- Banner de texto corrido con disciplinas
 
-1. Ejecuta `npm run dev` y abre `http://localhost:3000`.
-2. **Header mejorado**: Navega usando los enlaces a Entrenamiento, Entrenadores, Beneficios e Inscripción.
-3. **Hero premium**: Observa las animaciones de entrada y el gradiente del título.
-4. **Sección Entrenadores**: Haz hover sobre las tarjetas para ver efectos de zoom y overlay.
-5. **Beneficios con iconos**: Verifica hover effects y iconos dorados animados.
-6. **Formulario premium**: Completa con placeholders motivadores y envía para ver confirmación de "clase GRATUITA".
-7. **Footer completo**: Revisa las 4 columnas con datos de contacto e iconos de redes sociales.
-8. **Responsive**: Prueba en móvil y desktop para verificar adaptabilidad.
-9. **SEO**: Revisa el `<title>` optimizado y meta description.
+### 3. ⚔️ DISCIPLINAS (Rediseño Numerado)
+- **INSPIRACIÓN:** Tarjetas numeradas 1, 2, 3, 4 como ACE
+- Cada disciplina con descripción detallada
+- Beneficios específicos por arte marcial
+- Hover effects premium
 
-## Próximos pasos sugeridos para EXPANSIÓN
+### 4. 🏆 POR QUÉ SOMOS LOS MEJORES (NUEVA SECCIÓN)
+- **INSPIRACIÓN DIRECTA:** "Why we are the best" de ACE  
+- 4 diferenciadores clave de la competencia
+- Diseño con viñetas doradas y descripiones
+- Imagen lateral de luchador profesional
 
-- **Backend**: Integrar envío real (API Route + Nodemailer/SendGrid)
-- **Contenido**: Añadir testimonios reales y galería de fotos del gimnasio
-- **Analytics**: Google Analytics 4 + eventos del CTA para medir conversiones
-- **Marketing**: Google Ads, Meta Ads con landing page optimizada
-- **CRM**: Integración con WhatsApp Business API para seguimiento automatizado
-- **Pagos**: Sistema de membresías con Stripe/MercadoPago
-- **Booking**: Calendario en línea para reservas automáticas
+### 5. 👑 COACHES (Rediseño Total)
+- **INSPIRACIÓN:** Estilo ACE "Meet our warrior coaches"
+- Fotos en B&N estilo profesional
+- Tarjetas minimalistas pero impactantes
+- 3 coaches con especialidades claras
 
-## 🚀 ESTADO ACTUAL: LANDING PREMIUM COMPLETADA
-**Version:** 2.0 Premium  
-**Performance:** Optimizada para conversión  
-**SEO:** Completamente optimizada  
-**UX:** Experiencia premium implementada  
-**Responsive:** 100% adaptada móvil/desktopp
+### 6. 📝 FORMULARIO (Optimizado)
+- Misma funcionalidad, diseño mejorado
+- Integración visual con nueva identidad
+
+### 7. 🦶 FOOTER (Mantenido)
+- Estructura actual pero adaptado al nuevo diseño
+
+---
+
+## 📋 PLAN DE EJECUCIÓN MAESTRAL
+
+### FASE 1: PREPARACIÓN ARQUITECTÓNICA (20% - 80% Impacto)
+- [ ] **ANÁLISIS PROFUNDO:** Documentar todos los elementos de ACE a replicar
+- [ ] **CONTENT STRATEGY:** Definir textos y estadísticas específicas para Blackbird
+- [ ] **COMPONENT MAPPING:** Mapear componentes actuales vs nuevos requerimientos
+- [ ] **DESIGN SYSTEM:** Adaptar tokens CSS para nuevo estilo
+
+### FASE 2: RESTRUCTURACIÓN CORE
+- [ ] **PAGE.TSX:** Reestructurar completamente con 7 secciones nuevas
+- [ ] **ESTADÍSTICAS:** Crear sección impactante con números grandes
+- [ ] **NUEVA SECCIÓN:** "Por Qué Somos Los Mejores" con 4 diferenciadores
+- [ ] **DISCIPLINAS:** Rediseño numerado 1-4 con descripciones detalladas
+- [ ] **COACHES:** Estilo ACE con fotos B&N profesionales
+
+### FASE 3: COMPONENTES ESPECIALIZADOS
+- [ ] **StatsSection.tsx:** Componente para estadísticas (2K+, 500+, etc.)
+- [ ] **WhyTheBest.tsx:** Componente diferenciadores vs competencia
+- [ ] **DisciplinesGrid.tsx:** Grid numerado estilo ACE
+- [ ] **CoachesACE.tsx:** Rediseño total coaches estilo profesional
+
+### FASE 4: OPTIMIZACIÓN & REFINAMIENTO
+- [ ] **RESPONSIVE:** Testing exhaustivo en todos los dispositivos
+- [ ] **ANIMATIONS:** Framer Motion avanzado para nuevas secciones
+- [ ] **PERFORMANCE:** Optimización de imágenes y cargas
+- [ ] **A11Y:** Accesibilidad completa en nuevos componentes
+
+---
+
+## 💡 ELEMENTOS CLAVE INSPIRADOS EN ACE
+
+### 🎨 VISUAL IDENTITY
+- **Contraste dramático:** Negro/dorado mantenido
+- **Typography:** Números gigantes para estadísticas
+- **Photography:** Estilo B&N profesional para coaches
+- **Layout:** Cards con bordes redondeados y shadows
+
+### 📊 CONTENT STRATEGY
+```
+ESTADÍSTICAS BLACKBIRD:
+- 2K+ → "Transformaciones exitosas"
+- 500+ → "Miembros activos"  
+- 15+ → "Años de experiencia"
+- 3 → "Especialistas certificados"
+```
+
+### 🏆 DIFERENCIADORES (Why We Are The Best)
+1. **Entrenadores Certificados Internacionalmente**
+2. **Metodología Probada en Competencia**
+3. **Ambiente Profesional para Guerreros Serios**
+4. **Resultados Medibles desde la Primera Clase**
+
+### ⚔️ DISCIPLINAS NUMERADAS
+1. **ARTES MARCIALES MIXTAS** - Combate completo
+2. **JIU JITSU BRASILEÑO** - Arte suave dominante  
+3. **MUAY THAI** - Ciencia de los 8 miembros
+4. **KICKBOXING** - Striking explosivo
+
+---
+
+## 🚀 MILESTONES DE PROGRESO
+
+### 🎯 Semana 1: FOUNDATION
+- [x] Análisis de referencia ACE completado
+- [x] Plan maestro documentado en TAREAS.md
+- [ ] Reestructuración page.tsx iniciada
+- [ ] Primeras 2 secciones implementadas
+
+### 🔥 Semana 2: CORE SECTIONS  
+- [ ] Sección estadísticas funcionando
+- [ ] "Por Qué Somos Los Mejores" implementada
+- [ ] Disciplinas numeradas listas
+- [ ] Coaches estilo ACE operativo
+
+### ⚡ Semana 3: OPTIMIZATION
+- [ ] Responsive perfecto en todos los breakpoints
+- [ ] Animaciones premium implementadas
+- [ ] Performance optimizado al máximo
+- [ ] Testing exhaustivo completado
+
+---
+
+## 🎨 REFERENCES & INSPIRATION
+
+**SOURCE:** ACE Combat Sports Chennai  
+**STYLE:** Professional B&W photography + Bold typography  
+**LAYOUT:** Card-based with numbered sections  
+**STATS:** Large numbers with descriptions  
+**COACHES:** Minimalist professional presentation  
+
+---
+
+## ✅ CHECKLIST FINAL
+
+### PRE-DEVELOPMENT
+- [ ] Todas las imágenes de referencia analizadas
+- [ ] Content strategy definida para 7 secciones
+- [ ] Component architecture mapeada
+- [ ] Design tokens actualizados
+
+### DEVELOPMENT  
+- [ ] 7 secciones reestructuradas correctamente
+- [ ] Todos los componentes nuevos creados
+- [ ] Responsive design perfecto
+- [ ] Animaciones Framer Motion implementadas
+
+### TESTING
+- [ ] Funcionamiento en móvil/tablet/desktop
+- [ ] Accesibilidad validada
+- [ ] Performance óptimo
+- [ ] SEO mantenido/mejorado
+
+### DEPLOYMENT
+- [ ] Build sin errores
+- [ ] Testing final en producción
+- [ ] Documentación actualizada
+
+---
+
+## 🏆 OBJETIVO FINAL
+
+**RESULTADO ESPERADO:** Landing page que rivalice en calidad y conversión con los mejores gimnasios del mundo, manteniendo la identidad única de Blackbird House pero elevándola a estándares internacionales.
+
+**PRINCIPIO MAESTRO:** Cada pixel cuenta. Cada sección debe generar impacto. Cada elemento debe contribuir a la conversión.
+
+---
+
+**INICIADO:** Enero 2025  
+**STATUS:** 🔥 EN DESARROLLO - REVOLUCIÓN EN PROGRESO  
+**NEXT ACTION:** Reestructuración page.tsx con nueva arquitectura de 7 secciones

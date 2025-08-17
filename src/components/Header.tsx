@@ -23,10 +23,10 @@ export default function Header() {
 
   const navigationItems = [
     { name: 'Inicio', id: 'inicio' },
-    { name: 'Beneficios', id: 'beneficios' },
-    { name: 'Instalaciones', id: 'instalaciones' },
+    { name: 'Misión', id: 'mision' },
+    { name: 'Disciplinas', id: 'disciplinas' },
     { name: 'Entrenadores', id: 'entrenadores' },
-    { name: 'Testimonios', id: 'testimonios' },
+    { name: 'Inscripción', id: 'formulario' },
   ];
 
   return (

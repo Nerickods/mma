@@ -111,6 +111,20 @@ html {
   background: linear-gradient(135deg, #000000, #1a1a1a, #000000);
 }
 
+/* Animación para banner de texto corrido */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll {
+  animation: scroll 30s linear infinite;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
