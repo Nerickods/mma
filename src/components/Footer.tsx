@@ -33,7 +33,7 @@ export default function Footer() {
         <div className="grid gap-12 lg:grid-cols-4 md:grid-cols-2">
           
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={false}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
@@ -48,23 +48,25 @@ export default function Footer() {
               </div>
             </div>
             <p className="text-white/70 leading-relaxed mb-6">
-              La academia de MMA más completa de Palermo. Tu primera clase es 100% GRATUITA.
+              Formamos personalidades íntegras más que atletas. Tu primera clase de prueba es GRATUITA.
             </p>
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={false}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.1 }}
             viewport={{ once: true }}
           >
-            <h4 className="text-xl font-bold mb-6 text-white">Navegación</h4>
+            <h4 className="text-xl font-bold mb-6 text-white">Disciplinas</h4>
             <ul className="space-y-3">
               {[
-                { name: "Inicio", id: "inicio" },
-                { name: "Beneficios", id: "beneficios" },
-                { name: "Entrenadores", id: "entrenadores" },
-                { name: "Reservar Clase", id: "formulario" }
+                { name: "Artes Marciales Mixtas", id: "inicio" },
+                { name: "Jiu Jitsu / Grappling", id: "disciplinas" },
+                { name: "Kickboxing", id: "disciplinas" },
+                { name: "Muay Thai", id: "disciplinas" },
+                { name: "Boxeo", id: "disciplinas" },
+                { name: "Acondicionamiento", id: "horarios" }
               ].map((link) => (
                 <li key={link.name}>
                   <motion.button
@@ -80,30 +82,38 @@ export default function Footer() {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={false}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             viewport={{ once: true }}
           >
             <h4 className="text-xl font-bold mb-6 text-white">Contacto</h4>
             <div className="space-y-4">
+              <div className="flex items-start gap-3 text-white/70">
+                <FaMapMarkerAlt className="text-[var(--accent)] mt-1 flex-shrink-0" />
+                <div>
+                  <div>AV. RÍO NILO 4301</div>
+                  <div>LOMAS DE LOS PÁJAROS</div>
+                  <div>TONALÁ, JALISCO C.P. 45403</div>
+                </div>
+              </div>
               <div className="flex items-center gap-3 text-white/70">
-                <FaMapMarkerAlt className="text-[var(--accent)]" />
-                <span>Av. Santa Fe 3456, Palermo</span>
+                <FaWhatsapp className="text-[var(--accent)]" />
+                <span className="font-bold">33 28 14 57 00</span>
               </div>
               <div className="flex items-center gap-3 text-white/70">
                 <FaPhone className="text-[var(--accent)]" />
-                <span>+54 11 4567-8900</span>
+                <span>33 81 90 73</span>
               </div>
               <div className="flex items-center gap-3 text-white/70">
                 <FaEnvelope className="text-[var(--accent)]" />
-                <span>info@blackbirdhouse.com</span>
+                <span>blackbirdhousem@hotmail.com</span>
               </div>
             </div>
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={false}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
             viewport={{ once: true }}
