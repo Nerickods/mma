@@ -1,0 +1,28 @@
+{
+  "mcpServers": {
+    "chrome-devtools": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "chrome-devtools-mcp@latest"
+      ],
+      "env": {
+        "CHROME_HEADLESS": "true",
+        "CHROME_NO_SANDBOX": "true",
+        "CHROME_DISABLE_DEV_SHM": "true",
+        "CHROME_REMOTE_DEBUGGING_PORT": "9222"
+      }
+    },
+    "supabase": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@supabase/mcp-server-supabase@latest",
+        "--project-ref=YOUR_SUPABASE_PROJECT_REF"
+      ],
+      "env": {
+        "SUPABASE_ACCESS_TOKEN": "YOUR_SUPABASE_ACCESS_TOKEN"
+      }
+    }
+  }
+}

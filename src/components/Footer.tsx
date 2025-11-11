@@ -33,7 +33,7 @@ export default function Footer() {
         <div className="grid gap-12 lg:grid-cols-4 md:grid-cols-2">
           
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={false}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
@@ -53,7 +53,7 @@ export default function Footer() {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={false}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.1 }}
             viewport={{ once: true }}
@@ -82,7 +82,7 @@ export default function Footer() {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={false}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             viewport={{ once: true }}
@@ -113,7 +113,7 @@ export default function Footer() {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={false}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
             viewport={{ once: true }}

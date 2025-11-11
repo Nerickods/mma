@@ -51,7 +51,7 @@ export default function EnrollForm() {
   if (isSuccess) {
     return (
       <motion.div
-        initial={{ opacity: 0, scale: 0.8 }}
+        initial={false}
         animate={{ opacity: 1, scale: 1 }}
         className="text-center p-8 rounded-2xl bg-[var(--accent)] border border-[var(--accent)]"
       >
@@ -74,7 +74,7 @@ export default function EnrollForm() {
   return (
     <motion.form
       onSubmit={handleSubmit}
-      initial={{ opacity: 0, y: 30 }}
+      initial={false}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
       viewport={{ once: true }}

@@ -6,25 +6,25 @@ import { FaInstagram, FaFacebook, FaTrophy } from 'react-icons/fa';
 const coaches = [
   {
     id: 1,
-    name: "Carlos Mendez",
-    role: "Head Coach", 
-    specialty: "Muay Thai & Kickboxing Specialist",
+    name: "CARLOS 'EL TORNADO' MENDEZ",
+    role: "CAMPEÓN MUNDIAL KICKBOXING",
+    specialty: "42-0 como profesional. Especialista en acabar peleas en el primer round.",
     image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=600&fit=crop&crop=face&q=80&auto=format&sat=-100",
     social: { instagram: "#", facebook: "#" }
   },
   {
     id: 2,
-    name: "Ana Rodriguez", 
-    role: "BJJ Coach",
-    specialty: "Brazilian Jiu-Jitsu Black Belt",
+    name: "ANA 'LA ARMADURA' RODRIGUEZ",
+    role: "4TO DAN BJJ BLACK BELT",
+    specialty: "Más de 200 sumisiones registradas. Especialista en reverter cualquier situación.",
     image: "https://images.unsplash.com/photo-1594736797933-d0dcc4ba7423?w=400&h=600&fit=crop&crop=face&q=80&auto=format&sat=-100",
     social: { instagram: "#", facebook: "#" }
   },
   {
     id: 3,
-    name: "Miguel Torres",
-    role: "Boxing Coach", 
-    specialty: "Professional Boxing & MMA",
+    name: "MIGUEL 'LA MÁQUINA' TORRES",
+    role: "EX CAMPEÓN NACIONAL BOXEO",
+    specialty: "18 años entrenando campeones UFC. Convierte novatos en profesionales en 12 meses.",
     image: "https://images.unsplash.com/photo-1566753323558-f4e0952af115?w=400&h=600&fit=crop&crop=face&q=80&auto=format&sat=-100",
     social: { instagram: "#", facebook: "#" }
   }
@@ -32,7 +32,7 @@ const coaches = [
 
 export default function TrainersSection() {
   return (
-    <section id="entrenadores" className="py-24 bg-gradient-to-br from-[var(--accent)] via-yellow-400 to-[var(--accent)] relative overflow-hidden">
+    <section id="entrenadores" className="py-16 bg-gradient-to-br from-[var(--accent)] via-yellow-400 to-[var(--accent)] relative overflow-hidden">
       {/* Elementos decorativos sutiles */}
       <div className="absolute inset-0">
         <div className="absolute top-20 left-20 w-40 h-40 bg-black/5 rounded-full blur-3xl"></div>
@@ -43,11 +43,11 @@ export default function TrainersSection() {
         
         {/* Header estilo ACE */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={false}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-center mb-20"
+          className="text-center mb-16"
         >
           <div className="inline-flex items-center gap-3 bg-black/20 backdrop-blur-sm border border-black/30 rounded-full px-6 py-3 mb-8">
             <FaTrophy className="text-black text-xl" />
@@ -55,10 +55,10 @@ export default function TrainersSection() {
           </div>
           
           <h2 className="text-5xl md:text-7xl font-black text-black mb-6 leading-tight tracking-tight">
-            Meet our warrior
+            Entrena con los
             <br/>
             <span className="relative">
-              coaches
+              MEJORES DE LA BESTIA
               <motion.div
                 initial={{ scaleX: 0 }}
                 whileInView={{ scaleX: 1 }}
@@ -71,25 +71,25 @@ export default function TrainersSection() {
         </motion.div>
 
         {/* Grid de coaches estilo ACE minimalista */}
-        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
           {coaches.map((coach, index) => (
             <motion.div
               key={coach.id}
-              initial={{ opacity: 0, y: 60 }}
+              initial={false}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: index * 0.2 }}
               viewport={{ once: true }}
               className="group"
             >
               {/* Card minimalista estilo ACE */}
-              <div className="bg-black/20 backdrop-blur-sm rounded-3xl p-6 border border-black/30 hover:bg-black/30 hover:border-black/50 transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl">
+              <div className="bg-black/20 backdrop-blur-sm rounded-2xl p-5 border border-black/30 hover:bg-black/30 hover:border-black/50 transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl">
                 
                 {/* Imagen en B&N profesional */}
                 <div className="relative mb-6 overflow-hidden rounded-2xl">
                   <img
                     src={coach.image}
                     alt={`${coach.name} - ${coach.role}`}
-                    className="w-full h-80 object-cover transition-all duration-700 group-hover:scale-105 grayscale group-hover:grayscale-0"
+                    className="w-full h-64 object-cover transition-all duration-700 group-hover:scale-105 grayscale group-hover:grayscale-0"
                     style={{ filter: 'grayscale(100%) contrast(1.2) brightness(0.9)' }}
                   />
                   
@@ -119,7 +119,7 @@ export default function TrainersSection() {
 
                 {/* Información minimalista */}
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={false}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.2 + 0.3 }}
                   viewport={{ once: true }}
@@ -155,19 +155,19 @@ export default function TrainersSection() {
 
         {/* CTA estilo ACE */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={false}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.8 }}
           viewport={{ once: true }}
-          className="text-center mt-20"
+          className="text-center mt-12"
         >
           <div className="bg-black/20 backdrop-blur-sm border border-black/30 rounded-3xl p-10 max-w-3xl mx-auto">
             <h3 className="text-3xl md:text-4xl font-bold text-black mb-6">
-              Train with the <span className="underline decoration-black/40 decoration-4">best warriors</span>
+              Estos <span className="underline decoration-black/40 decoration-4">monstruos</span> crearán tu leyenda
             </h3>
             <p className="text-black/80 text-xl mb-8 max-w-2xl mx-auto">
-              Cada coach tiene décadas de experiencia y resultados comprobados. 
-              Tu primera clase con cualquiera de ellos es completamente gratuita.
+              No son influencers con certificados online. Son guerreros que han dejado sangre y sudor en rings reales.
+              Tu primera clase gratis es solo el principio de tu transformación.
             </p>
             <motion.button
               onClick={() => document.getElementById('formulario')?.scrollIntoView({ behavior: 'smooth' })}
@@ -175,7 +175,7 @@ export default function TrainersSection() {
               whileTap={{ scale: 0.95 }}
               className="bg-black text-[var(--accent)] px-12 py-4 rounded-xl font-bold text-xl border-2 border-black hover:bg-black/90 transition-all duration-300 shadow-xl hover:shadow-2xl"
             >
-              Meet your coach
+              ELEGIR MI ENTRENADOR
             </motion.button>
           </div>
         </motion.div>

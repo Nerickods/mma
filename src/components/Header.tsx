@@ -36,7 +36,7 @@ export default function Header() {
       transition={{ duration: 0.6 }}
       className={`fixed top-0 w-full z-50 transition-all duration-500 ${
         isScrolled 
-          ? 'bg-black/95 backdrop-blur-lg border-b border-[var(--accent)]/30 shadow-2xl shadow-[var(--accent)]/10' 
+          ? 'bg-black/95 backdrop-blur-lg border-b border-[var(--accent)]/30' 
           : 'bg-black/50 backdrop-blur-sm border-b border-white/10'
       }`}
     >
@@ -68,7 +68,7 @@ export default function Header() {
           {navigationItems.map((item, index) => (
             <motion.button
               key={item.id}
-              initial={{ opacity: 0, y: -20 }}
+              initial={false}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
               whileHover={{ scale: 1.1 }}
@@ -153,7 +153,7 @@ export default function Header() {
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
+            initial={false}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.4 }}
@@ -164,7 +164,7 @@ export default function Header() {
                 {navigationItems.map((item, index) => (
                   <motion.button
                     key={item.id}
-                    initial={{ opacity: 0, x: -50 }}
+                    initial={false}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.4, delay: index * 0.1 }}
                     whileHover={{ scale: 1.02, x: 10 }}
@@ -180,7 +180,7 @@ export default function Header() {
                 
                 {/* CTA móvil */}
                 <motion.button
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={false}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: 0.6 }}
                   whileHover={{ scale: 1.02 }}

@@ -10,6 +10,14 @@
   --accent: #FFD700;        /* Amarillo conversion */
   --gray: #B0B0B0;          /* Gris neutro */
   --gray-light: #F5F5F5;    /* Gris claro para fondos */
+
+  /* Tokens para nuevas secciones críticas */
+  --success: #10B981;       /* Para testimonios positivos */
+  --warning: #F59E0B;       /* Para plazas limitadas */
+  --info: #3B82F6;          /* Para información de horarios */
+  --gradient-impact: linear-gradient(135deg, #FFD700, #FFA500, #FF6347);
+  --shadow-cta: 0 8px 25px rgba(255, 215, 0, 0.4);
+  --shadow-card: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 html { 
@@ -102,6 +110,59 @@ html {
   transform: translateY(-4px);
 }
 
+/* Nuevas utilidades para secciones críticas */
+.hover-glow:hover {
+  box-shadow: var(--shadow-cta);
+  transform: translateY(-2px);
+}
+
+.image-overlay::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1;
+}
+
+.transform-3d:hover {
+  transform: perspective(1000px) rotateY(5deg);
+  transition: transform 0.3s ease;
+}
+
+/* Badges para indicadores */
+.badge-warning {
+  background: var(--warning);
+  color: var(--background);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.badge-success {
+  background: var(--success);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.badge-info {
+  background: var(--info);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-block;
+}
+
 /* Gradientes premium */
 .gradient-gold {
   background: linear-gradient(135deg, #FFD700, #FFA500, #FFD700);
@@ -114,15 +175,55 @@ html {
 /* Animación para banner de texto corrido */
 @keyframes scroll {
   0% {
-    transform: translateX(0);
+    transform: translateX(100%);
   }
   100% {
-    transform: translateX(-50%);
+    transform: translateX(-100%);
   }
 }
 
 .animate-scroll {
-  animation: scroll 30s linear infinite;
+  animation: scroll 20s linear infinite;
+  will-change: transform;
+}
+
+/* Animaciones para carrusel de fotos de fondo */
+@keyframes slide-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes slide-right {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.carousel-left {
+  animation: slide-left 30s linear infinite;
+  will-change: transform;
+}
+
+.carousel-right {
+  animation: slide-right 25s linear infinite;
+  will-change: transform;
+}
+
+/* Scroll horizontal sin barra visible para móvil */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari and Opera */
 }
 
 @layer utilities {
