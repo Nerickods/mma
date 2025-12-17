@@ -11,15 +11,15 @@ export default function EnrollForm() {
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setIsSubmitting(true);
-    
+
     const form = event.currentTarget;
     const formData = new FormData(form);
     const payload = Object.fromEntries(formData.entries());
-    
+
     try {
       // Webhook placeholder - reemplazar con URL real de n8n
       const webhookUrl = 'https://your-n8n-webhook-url.com/webhook/blackbird-house';
-      
+
       const response = await fetch(webhookUrl, {
         method: 'POST',
         headers: {
@@ -42,9 +42,9 @@ export default function EnrollForm() {
       // Fallback: log local para demo
       console.log('Datos del lead capturado:', payload);
       setIsSuccess(true);
-    form.reset();
+      form.reset();
     }
-    
+
     setIsSubmitting(false);
   }
 
@@ -80,19 +80,24 @@ export default function EnrollForm() {
       viewport={{ once: true }}
       className="grid grid-cols-1 gap-6 rounded-2xl bg-black/80 backdrop-blur-sm p-8 border border-[var(--accent)]/30"
     >
+      <div className="text-center mb-8">
+        <h3 className="text-2xl font-black text-white uppercase tracking-tight mb-2">¿LISTO PARA TU PRIMERA VICTORIA?</h3>
+        <p className="text-gray-400 text-sm">Sin compromisos. Solo tú explorando tu potencial.</p>
+      </div>
+
       {/* Nombre */}
       <div>
         <label className="flex items-center gap-3 text-sm mb-3 font-medium text-white" htmlFor="nombre">
           <FaUser className="text-[var(--accent)] text-lg" />
           Nombre completo
         </label>
-        <input 
-          id="nombre" 
-          name="nombre" 
+        <input
+          id="nombre"
+          name="nombre"
           type="text"
-          required 
-          placeholder="Tu nombre completo" 
-          className="w-full rounded-lg bg-white/10 px-4 py-4 text-white placeholder-white/60 border border-white/20 focus:outline-none focus:border-[var(--accent)] focus:bg-white/15 transition-all duration-300 text-lg" 
+          required
+          placeholder="Tu nombre completo"
+          className="w-full rounded-lg bg-white/10 px-4 py-4 text-white placeholder-white/60 border border-white/20 focus:outline-none focus:border-[var(--accent)] focus:bg-white/15 transition-all duration-300 text-lg"
         />
       </div>
 
@@ -102,13 +107,13 @@ export default function EnrollForm() {
           <FaEnvelope className="text-[var(--accent)] text-lg" />
           Correo electrónico
         </label>
-        <input 
-          id="email" 
-          name="email" 
-          type="email" 
-          required 
-          placeholder="tu@email.com" 
-          className="w-full rounded-lg bg-white/10 px-4 py-4 text-white placeholder-white/60 border border-white/20 focus:outline-none focus:border-[var(--accent)] focus:bg-white/15 transition-all duration-300 text-lg" 
+        <input
+          id="email"
+          name="email"
+          type="email"
+          required
+          placeholder="tu@email.com"
+          className="w-full rounded-lg bg-white/10 px-4 py-4 text-white placeholder-white/60 border border-white/20 focus:outline-none focus:border-[var(--accent)] focus:bg-white/15 transition-all duration-300 text-lg"
         />
       </div>
 
@@ -118,13 +123,13 @@ export default function EnrollForm() {
           <FaPhone className="text-[var(--accent)] text-lg" />
           Teléfono
         </label>
-        <input 
-          id="telefono" 
-          name="telefono" 
-          type="tel" 
-          required 
-          placeholder="+54 11 1234-5678" 
-          className="w-full rounded-lg bg-white/10 px-4 py-4 text-white placeholder-white/60 border border-white/20 focus:outline-none focus:border-[var(--accent)] focus:bg-white/15 transition-all duration-300 text-lg" 
+        <input
+          id="telefono"
+          name="telefono"
+          type="tel"
+          required
+          placeholder="+54 11 1234-5678"
+          className="w-full rounded-lg bg-white/10 px-4 py-4 text-white placeholder-white/60 border border-white/20 focus:outline-none focus:border-[var(--accent)] focus:bg-white/15 transition-all duration-300 text-lg"
         />
       </div>
 
@@ -134,10 +139,10 @@ export default function EnrollForm() {
           <FaClock className="text-[var(--accent)] text-lg" />
           Horario preferido
         </label>
-        <select 
-          id="horario" 
-          name="horario" 
-          required 
+        <select
+          id="horario"
+          name="horario"
+          required
           className="w-full rounded-lg bg-white/10 px-4 py-4 text-white border border-white/20 focus:outline-none focus:border-[var(--accent)] focus:bg-white/15 transition-all duration-300 text-lg appearance-none cursor-pointer"
         >
           <option value="" className="bg-black text-white">Selecciona tu horario preferido</option>
@@ -156,11 +161,11 @@ export default function EnrollForm() {
           whileTap={{ scale: 0.98 }}
           className="w-full cta-button text-xl py-5 disabled:opacity-60 disabled:cursor-not-allowed"
         >
-          {isSubmitting ? 'Enviando...' : '¡Reservar mi clase gratis!'}
+          {isSubmitting ? 'Procesando...' : 'RECLAMA MI DÍA DE TRANSFORMACIÓN GRATIS'}
         </motion.button>
-        
-        <p className="text-center text-white/60 text-sm mt-4 leading-relaxed">
-          🔒 Tus datos están protegidos • ✅ Sin spam • 🎯 Solo te contactaremos para tu clase gratuita
+
+        <p className="text-center text-white/50 text-xs mt-4 leading-relaxed max-w-sm mx-auto">
+          🛡️ <strong>Garantía de Cero Presión:</strong> Si no te encanta, no vuelves. Así de simple. Te prestamos el equipo. Solo trae tu ropa deportiva.
         </p>
       </div>
     </motion.form>

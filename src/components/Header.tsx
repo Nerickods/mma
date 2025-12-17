@@ -10,7 +10,7 @@ export default function Header() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      setIsScrolled(window.scrollY > 20);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -22,188 +22,116 @@ export default function Header() {
   };
 
   const navigationItems = [
-    { name: 'Inicio', id: 'inicio' },
-    { name: 'Misión', id: 'mision' },
-    { name: 'Disciplinas', id: 'disciplinas' },
-    { name: 'Entrenadores', id: 'entrenadores' },
-    { name: 'Inscripción', id: 'formulario' },
+    { name: 'INICIO', id: 'inicio' },
+    { name: 'MISIÓN', id: 'mision' },
+    { name: 'PROGRAMA', id: 'programa' },
+    { name: 'ENTRENADORES', id: 'entrenadores' },
   ];
 
   return (
     <motion.header
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      transition={{ duration: 0.6 }}
-      className={`fixed top-0 w-full z-50 transition-all duration-500 ${
-        isScrolled 
-          ? 'bg-black/95 backdrop-blur-lg border-b border-[var(--accent)]/30' 
-          : 'bg-black/50 backdrop-blur-sm border-b border-white/10'
-      }`}
+      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+      className={`fixed top-0 w-full z-50 transition-all duration-500 ${isScrolled
+        ? 'bg-black/80 backdrop-blur-xl border-b border-white/5 py-4'
+        : 'bg-transparent py-6'
+        }`}
     >
-      <div className="container mx-auto flex items-center justify-between px-6 py-4">
-        {/* Logo con efectos premium */}
+      <div className="container mx-auto px-6 flex items-center justify-between">
+        {/* Logo */}
         <motion.div
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
           onClick={() => scrollToSection('inicio')}
-          className="cursor-pointer group"
+          className="cursor-pointer flex items-center gap-3 group"
         >
-          <div className="flex items-center gap-3">
-            <motion.div
-              whileHover={{ rotate: 360 }}
-              transition={{ duration: 0.6 }}
-              className="w-10 h-10 bg-gradient-to-br from-[var(--accent)] to-yellow-400 rounded-lg flex items-center justify-center shadow-lg"
-            >
-              <FaFistRaised className="text-black text-lg" />
-            </motion.div>
-            <div className="text-xl md:text-2xl font-bold tracking-wide">
-              <span className="text-white group-hover:text-[var(--accent)] transition-colors duration-300">Blackbird</span>{' '}
-              <span className="text-[var(--accent)] group-hover:text-white transition-colors duration-300">House</span>
-            </div>
+          <div className="relative w-10 h-10 flex items-center justify-center overflow-hidden rounded-lg bg-white/5 border border-white/10 group-hover:border-[var(--accent)]/50 transition-colors duration-500">
+            <FaFistRaised className="text-white text-lg group-hover:text-[var(--accent)] transition-colors duration-500" />
+            <div className="absolute inset-0 bg-[var(--accent)]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          </div>
+          <div className="flex flex-col">
+            <span className="text-white font-black tracking-[0.2em] text-sm leading-none group-hover:text-[var(--accent)] transition-colors duration-500">
+              BLACKBIRD
+            </span>
+            <span className="text-white/50 font-bold tracking-[0.5em] text-[10px] leading-none group-hover:text-white transition-colors duration-500">
+              HOUSE
+            </span>
           </div>
         </motion.div>
 
-        {/* Navegación desktop con efectos sofisticados */}
-        <nav className="hidden lg:flex items-center gap-8">
-          {navigationItems.map((item, index) => (
-            <motion.button
+        {/* Desktop Nav */}
+        <nav className="hidden lg:flex items-center gap-1">
+          {navigationItems.map((item) => (
+            <button
               key={item.id}
-              initial={false}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
               onClick={() => scrollToSection(item.id)}
-              className="group relative px-4 py-2 rounded-lg font-medium text-white/80 hover:text-[var(--accent)] transition-all duration-300 hover:bg-[var(--accent)]/10"
+              className="relative px-5 py-2 group overflow-hidden rounded-full"
             >
-              <span className="flex items-center">
+              <span className="relative z-10 text-xs font-bold text-white/70 tracking-widest group-hover:text-white transition-colors duration-300">
                 {item.name}
               </span>
-              
-              {/* Línea animada bajo cada elemento */}
-              <motion.div
-                className="absolute bottom-0 left-0 w-full h-0.5 bg-[var(--accent)] origin-left"
-                initial={{ scaleX: 0 }}
-                whileHover={{ scaleX: 1 }}
-                transition={{ duration: 0.3 }}
-              />
-              
-              {/* Efecto de brillo en hover */}
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[var(--accent)]/10 to-transparent rounded-lg"></div>
-              </div>
-            </motion.button>
+              <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full" />
+            </button>
           ))}
         </nav>
 
-        {/* CTA Button con efectos premium */}
-        <div className="flex items-center gap-4">
+        {/* CTA & Mobile Toggle */}
+        <div className="flex items-center gap-6">
           <motion.button
-            whileHover={{ scale: 1.05, boxShadow: "0 10px 30px rgba(255, 215, 0, 0.4)" }}
+            whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => scrollToSection('formulario')}
-            className="hidden md:block cta-button text-sm lg:text-base px-4 py-2 lg:px-6 lg:py-3 relative overflow-hidden group"
+            className="hidden md:flex items-center gap-2 px-6 py-2.5 bg-[var(--accent)] text-black text-xs font-black tracking-widest uppercase rounded-sm hover:bg-white transition-colors duration-300"
           >
-            <span className="relative z-10 font-bold">Clase Gratuita</span>
-            
-            {/* Efecto de onda al hacer hover */}
-            <motion.div
-              className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-[var(--accent)] opacity-0 group-hover:opacity-100"
-              initial={{ scale: 0 }}
-              whileHover={{ scale: 1 }}
-              transition={{ duration: 0.3 }}
-            />
+            <span>Clase Gratis</span>
           </motion.button>
 
-          {/* Menú hamburguesa móvil con animación */}
-          <motion.button
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
+          <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="lg:hidden w-10 h-10 bg-[var(--accent)]/20 border border-[var(--accent)]/50 rounded-lg flex items-center justify-center text-[var(--accent)] hover:bg-[var(--accent)]/30 transition-all duration-300"
+            className="lg:hidden text-white hover:text-[var(--accent)] transition-colors"
           >
-            <AnimatePresence mode="wait">
-              {isMenuOpen ? (
-                <motion.div
-                  key="close"
-                  initial={{ rotate: -180, opacity: 0 }}
-                  animate={{ rotate: 0, opacity: 1 }}
-                  exit={{ rotate: 180, opacity: 0 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <FaTimes className="text-xl" />
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="menu"
-                  initial={{ rotate: 180, opacity: 0 }}
-                  animate={{ rotate: 0, opacity: 1 }}
-                  exit={{ rotate: -180, opacity: 0 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <FaBars className="text-xl" />
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </motion.button>
+            {isMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
+          </button>
         </div>
       </div>
 
-      {/* Menú móvil con efectos premium */}
+      {/* Mobile Menu */}
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
-            initial={false}
-            animate={{ opacity: 1, height: 'auto' }}
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: '100vh' }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.4 }}
-            className="lg:hidden bg-black/95 backdrop-blur-lg border-t border-[var(--accent)]/30"
+            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:hidden fixed inset-0 top-[80px] bg-black z-40 overflow-hidden"
           >
-            <div className="container mx-auto px-6 py-6">
-              <div className="space-y-4">
-                {navigationItems.map((item, index) => (
-                  <motion.button
-                    key={item.id}
-                    initial={false}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.4, delay: index * 0.1 }}
-                    whileHover={{ scale: 1.02, x: 10 }}
-                    whileTap={{ scale: 0.98 }}
-                    onClick={() => scrollToSection(item.id)}
-                    className="group w-full text-left px-4 py-3 rounded-lg bg-[var(--accent)]/5 hover:bg-[var(--accent)]/15 border border-[var(--accent)]/20 hover:border-[var(--accent)]/50 transition-all duration-300"
-                  >
-                    <span className="flex items-center text-white group-hover:text-[var(--accent)] transition-colors duration-300">
-                      <span className="font-medium">{item.name}</span>
-                    </span>
-                  </motion.button>
-                ))}
-                
-                {/* CTA móvil */}
+            <div className="flex flex-col items-center justify-center h-full gap-8 pb-20">
+              {navigationItems.map((item, index) => (
                 <motion.button
-                  initial={false}
+                  key={item.id}
+                  initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: 0.6 }}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={() => scrollToSection('formulario')}
-                  className="w-full cta-button text-lg py-4 mt-4"
+                  transition={{ delay: index * 0.1 }}
+                  onClick={() => scrollToSection(item.id)}
+                  className="text-3xl font-black text-white/50 hover:text-white tracking-tighter transition-colors"
                 >
-                  Reservar Clase Gratuita
+                  {item.name}
                 </motion.button>
-              </div>
+              ))}
+              <motion.button
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 }}
+                onClick={() => scrollToSection('formulario')}
+                className="mt-8 px-8 py-4 bg-[var(--accent)] text-black font-black tracking-widest uppercase rounded-sm"
+              >
+                RESERVAR CLASE
+              </motion.button>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
-
-      {/* Línea de progreso de scroll */}
-      <motion.div
-        className="absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-[var(--accent)] to-yellow-400 origin-left"
-        style={{
-          scaleX: isScrolled ? 1 : 0,
-        }}
-        transition={{ duration: 0.3 }}
-      />
     </motion.header>
   );
 }
