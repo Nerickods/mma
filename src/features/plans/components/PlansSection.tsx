@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { cn } from '@/shared/utils/cn';
 import { Check } from 'lucide-react';
 import UiverseButton from '@/shared/components/UiverseButton';
+import { GlassCard } from '@/shared/components/ui/GlassCard';
 
 export default function PlansSection() {
     return (
@@ -93,12 +94,9 @@ export default function PlansSection() {
                     </motion.div>
 
                     {/* The Golden Ticket Board */}
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.95, y: 30 }}
-                        whileInView={{ opacity: 1, scale: 1, y: 0 }}
-                        transition={{ duration: 0.7, ease: "easeOut" }}
-                        viewport={{ once: true }}
-                        className="relative rounded-[2rem] overflow-hidden bg-black/40 backdrop-blur-xl border border-[var(--accent)]/20"
+                    <GlassCard
+                        variant="holographic"
+                        className="p-0 border-[var(--accent)]/20"
                     >
                         {/* Background Effects */}
                         <div className="absolute inset-0 bg-zinc-950/80 z-0" />
@@ -170,7 +168,7 @@ export default function PlansSection() {
                                 </div>
                             ))}
                         </div>
-                    </motion.div>
+                    </GlassCard>
                 </div>
 
                 <motion.div

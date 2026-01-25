@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { DoorOpen, Hammer, BrainCircuit, Crown, Instagram, Facebook, ChevronRight } from 'lucide-react';
+import { cn, glass } from '@/shared/lib/utils';
 
 // --- DATA: THE EVOLUTION JOURNEY (PAIN-TO-POWER ALIGNED) ---
 const journeyStages = [
@@ -131,20 +132,19 @@ export default function WhyAndTeam() {
                                     transition={{ delay: index * 0.1 }}
                                     viewport={{ once: true }}
                                     onClick={() => toggleStage(stage.id)}
-                                    className={`
-                                        relative rounded-xl border transition-all duration-500 cursor-pointer overflow-hidden
-                                        ${isExpanded
-                                            ? 'bg-zinc-900 border-[var(--accent)] shadow-[0_0_40px_-10px_rgba(255,215,0,0.1)]'
-                                            : 'bg-zinc-900/30 border-white/5 hover:border-[var(--accent)]/30 hover:bg-zinc-900/50'
-                                        }
-                                    `}
+                                    className={cn(
+                                        "relative rounded-xl border transition-all duration-500 cursor-pointer overflow-hidden backdrop-blur-md",
+                                        isExpanded
+                                            ? "bg-white/10 border-[var(--accent)] shadow-[0_0_40px_-10px_rgba(255,215,0,0.1)]"
+                                            : "bg-white/5 border-white/5 hover:border-[var(--accent)]/30 hover:bg-white/10"
+                                    )}
                                 >
                                     {/* Collapsed/Header View */}
                                     <div className="p-6 md:p-8 flex items-center gap-6">
-                                        <div className={`
-                                            p-4 rounded-xl transition-colors duration-300 shrink-0
-                                            ${isExpanded ? 'bg-[var(--accent)] text-black' : 'bg-black text-[var(--accent)]'}
-                                        `}>
+                                        <div className={cn(
+                                            "p-4 rounded-xl transition-colors duration-300 shrink-0",
+                                            isExpanded ? 'bg-[var(--accent)] text-black' : 'bg-black/50 text-[var(--accent)] border border-[var(--accent)]/30'
+                                        )}>
                                             <stage.icon size={28} />
                                         </div>
 
@@ -154,11 +154,17 @@ export default function WhyAndTeam() {
                                                     <span className="text-xs font-bold tracking-widest text-[var(--accent)] block mb-1">
                                                         {stage.period}
                                                     </span>
-                                                    <h4 className={`font-bold text-xl uppercase ${isExpanded ? 'text-white' : 'text-gray-400'}`}>
+                                                    <h4 className={cn(
+                                                        "font-bold text-xl uppercase",
+                                                        isExpanded ? 'text-white' : 'text-gray-400'
+                                                    )}>
                                                         {stage.title}
                                                     </h4>
                                                 </div>
-                                                <div className={`p-2 rounded-full transition-all duration-300 ${isExpanded ? 'bg-[var(--accent)]/10 text-[var(--accent)] rotate-90' : 'text-gray-500'}`}>
+                                                <div className={cn(
+                                                    "p-2 rounded-full transition-all duration-300",
+                                                    isExpanded ? 'bg-[var(--accent)]/10 text-[var(--accent)] rotate-90' : 'text-gray-500'
+                                                )}>
                                                     <ChevronRight size={20} />
                                                 </div>
                                             </div>
@@ -183,7 +189,7 @@ export default function WhyAndTeam() {
                                                         </p>
 
                                                         {/* Methodology Block */}
-                                                        <div className="bg-black/30 p-6 rounded-lg border-l-2 border-[var(--accent)] bg-gradient-to-r from-[var(--accent)]/5 to-transparent">
+                                                        <div className="bg-white/5 p-6 rounded-lg border-l-2 border-[var(--accent)] bg-gradient-to-r from-[var(--accent)]/5 to-transparent">
                                                             <p className="text-gray-400 text-sm leading-relaxed italic">
                                                                 <span className="text-white font-bold not-italic mr-2">Cómo lo logramos:</span>
                                                                 {stage.methodology}
@@ -234,7 +240,7 @@ export default function WhyAndTeam() {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 transition={{ delay: index * 0.1 }}
                                 viewport={{ once: true }}
-                                className="group relative h-[450px] overflow-hidden rounded-sm bg-zinc-900"
+                                className={cn(glass.card, "group relative h-[450px] overflow-hidden rounded-sm bg-zinc-900 border-none")}
                             >
                                 {/* Image */}
                                 <img

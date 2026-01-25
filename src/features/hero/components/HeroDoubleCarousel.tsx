@@ -1,7 +1,8 @@
 import { motion } from 'framer-motion';
 import InfiniteCarouselRow from './InfiniteCarouselRow';
 import { heroCarouselRows } from '../services/heroData';
-import UiverseButton from '@/shared/components/UiverseButton';
+import { GlassCard } from '@/shared/components/ui/GlassCard';
+import { GlassButton } from '@/shared/components/ui/GlassButton';
 
 export default function HeroDoubleCarousel() {
     const handleCtaClick = () => {
@@ -39,11 +40,9 @@ export default function HeroDoubleCarousel() {
             <div className="absolute inset-0 z-10 pointer-events-none flex items-center justify-center p-4">
 
                 {/* Glassmorphism Box */}
-                <motion.div
-                    initial={{ opacity: 0, scale: 0.95, y: 20 }}
-                    animate={{ opacity: 1, scale: 1, y: 0 }}
-                    transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                    className="relative z-20 max-w-5xl w-full mx-auto p-8 md:p-16 rounded-3xl border border-white/10 bg-black/60 backdrop-blur-xl flex flex-col items-center text-center shadow-[0_0_50px_rgba(0,0,0,0.6)]"
+                <GlassCard
+                    variant="premium"
+                    className="relative z-20 max-w-5xl w-full mx-auto p-8 md:p-16 flex flex-col items-center text-center shadow-[0_0_50px_rgba(0,0,0,0.6)] animate-in fade-in zoom-in duration-1000"
                 >
                     {/* Decorative Elements */}
                     <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/3 h-1 bg-gradient-to-r from-transparent via-[var(--accent)] to-transparent opacity-50"></div>
@@ -79,10 +78,17 @@ export default function HeroDoubleCarousel() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
                     >
-                        <UiverseButton text="RESERVA VISITA GRATIS" onClick={handleCtaClick} />
+                        <GlassButton
+                            variant="glow"
+                            size="lg"
+                            onClick={handleCtaClick}
+                            className="pointer-events-auto"
+                        >
+                            RESERVA VISITA GRATIS
+                        </GlassButton>
                     </motion.div>
 
-                </motion.div>
+                </GlassCard>
             </div>
 
             {/* Scroll Indicator */}

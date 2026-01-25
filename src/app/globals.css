@@ -6,31 +6,25 @@
 
 :root {
   --background: #000000;
-  /* Negro puro */
   --foreground: #ffffff;
-  /* Blanco puro */
-  --accent: #FFD700;
-  /* Amarillo conversion */
-  --gray: #B0B0B0;
-  /* Gris neutro */
-  --gray-light: #F5F5F5;
-  /* Gris claro para fondos */
 
-  /* Tokens para nuevas secciones críticas */
+  /* Liquid Glass Physics */
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --glass-surface: rgba(255, 255, 255, 0.1);
+  --glass-highlight: rgba(255, 255, 255, 0.5);
+
+  /* Semantic Colors */
+  --accent: #FFD700;
+  --accent-light: #FFE55C;
   --success: #10B981;
-  /* Para testimonios positivos */
   --warning: #F59E0B;
-  /* Para plazas limitadas */
   --info: #3B82F6;
-  /* Para información de horarios */
-  --gradient-impact: linear-gradient(135deg, #FFD700, #FFA500, #FF6347);
-  --shadow-cta: 0 8px 25px rgba(255, 215, 0, 0.4);
-  --shadow-card: 0 4px 15px rgba(0, 0, 0, 0.3);
+  --error: #EF4444;
 }
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 4rem;
+  scroll-padding-top: 5rem;
 }
 
 body {
@@ -39,211 +33,26 @@ body {
   background: var(--background);
   min-height: 100vh;
   line-height: 1.6;
+  overflow-x: hidden;
 }
 
-/* Mejoras de rendimiento */
-* {
-  box-sizing: border-box;
-}
-
-/* Botones CTA principales */
-.cta-button {
-  background: var(--accent);
-  color: var(--background);
-  border-radius: 8px;
-  padding: 16px 32px;
-  font-weight: 600;
-  font-size: 18px;
-  border: none;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  text-decoration: none;
-  display: inline-block;
-}
-
-.cta-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
-}
-
-/* Animaciones de aparición */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.fade-in-up {
-  animation: fadeInUp 0.6s ease-out forwards;
-}
-
-/* Overlays para imágenes */
-.overlay {
-  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6));
-}
-
-/* Efectos adicionales premium */
-.shimmer {
-  background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.2), transparent);
-  background-size: 200% 100%;
-  animation: shimmer 2s infinite;
-}
-
-@keyframes shimmer {
-  0% {
-    background-position: -200% 0;
-  }
-
-  100% {
-    background-position: 200% 0;
-  }
-}
-
-/* Scroll suave mejorado */
-html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 5rem;
-}
-
-/* Efectos de hover globales */
-.hover-lift {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.hover-lift:hover {
-  transform: translateY(-4px);
-}
-
-/* Nuevas utilidades para secciones críticas */
-.hover-glow:hover {
-  box-shadow: var(--shadow-cta);
-  transform: translateY(-2px);
-}
-
-.image-overlay::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.4);
-  z-index: 1;
-}
-
-.transform-3d:hover {
-  transform: perspective(1000px) rotateY(5deg);
-  transition: transform 0.3s ease;
-}
-
-/* Badges para indicadores */
-.badge-warning {
-  background: var(--warning);
-  color: var(--background);
-  padding: 4px 12px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 600;
-  display: inline-block;
-}
-
-.badge-success {
-  background: var(--success);
-  color: white;
-  padding: 4px 12px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 600;
-  display: inline-block;
-}
-
-.badge-info {
-  background: var(--info);
-  color: white;
-  padding: 4px 12px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 600;
-  display: inline-block;
-}
-
-/* Gradientes premium */
-.gradient-gold {
-  background: linear-gradient(135deg, #FFD700, #FFA500, #FFD700);
-}
-
-.gradient-black {
-  background: linear-gradient(135deg, #000000, #1a1a1a, #000000);
-}
-
-/* Animación para banner de texto corrido */
-@keyframes scroll {
-  0% {
-    transform: translateX(100%);
-  }
-
-  100% {
-    transform: translateX(-100%);
-  }
-}
-
-.animate-scroll {
-  animation: scroll 20s linear infinite;
-  will-change: transform;
-}
-
-/* Animaciones para carrusel de fotos de fondo */
-@keyframes slide-left {
-  0% {
-    transform: translateX(0);
-  }
-
-  100% {
-    transform: translateX(-100%);
-  }
-}
-
-@keyframes slide-right {
-  0% {
-    transform: translateX(-100%);
-  }
-
-  100% {
-    transform: translateX(0);
-  }
-}
-
-.carousel-left {
-  animation: slide-left 30s linear infinite;
-  will-change: transform;
-}
-
-.carousel-right {
-  animation: slide-right 25s linear infinite;
-  will-change: transform;
-}
-
-/* Scroll horizontal sin barra visible para móvil */
+/* Scrollbar Hide Utility */
 .scrollbar-hide {
   -ms-overflow-style: none;
-  /* IE and Edge */
   scrollbar-width: none;
-  /* Firefox */
 }
 
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
-  /* Chrome, Safari and Opera */
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+
+  /* Glass Utility Class */
+  .glass-panel {
+    @apply bg-white/10 backdrop-blur-lg border border-white/20;
   }
 }

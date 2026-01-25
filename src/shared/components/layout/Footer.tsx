@@ -19,7 +19,7 @@ export default function Footer() {
   };
 
   return (
-    <footer ref={containerRef} className="relative bg-black border-t border-white/5 pt-32 pb-10 overflow-hidden">
+    <footer ref={containerRef} className="relative bg-black/40 border-t border-white/10 pt-32 pb-10 overflow-hidden backdrop-blur-sm">
       {/* Octagon Final Background with Inverted Parallax */}
       <motion.div
         className="absolute inset-0 z-0 opacity-40"

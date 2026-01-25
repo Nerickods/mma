@@ -33,7 +33,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased font-['Poppins']`}>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased font-['Poppins'] bg-black min-h-screen relative overflow-x-hidden`}>
+        {/* Global Mesh Gradient Background */}
+        <div className="fixed inset-0 z-[-1] bg-[radial-gradient(circle_at_50%_0%,rgba(60,60,60,0.4),rgba(0,0,0,0)_70%),linear-gradient(180deg,rgba(0,0,0,1)_0%,rgba(20,20,20,1)_100%)] pointer-events-none" />
+
+        {/* Subtle Ambient Glows - Liquid Glass Effect */}
+        <div className="fixed top-[-10%] left-[-10%] w-[40%] h-[40%] bg-purple-900/10 blur-[120px] rounded-full pointer-events-none z-[-1] animate-pulse-slow" />
+        <div className="fixed bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-900/10 blur-[120px] rounded-full pointer-events-none z-[-1] animate-pulse-slow" style={{ animationDelay: '2s' }} />
+
         {children}
         <ChatWidget />
       </body>
