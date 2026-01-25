@@ -141,17 +141,17 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({
           className="flex flex-wrap justify-center gap-6 mb-8"
         >
           <div className="flex items-center gap-2 bg-black/10 px-4 py-2 rounded-full">
-            <Users className="w-4 h-4 text-[var(--accent)]" />
+            <Users className="w-4 h-4 text-[var(--brand-red)]" />
             <span className="font-bold text-black">{stats.total}</span>
             <span className="text-black/70">Entrenadores</span>
           </div>
           <div className="flex items-center gap-2 bg-black/10 px-4 py-2 rounded-full">
-            <Trophy className="w-4 h-4 text-[var(--accent)]" />
+            <Trophy className="w-4 h-4 text-[var(--brand-red)]" />
             <span className="font-bold text-black">{stats.featured}</span>
             <span className="text-black/70">Destacados</span>
           </div>
           <div className="flex items-center gap-2 bg-black/10 px-4 py-2 rounded-full">
-            <Star className="w-4 h-4 text-[var(--accent)]" />
+            <Star className="w-4 h-4 text-[var(--brand-red)]" />
             <span className="font-bold text-black">{stats.averageRating.toFixed(1)}</span>
             <span className="text-black/70">Rating Promedio</span>
           </div>
@@ -173,7 +173,7 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold transition-all duration-300 ${activeFiltersCount > 0
-                ? 'bg-[var(--accent)] text-black'
+                ? 'bg-[var(--brand-red)] text-black'
                 : 'bg-black/20 text-black hover:bg-black/30'
                 }`}
             >
@@ -265,7 +265,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ isVisible, onClose, onSearch }) =
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Buscar entrenadores, disciplinas o especialidades..."
-            className="w-full px-6 py-4 pr-24 bg-white/80 backdrop-blur-sm border-2 border-black/20 rounded-2xl text-black placeholder-black/50 focus:border-[var(--accent)] focus:outline-none transition-colors duration-300"
+            className="w-full px-6 py-4 pr-24 bg-white/80 backdrop-blur-sm border-2 border-black/20 rounded-2xl text-black placeholder-black/50 focus:border-[var(--brand-red)] focus:outline-none transition-colors duration-300"
             autoFocus
           />
           <div className="absolute right-2 top-1/2 transform -translate-y-1/2 flex items-center gap-2">
@@ -284,7 +284,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ isVisible, onClose, onSearch }) =
               type="submit"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
-              className="w-10 h-10 bg-[var(--accent)] text-black rounded-full flex items-center justify-center hover:bg-[var(--accent)]/90 transition-colors duration-300"
+              className="w-10 h-10 bg-[var(--brand-red)] text-black rounded-full flex items-center justify-center hover:bg-[var(--brand-red)]/90 transition-colors duration-300"
             >
               <Search className="w-4 h-4" />
             </motion.button>
@@ -414,11 +414,11 @@ const TrainersGrid: React.FC<TrainersGridProps> = ({
             disabled={loading}
             whileHover={{ scale: loading ? 1 : 1.05 }}
             whileTap={{ scale: loading ? 1 : 0.95 }}
-            className="bg-black text-[var(--accent)] px-8 py-4 rounded-xl font-bold text-xl border-2 border-black hover:bg-black/90 transition-all duration-300 shadow-xl hover:shadow-2xl disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 mx-auto"
+            className="bg-black text-[var(--brand-red)] px-8 py-4 rounded-xl font-bold text-xl border-2 border-black hover:bg-black/90 transition-all duration-300 shadow-xl hover:shadow-2xl disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 mx-auto"
           >
             {loading ? (
               <>
-                <div className="w-5 h-5 border-2 border-[var(--accent)] border-t-transparent rounded-full animate-spin" />
+                <div className="w-5 h-5 border-2 border-[var(--brand-red)] border-t-transparent rounded-full animate-spin" />
                 Cargando...
               </>
             ) : (
@@ -459,22 +459,22 @@ const CTASection: React.FC = () => {
           viewport={{ once: true }}
           className="flex items-center justify-center gap-2 mb-6"
         >
-          <Sparkles className="w-6 h-6 text-[var(--accent)]" />
+          <Sparkles className="w-6 h-6 text-[var(--brand-red)]" />
           <h3 className="text-3xl md:text-4xl font-bold text-black">
             ¿Listo para transformar tu vida?
           </h3>
-          <Sparkles className="w-6 h-6 text-[var(--accent)]" />
+          <Sparkles className="w-6 h-6 text-[var(--brand-red)]" />
         </motion.div>
         <p className="text-black/80 text-xl mb-8 max-w-2xl mx-auto leading-relaxed">
           Únete a cientos de estudiantes que ya han transformado sus vidas con nuestros campeones.
-          Tu primera clase es completamente gratis.
+          Tu primera visita es completamente gratis.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <motion.button
             onClick={scrollToForm}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="bg-[var(--accent)] text-black px-8 py-4 rounded-xl font-bold text-xl hover:bg-[var(--accent)]/90 transition-all duration-300 shadow-xl hover:shadow-2xl flex items-center justify-center gap-2"
+            className="bg-[var(--brand-red)] text-black px-8 py-4 rounded-xl font-bold text-xl hover:bg-[var(--brand-red)]/90 transition-all duration-300 shadow-xl hover:shadow-2xl flex items-center justify-center gap-2"
           >
             Iniciar Gratuitamente
             <ArrowRight className="w-5 h-5" />
@@ -482,7 +482,7 @@ const CTASection: React.FC = () => {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="bg-transparent text-black border-2 border-black px-8 py-4 rounded-xl font-bold text-xl hover:bg-black hover:text-[var(--accent)] transition-all duration-300"
+            className="bg-transparent text-black border-2 border-black px-8 py-4 rounded-xl font-bold text-xl hover:bg-black hover:text-[var(--brand-red)] transition-all duration-300"
           >
             Ver Horarios
           </motion.button>
@@ -548,7 +548,7 @@ const TrainersSection: React.FC<TrainersSectionProps> = ({
   };
 
   return (
-    <section id="entrenadores" className={`py-16 bg-gradient-to-br from-[var(--accent)] via-yellow-400 to-[var(--accent)] relative overflow-hidden ${className}`}>
+    <section id="entrenadores" className={`py-16 bg-gradient-to-br from-[var(--brand-red)] via-black to-[var(--brand-red)] relative overflow-hidden ${className}`}>
       {/* Background Decorative Elements */}
       <div className="absolute inset-0">
         <div className="absolute top-20 left-20 w-40 h-40 bg-black/5 rounded-full blur-3xl"></div>
@@ -588,7 +588,7 @@ const TrainersSection: React.FC<TrainersSectionProps> = ({
               <button
                 onClick={() => setViewMode('grid')}
                 className={`p-2 rounded transition-colors duration-200 ${viewMode === 'grid'
-                  ? 'bg-[var(--accent)] text-black'
+                  ? 'bg-[var(--brand-red)] text-black'
                   : 'text-black/60 hover:text-black'
                   }`}
               >
@@ -597,7 +597,7 @@ const TrainersSection: React.FC<TrainersSectionProps> = ({
               <button
                 onClick={() => setViewMode('list')}
                 className={`p-2 rounded transition-colors duration-200 ${viewMode === 'list'
-                  ? 'bg-[var(--accent)] text-black'
+                  ? 'bg-[var(--brand-red)] text-black'
                   : 'text-black/60 hover:text-black'
                   }`}
               >

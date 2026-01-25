@@ -187,7 +187,7 @@ export const shadows = {
     intense: '0 20px 40px rgba(255, 215, 0, 0.3)',
     glow: '0 0 20px rgba(255, 215, 0, 0.4)',
     outerGlow: '0 0 60px rgba(255, 215, 0, 0.3), 0 0 120px rgba(255, 215, 0, 0.1)',
-    button: '0 10px 40px rgba(255, 215, 0, 0.5), 0 0 60px rgba(255, 215, 0, 0.3)'
+    button: '0 10px 40px rgba(242, 14, 2, 0.5), 0 0 60px rgba(242, 14, 2, 0.3)'
   },
 
   // Inner shadows
@@ -209,7 +209,7 @@ export const gradients = {
     secondary: 'linear-gradient(135deg, #FFC300 0%, #FFD700 100%)',
     reverse: 'linear-gradient(135deg, #FFC300 100%, #FFD700 0%)',
     radial: 'radial-gradient(circle, #FFD700 0%, #FFC300 70%)',
-    shimmer: 'linear-gradient(45deg, transparent 30%, rgba(255, 215, 0, 0.5) 50%, transparent 70%)',
+    shimmer: 'linear-gradient(45deg, transparent 30%, rgba(242, 14, 2, 0.5) 50%, transparent 70%)',
     glow: 'radial-gradient(ellipse at center, rgba(255, 215, 0, 0.3) 0%, transparent 70%)'
   },
 

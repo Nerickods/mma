@@ -15,7 +15,7 @@ export default function HeroDoubleCarousel() {
     };
 
     return (
-        <section className="relative w-full min-h-screen bg-[var(--background)] overflow-hidden flex flex-col font-['Poppins']">
+        <section id="inicio" className="relative w-full min-h-screen bg-[var(--background)] overflow-hidden flex flex-col font-['Poppins']">
 
             {/* 1. TOP CAROUSEL (Left) - No Overlays */}
             <div className="w-full h-[50vh] relative z-0">
@@ -53,11 +53,11 @@ export default function HeroDoubleCarousel() {
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-                        className="text-5xl md:text-7xl lg:text-8xl font-black text-white italic tracking-tighter mb-8 uppercase leading-[0.9]"
+                        className="text-4xl md:text-6xl lg:text-7xl font-black text-white italic tracking-tighter mb-8 uppercase leading-[0.9]"
                     >
-                        TRANSFORMA TU <br />
+                        LA MEJOR ACADEMIA DE <br />
                         <span className="text-[var(--accent)] drop-shadow-[0_0_25px_rgba(255,215,0,0.4)]">
-                            MIEDO EN PODER
+                            MMA EN GUADALAJARA
                         </span>
                     </motion.h1>
 
@@ -66,10 +66,11 @@ export default function HeroDoubleCarousel() {
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
-                        className="text-lg md:text-2xl text-white font-normal max-w-3xl mb-10 leading-relaxed tracking-wide drop-shadow-sm"
+                        className="text-base md:text-xl text-white font-normal max-w-3xl mb-10 leading-relaxed tracking-wide drop-shadow-sm"
                     >
-                        Descubre en <span className="font-bold text-[var(--accent)]">1 dia gratuito</span> lo que otros tardan meses en aprender. <br className="hidden md:block" />
-                        Seguridad, confianza y <span className="font-bold border-b-2 border-[var(--accent)]">discordancia controlada</span>.
+                        Domina el <span className="font-bold text-[var(--accent)]">Jiu-Jitsu, Muay Thai y Boxeo</span>. <br className="hidden md:block" />
+                        Transforma tu mentalidad y físico en Blackbird House. <br className="hidden md:block" />
+                        <span className="font-bold border-b-2 border-[var(--accent)]">Agenda tu visita gratuita hoy mismo.</span>
                     </motion.p>
 
                     {/* Compact & Alive CTA */}
@@ -78,7 +79,7 @@ export default function HeroDoubleCarousel() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
                     >
-                        <UiverseButton text="RESERVA CLASE GRATIS" onClick={handleCtaClick} />
+                        <UiverseButton text="RESERVA VISITA GRATIS" onClick={handleCtaClick} />
                     </motion.div>
 
                 </motion.div>

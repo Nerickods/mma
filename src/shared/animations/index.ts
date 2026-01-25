@@ -188,7 +188,7 @@ export const mobileMenu: Variants = {
 export const buttonHover = {
   whileHover: {
     scale: 1.05,
-    boxShadow: '0 20px 60px rgba(255, 215, 0, 0.6), 0 0 80px rgba(255, 215, 0, 0.4)',
+    boxShadow: '0 20px 60px rgba(242, 14, 2, 0.6), 0 0 80px rgba(242, 14, 2, 0.4)',
     transition: { duration: 0.3 }
   },
   whileTap: { scale: 0.95 }

@@ -3,7 +3,7 @@ import type { NextConfig } from 'next';
 const nextConfig: NextConfig = {
   // Next.js 16 Features
   // Next.js 16 Features
-  reactCompiler: true,
+  reactCompiler: false,
 
   experimental: {
     turbopackFileSystemCacheForDev: true,  // Faster dev restarts

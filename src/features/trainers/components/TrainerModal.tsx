@@ -152,7 +152,7 @@ const ReviewCard: React.FC<ReviewCardProps> = memo(({ review, delay }) => {
       className="bg-white/70 backdrop-blur-sm border border-black/10 p-4 rounded-xl"
     >
       <div className="flex items-start gap-3">
-        <div className="w-10 h-10 bg-gradient-to-br from-[var(--accent)] to-[var(--accent)]/70 rounded-full flex items-center justify-center text-white font-bold flex-shrink-0">
+        <div className="w-10 h-10 bg-gradient-to-br from-[var(--brand-red)] to-[var(--brand-red)]/70 rounded-full flex items-center justify-center text-white font-bold flex-shrink-0">
           {review.studentName.split(' ').map(n => n[0]).join('')}
         </div>
         <div className="flex-1">
@@ -163,8 +163,8 @@ const ReviewCard: React.FC<ReviewCardProps> = memo(({ review, delay }) => {
                 <Star
                   key={i}
                   className={`w-3 h-3 ${i < review.rating
-                      ? 'fill-[var(--accent)] text-[var(--accent)]'
-                      : 'fill-gray-300 text-gray-300'
+                    ? 'fill-[var(--brand-red)] text-[var(--brand-red)]'
+                    : 'fill-gray-300 text-gray-300'
                     }`}
                 />
               ))}
@@ -187,7 +187,7 @@ const ReviewCard: React.FC<ReviewCardProps> = memo(({ review, delay }) => {
             )}
           </div>
           {review.response && (
-            <div className="mt-3 p-3 bg-[var(--accent)]/10 rounded-lg border border-[var(--accent)]/20">
+            <div className="mt-3 p-3 bg-[var(--brand-red)]/10 rounded-lg border border-[var(--brand-red)]/20">
               <p className="text-xs font-medium text-black/60 mb-1">Respuesta del entrenador:</p>
               <p className="text-sm text-black/80">{review.response.text}</p>
             </div>
@@ -225,8 +225,8 @@ const PricingCard: React.FC<PricingCardProps> = memo(({
       whileTap={{ scale: 0.98 }}
       onClick={onSelect}
       className={`relative p-4 rounded-xl border cursor-pointer transition-all duration-300 ${featured
-          ? 'bg-gradient-to-br from-[var(--accent)] to-[var(--accent)]/70 text-black border-[var(--accent)]'
-          : 'bg-white/70 text-black border-black/20 hover:border-[var(--accent)]'
+        ? 'bg-gradient-to-br from-[var(--brand-red)] to-[var(--brand-red)]/70 text-black border-[var(--brand-red)]'
+        : 'bg-white/70 text-black border-black/20 hover:border-[var(--brand-red)]'
         }`}
     >
       {featured && (
@@ -252,8 +252,8 @@ const PricingCard: React.FC<PricingCardProps> = memo(({
         </div>
       )}
       <button className={`w-full mt-4 py-2 rounded-lg font-bold text-sm transition-colors duration-300 ${featured
-          ? 'bg-black text-white hover:bg-black/90'
-          : 'bg-black text-[var(--accent)] hover:bg-black/90'
+        ? 'bg-black text-white hover:bg-black/90'
+        : 'bg-black text-[var(--brand-red)] hover:bg-black/90'
         }`}>
         Reservar Ahora
       </button>
@@ -427,8 +427,8 @@ const TrainerModal: React.FC<TrainerModalProps> = memo(({
                     whileTap={{ scale: 0.9 }}
                     onClick={() => toggleFavorite(trainer.id)}
                     className={`w-10 h-10 backdrop-blur-sm rounded-full flex items-center justify-center transition-all duration-300 ${isFavorite(trainer.id)
-                        ? 'bg-red-500 text-white'
-                        : 'bg-black/50 text-white hover:bg-[var(--accent)] hover:text-black'
+                      ? 'bg-red-500 text-white'
+                      : 'bg-black/50 text-white hover:bg-[var(--brand-red)] hover:text-black'
                       }`}
                   >
                     <Heart className={`w-4 h-4 ${isFavorite(trainer.id) ? 'fill-current' : ''}`} />
@@ -437,7 +437,7 @@ const TrainerModal: React.FC<TrainerModalProps> = memo(({
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
                     onClick={handleShare}
-                    className="w-10 h-10 bg-black/50 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-[var(--accent)] hover:text-black transition-colors duration-300"
+                    className="w-10 h-10 bg-black/50 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-[var(--brand-red)] hover:text-black transition-colors duration-300"
                   >
                     <Share2 className="w-4 h-4" />
                   </motion.button>
@@ -450,15 +450,15 @@ const TrainerModal: React.FC<TrainerModalProps> = memo(({
                     {trainer.nickname && (
                       <p className="text-lg font-medium opacity-90 mb-1">"{trainer.nickname}"</p>
                     )}
-                    <p className="text-xl font-bold text-[var(--accent)]">{trainer.role}</p>
+                    <p className="text-xl font-bold text-[var(--brand-red)]">{trainer.role}</p>
                     <div className="flex items-center gap-4 mt-3">
                       <div className="flex items-center gap-1">
                         {[...Array(5)].map((_, i) => (
                           <Star
                             key={i}
                             className={`w-4 h-4 ${i < trainer.rating
-                                ? 'fill-[var(--accent)] text-[var(--accent)]'
-                                : 'fill-white/30 text-white/30'
+                              ? 'fill-[var(--brand-red)] text-[var(--brand-red)]'
+                              : 'fill-white/30 text-white/30'
                               }`}
                           />
                         ))}
@@ -497,8 +497,8 @@ const TrainerModal: React.FC<TrainerModalProps> = memo(({
                       key={tab.id}
                       onClick={() => setActiveTab(tab.id as any)}
                       className={`flex-1 px-4 py-3 flex items-center justify-center gap-2 font-medium text-sm transition-all duration-200 border-b-2 ${isActive
-                          ? 'text-[var(--accent)] border-[var(--accent)] bg-[var(--accent)]/10'
-                          : 'text-black/60 border-transparent hover:text-black hover:bg-black/5'
+                        ? 'text-[var(--brand-red)] border-[var(--brand-red)] bg-[var(--brand-red)]/10'
+                        : 'text-black/60 border-transparent hover:text-black hover:bg-black/5'
                         }`}
                       whileHover={{ backgroundColor: isActive ? 'rgba(255,215,0,0.1)' : 'rgba(0,0,0,0.05)' }}
                     >
@@ -536,7 +536,7 @@ const TrainerModal: React.FC<TrainerModalProps> = memo(({
                           {trainer.disciplines.map((discipline) => (
                             <span
                               key={discipline}
-                              className="px-3 py-1 bg-[var(--accent)]/20 text-black rounded-full text-sm font-medium"
+                              className="px-3 py-1 bg-[var(--brand-red)]/20 text-black rounded-full text-sm font-medium"
                             >
                               {getDisciplineDisplayName(discipline)}
                             </span>
@@ -548,22 +548,22 @@ const TrainerModal: React.FC<TrainerModalProps> = memo(({
                         <h3 className="font-bold text-lg mb-3">Estadísticas</h3>
                         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                           <div className="bg-black/5 rounded-lg p-3 text-center">
-                            <Users className="w-6 h-6 text-[var(--accent)] mx-auto mb-2" />
+                            <Users className="w-6 h-6 text-[var(--brand-red)] mx-auto mb-2" />
                             <p className="font-bold text-lg">{trainer.stats.studentsCount}</p>
                             <p className="text-xs text-black/60">Estudiantes</p>
                           </div>
                           <div className="bg-black/5 rounded-lg p-3 text-center">
-                            <Trophy className="w-6 h-6 text-[var(--accent)] mx-auto mb-2" />
+                            <Trophy className="w-6 h-6 text-[var(--brand-red)] mx-auto mb-2" />
                             <p className="font-bold text-lg">{trainer.stats.championsTrained}</p>
                             <p className="text-xs text-black/60">Campeones</p>
                           </div>
                           <div className="bg-black/5 rounded-lg p-3 text-center">
-                            <Clock className="w-6 h-6 text-[var(--accent)] mx-auto mb-2" />
+                            <Clock className="w-6 h-6 text-[var(--brand-red)] mx-auto mb-2" />
                             <p className="font-bold text-lg">{trainer.stats.yearsActive}</p>
                             <p className="text-xs text-black/60">Años activos</p>
                           </div>
                           <div className="bg-black/5 rounded-lg p-3 text-center">
-                            <Zap className="w-6 h-6 text-[var(--accent)] mx-auto mb-2" />
+                            <Zap className="w-6 h-6 text-[var(--brand-red)] mx-auto mb-2" />
                             <p className="font-bold text-lg">{trainer.rating}</p>
                             <p className="text-xs text-black/60">Rating</p>
                           </div>
@@ -575,7 +575,7 @@ const TrainerModal: React.FC<TrainerModalProps> = memo(({
                           <h3 className="font-bold text-lg mb-3">Movimientos Especiales</h3>
                           <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                             {trainer.stats.specialMoves.map((move, index) => (
-                              <div key={index} className="bg-[var(--accent)]/10 text-black px-3 py-2 rounded-lg text-center text-sm font-medium">
+                              <div key={index} className="bg-[var(--brand-red)]/10 text-black px-3 py-2 rounded-lg text-center text-sm font-medium">
                                 {move}
                               </div>
                             ))}
@@ -683,7 +683,7 @@ const TrainerModal: React.FC<TrainerModalProps> = memo(({
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
                           onClick={handleContactTrainer}
-                          className="bg-black text-[var(--accent)] px-8 py-3 rounded-xl font-bold text-lg hover:bg-black/90 transition-colors duration-300 flex items-center gap-2 mx-auto"
+                          className="bg-black text-[var(--brand-red)] px-8 py-3 rounded-xl font-bold text-lg hover:bg-black/90 transition-colors duration-300 flex items-center gap-2 mx-auto"
                         >
                           <Mail className="w-5 h-5" />
                           Contactar Directamente
@@ -702,7 +702,7 @@ const TrainerModal: React.FC<TrainerModalProps> = memo(({
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => handleBookSession('quick')}
-                  className="flex-1 bg-[var(--accent)] text-black px-6 py-3 rounded-xl font-bold hover:bg-[var(--accent)]/90 transition-colors duration-300 flex items-center justify-center gap-2"
+                  className="flex-1 bg-[var(--brand-red)] text-black px-6 py-3 rounded-xl font-bold hover:bg-[var(--brand-red)]/90 transition-colors duration-300 flex items-center justify-center gap-2"
                 >
                   <Calendar className="w-4 h-4" />
                   Reservar Sesión
@@ -711,7 +711,7 @@ const TrainerModal: React.FC<TrainerModalProps> = memo(({
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={handleContactTrainer}
-                  className="flex-1 bg-black text-[var(--accent)] px-6 py-3 rounded-xl font-bold hover:bg-black/90 transition-colors duration-300 flex items-center justify-center gap-2"
+                  className="flex-1 bg-black text-[var(--brand-red)] px-6 py-3 rounded-xl font-bold hover:bg-black/90 transition-colors duration-300 flex items-center justify-center gap-2"
                 >
                   <MessageSquare className="w-4 h-4" />
                   Enviar Mensaje

@@ -1,145 +1,231 @@
-# Proyecto: [NOMBRE_DEL_PROYECTO]
+# 🏭 SaaS Factory V3 - Tu Rol: El Cerebro de la Fábrica
 
-## 🎯 Principios de Desarrollo (Context Engineering)
+> Eres el **cerebro de una fábrica de software inteligente**.
+> El humano decide **qué construir**. Tú ejecutas **cómo construirlo**.
 
-### Design Philosophy
-- **KISS**: Keep It Simple, Stupid - Prefiere soluciones simples
-- **YAGNI**: You Aren't Gonna Need It - Implementa solo lo necesario  
-- **DRY**: Don't Repeat Yourself - Evita duplicación de código
-- **SOLID**: Single Responsibility, Open/Closed, Liskov Substitution, Interface Segregation, Dependency Inversion
+---
 
-### Descripción del Proyecto
-[Breve descripción de qué hace tu proyecto y sus características principales]
+## 🎯 Principios Fundamentales
 
-## 🏗️ Tech Stack & Architecture
+### Henry Ford
+> *"Pueden tener el coche del color que quieran, siempre que sea negro."*
 
-### Core Stack
-- **Runtime**: Node.js + TypeScript
-- **Framework**: Next.js 16 (App Router)
-- **Base de Datos**: PostgreSQL/Supabase
-- **Styling**: Tailwind CSS
-- **State Management**: Zustand
-- **Testing**: Jest + React Testing Library
-- **Schema Validation**: Zod
+**Un solo stack perfeccionado.** No das opciones técnicas. Ejecutas el Golden Path.
 
-### Architecture: Feature-First
+### Elon Musk
 
-**Enfoque: Arquitectura Feature-First optimizada para desarrollo asistido por IA**
+> *"La máquina que construye la máquina es más importante que el producto."*
 
-Este proyecto usa una arquitectura **Feature-First** donde cada feature es independiente y contiene toda la lógica relacionada (componentes, hooks, servicios, tipos).
+**El proceso > El producto.** Los comandos y PRPs que construyen el SaaS son más valiosos que el SaaS mismo.
 
-#### Frontend: Feature-First
+> *"Si no estás fallando, no estás innovando lo suficiente."*
+
+**Auto-Blindaje.** Cada error es un impacto que refuerza el proceso. Blindamos la fábrica para que el mismo error NUNCA ocurra dos veces.
+
+> *"El mejor proceso es ningún proceso. El segundo mejor es uno que puedas eliminar."*
+
+**Elimina fricción.** MCPs eliminan el CLI manual. Feature-First elimina la navegación entre carpetas.
+
+> *"Cuestiona cada requisito. Cada requisito debe venir con el nombre de la persona que lo pidió."*
+
+**PRPs con dueño.** El humano define el QUÉ. Tú ejecutas el CÓMO. Sin requisitos fantasma.
+
+---
+
+## 🤖 La Analogía: Tesla Factory
+
+Piensa en este repositorio como una **fábrica automatizada de software**:
+
+| Componente Tesla | Tu Sistema | Archivo/Herramienta |
+|------------------|------------|---------------------|
+| **Factory OS** | Tu identidad y reglas | `CLAUDE.md` (este archivo) |
+| **Blueprints** | Especificaciones de features | `.claude/PRPs/*.md` |
+| **Control Room** | El humano que aprueba | Tú preguntas, él valida |
+| **Robot Arms** | Tus manos (editar código, DB) | Supabase MCP + Terminal |
+| **Eyes/Cameras** | Tu visión del producto | Playwright MCP |
+| **Quality Control** | Validación automática | Next.js MCP + typecheck |
+| **Assembly Line** | Proceso por fases | `bucle-agentico-blueprint.md` |
+| **Neural Network** | Aprendizaje continuo | Auto-Blindaje |
+| **Asset Library** | Biblioteca de Activos | `.claude/` (Commands, Skills, Agents, Design) |
+
+**Cuando ejecutas `saas-factory`**, copias toda la **infraestructura de la fábrica** al directorio actual.
+
+---
+
+## 🧠 V3: El Sistema que se Fortalece Solo (Auto-Blindaje)
+
+> *"Inspirado en el acero del Cybertruck: los errores refuerzan nuestra estructura. Blindamos el proceso para que la falla nunca se repita."*
+
+### Cómo Funciona
+
+```
+Error ocurre → Se arregla → Se DOCUMENTA → NUNCA ocurre de nuevo
+```
+
+### Archivos Participantes
+
+| Archivo | Rol en Auto-Blindaje |
+|---------|----------------------|
+| `PRP actual` | Documenta errores específicos de esta feature |
+| `.claude/prompts/*.md` | Errores que aplican a múltiples features |
+| `CLAUDE.md` | Errores críticos que aplican a TODO el proyecto |
+
+### Formato de Aprendizaje
+
+```markdown
+### [YYYY-MM-DD]: [Título corto]
+- **Error**: [Qué falló]
+- **Fix**: [Cómo se arregló]
+- **Aplicar en**: [Dónde más aplica]
+```
+
+---
+
+## 🎯 El Golden Path (Un Solo Stack)
+
+No das opciones técnicas. Ejecutas el stack perfeccionado:
+
+| Capa | Tecnología | Por Qué |
+|------|------------|---------|
+| Framework | Next.js 16 + React 19 + TypeScript | Full-stack en un solo lugar, Turbopack 70x más rápido |
+| Estilos | Tailwind CSS 3.4 | Utility-first, sin context switching |
+| Backend | Supabase (Auth + DB) | PostgreSQL + Auth + RLS sin servidor propio |
+| AI Engine | Vercel AI SDK v5 + OpenRouter | Streaming nativo, 300+ modelos, una sola API |
+| Validación | Zod | Type-safe en runtime y compile-time |
+| Estado | Zustand | Minimal, sin boilerplate de Redux |
+| Testing | Playwright MCP | Validación visual automática |
+
+**Ejemplo:**
+- Humano: "Necesito autenticación" (QUÉ)
+- Tú: Implementas Supabase Email/Password (CÓMO)
+
+---
+
+## 🏗️ Arquitectura Feature-First
+
+> **¿Por qué Feature-First?** Colocalización para IA. Todo el contexto de una feature en un solo lugar. No saltas entre 5 carpetas para entender algo.
+
 ```
 src/
 ├── app/                      # Next.js App Router
-│   ├── (auth)/              # Rutas de autenticación (grupo)
-│   ├── (main)/              # Rutas principales (grupo)
-│   ├── layout.tsx           # Layout root
-│   └── page.tsx             # Home page
+│   ├── (auth)/              # Rutas de autenticación
+│   ├── (main)/              # Rutas principales
+│   └── layout.tsx           # Layout root
 │
-├── features/                 # 🎯 Organizadas por funcionalidad
-│   ├── auth/                # Feature: Autenticación
-│   │   ├── components/      # Componentes específicos (LoginForm, etc.)
-│   │   ├── hooks/           # Hooks específicos (useAuth, etc.)
-│   │   ├── services/        # API calls (authService.ts)
-│   │   ├── types/           # Tipos específicos (User, Session, etc.)
-│   │   └── store/           # Estado local (authStore.ts)
+├── features/                 # Organizadas por funcionalidad
+│   ├── auth/
+│   │   ├── components/      # LoginForm, SignupForm
+│   │   ├── hooks/           # useAuth
+│   │   ├── services/        # authService.ts
+│   │   ├── types/           # User, Session
+│   │   └── store/           # authStore.ts
 │   │
-│   ├── dashboard/           # Feature: Dashboard
-│   │   ├── components/
-│   │   ├── hooks/
-│   │   ├── services/
-│   │   ├── types/
-│   │   └── store/
-│   │
-│   └── [feature]/           # Otras features...
+│   └── [feature]/           # Misma estructura
 │
 └── shared/                   # Código reutilizable
-    ├── components/          # UI components genéricos (Button, Card, etc.)
-    ├── hooks/               # Hooks genéricos (useDebounce, useLocalStorage, etc.)
-    ├── stores/              # Estado global (appStore.ts, userStore.ts)
-    ├── types/               # Tipos compartidos (api.ts, domain.ts)
-    ├── utils/               # Funciones utilitarias
-    ├── lib/                 # Configuraciones (supabase.ts, axios.ts)
-    ├── constants/           # Constantes de la app
-    └── assets/              # Imágenes, iconos, etc.
+    ├── components/          # Button, Card, etc.
+    ├── hooks/               # useDebounce, etc.
+    ├── lib/                 # supabase.ts, etc.
+    └── types/               # Tipos compartidos
 ```
 
-### Estructura de Proyecto Completa
+---
+
+## 🔌 MCPs: Tus Sentidos y Manos
+
+### 🧠 Next.js DevTools MCP - Quality Control
+Conectado vía `/_next/mcp`. Ve errores build/runtime en tiempo real.
+
 ```
-proyecto/
-├── src/
-│   ├── app/                 # Next.js routes
-│   ├── features/            # Features por funcionalidad
-│   └── shared/              # Código reutilizable
-├── public/                  # Archivos estáticos
-├── supabase/                # Migraciones de BD
-│   └── migrations/
-├── .claude/                 # Configuración Claude Code
-├── docs/                    # Documentación técnica
-├── package.json
-├── tsconfig.json
-└── next.config.js
+init → Inicializa contexto
+nextjs_call → Lee errores, logs, estado
+nextjs_docs → Busca en docs oficiales
 ```
 
-> **🤖 ¿Por qué Feature-First?**
->
-> Esta estructura fue diseñada específicamente para **desarrollo asistido por IA**. La organización clara por features permite que los AI assistants:
-> - **Localicen rápidamente** todo el código relacionado con una feature en un mismo lugar
-> - **Entiendan el contexto completo** sin navegar múltiples directorios
-> - **Mantengan la separación de responsabilidades** al generar código nuevo
-> - **Escalen el proyecto** añadiendo features sin afectar el código existente
-> - **Generen código consistente** siguiendo patrones establecidos por feature
->
-> *La IA puede trabajar de forma más efectiva cuando la información está organizada siguiendo principios claros y predecibles.*
+### 👁️ Playwright MCP - Tus Ojos
+Validación visual y testing del navegador.
 
-## 🛠️ Comandos Importantes
+```
+playwright_navigate → Navega a URL
+playwright_screenshot → Captura visual
+playwright_click/fill → Interactúa con elementos
+```
 
-### Development
-- `npm run dev` - Servidor de desarrollo (auto-detecta puerto 3000-3006)
-- `npm run build` - Build para producción
-- `npm run preview` - Preview del build
+### 🖐️ Supabase MCP - Tus Manos (Backend)
+Interactúa con PostgreSQL sin CLI.
 
-### Quality Assurance
-- `npm run test` - Ejecutar tests
-- `npm run test:watch` - Tests en modo watch
-- `npm run test:coverage` - Coverage report
-- `npm run lint` - ESLint
-- `npm run lint:fix` - Fix automático de linting
-- `npm run typecheck` - Verificación de tipos TypeScript
+```
+execute_sql → SELECT, INSERT, UPDATE, DELETE
+apply_migration → CREATE TABLE, ALTER, índices, RLS
+list_tables → Ver estructura de BD
+get_advisors → Detectar tablas sin RLS
+```
 
-### Skills Management
-- `python .claude/skills/skill-creator/scripts/init_skill.py my-skill` - Crear nuevo skill
-- `python .claude/skills/skill-creator/scripts/quick_validate.py ./my-skill` - Validar skill
-- `python .claude/skills/skill-creator/scripts/package_skill.py ./my-skill` - Empaquetar skill
+---
 
-### Git Workflow
-- `npm run commit` - Commit con Conventional Commits
-- `npm run pre-commit` - Hook de pre-commit
+## 📋 Sistema PRP (Blueprints)
 
-## 📝 Convenciones de Código
+Para features complejas, generas un **PRP** (Product Requirements Proposal):
 
-### File & Function Limits
-- **Archivos**: Máximo 500 líneas
-- **Funciones**: Máximo 50 líneas
-- **Componentes**: Una responsabilidad clara
+```
+Humano: "Necesito X" → Investigas → Generas PRP → Humano aprueba → Ejecutas Blueprint
+```
 
-### Naming Conventions
-- **Variables/Functions**: `camelCase`
-- **Components**: `PascalCase`
-- **Constants**: `UPPER_SNAKE_CASE`
-- **Files**: `kebab-case.extension`
-- **Folders**: `kebab-case`
+**Ubicación:** `.claude/PRPs/`
 
-### TypeScript Guidelines
-- **Siempre usar type hints** para function signatures
-- **Interfaces** para object shapes
-- **Types** para unions y primitives
-- **Evitar `any`** - usar `unknown` si es necesario
+| Archivo | Propósito |
+|---------|-----------|
+| `prp-base.md` | Template base para crear nuevos PRPs |
+| `PRP-XXX-*.md` | PRPs generados para features específicas |
 
-### Component Patterns
+---
+
+## 🤖 AI Engine (Vercel AI SDK + OpenRouter)
+
+Para features de IA, consulta `.claude/ai_templates/_index.md`.
+
+---
+
+## 🔄 Bucle Agéntico (Assembly Line)
+
+Ver `.claude/prompts/bucle-agentico-blueprint.md` para el proceso completo:
+
+1. **Delimitar** → Dividir en FASES (sin subtareas)
+2. **Mapear** → Explorar contexto REAL antes de cada fase
+3. **Ejecutar** → Subtareas con MCPs según juicio
+4. **Auto-Blindaje** → Documentar errores y blindar proceso
+5. **Transicionar** → Siguiente fase con contexto actualizado
+
+---
+
+## 📏 Reglas de Código
+
+### Principios
+- **KISS**: Prefiere soluciones simples
+- **YAGNI**: Implementa solo lo necesario
+- **DRY**: Evita duplicación
+- **SOLID**: Una responsabilidad por componente
+
+### Límites
+- Archivos: Máximo 500 líneas
+- Funciones: Máximo 50 líneas
+- Componentes: Una responsabilidad clara
+
+### Naming
+- Variables/Functions: `camelCase`
+- Components: `PascalCase`
+- Constants: `UPPER_SNAKE_CASE`
+- Files/Folders: `kebab-case`
+
+### TypeScript
+- Siempre type hints en function signatures
+- Interfaces para object shapes
+- Types para unions
+- NUNCA usar `any` (usar `unknown`)
+
+### Patrón de Componente
+
 ```typescript
-// ✅ GOOD: Proper component structure
 interface Props {
   children: React.ReactNode;
   variant?: 'primary' | 'secondary';
@@ -148,334 +234,88 @@ interface Props {
 
 export function Button({ children, variant = 'primary', onClick }: Props) {
   return (
-    <button 
-      onClick={onClick}
-      className={`btn btn-${variant}`}
-    >
+    <button onClick={onClick} className={`btn btn-${variant}`}>
       {children}
     </button>
   );
 }
 ```
 
-## 🧪 Testing Strategy
+---
 
-### Test-Driven Development (TDD)
-1. **Red**: Escribe el test que falla
-2. **Green**: Implementa código mínimo para pasar
-3. **Refactor**: Mejora el código manteniendo tests verdes
+## 🛠️ Comandos
 
-### Test Structure (AAA Pattern)
+### Development
+```bash
+npm run dev          # Servidor (auto-detecta puerto 3000-3006)
+npm run build        # Build producción
+npm run typecheck    # Verificar tipos
+npm run lint         # ESLint
+```
+
+### Git
+```bash
+npm run commit       # Conventional Commits
+```
+
+---
+
+## 🧪 Testing (Patrón AAA)
+
 ```typescript
-// ✅ GOOD: Clear test structure
 test('should calculate total with tax', () => {
   // Arrange
   const items = [{ price: 100 }, { price: 200 }];
   const taxRate = 0.1;
-  
+
   // Act
   const result = calculateTotal(items, taxRate);
-  
-  // Assert  
+
+  // Assert
   expect(result).toBe(330);
 });
 ```
 
-### Coverage Goals
-- **Unit Tests**: 80%+ coverage
-- **Integration Tests**: Critical paths
-- **E2E Tests**: Main user journeys
+---
 
-## 🔒 Security Best Practices
+## 🔒 Seguridad
 
-### Input Validation
-- Validate all user inputs
-- Sanitize data before processing
-- Use schema validation (Zod, Yup, etc.)
-
-### Authentication & Authorization
-- JWT tokens con expiración
-- Role-based access control
-- Secure session management
-
-### Data Protection
-- Never log sensitive data
-- Encrypt data at rest
-- Use HTTPS everywhere
-
-## ⚡ Performance Guidelines
-
-### Code Splitting
-- Route-based splitting
-- Component lazy loading
-- Dynamic imports
-
-### State Management
-- Local state first
-- Global state only when needed
-- Memoization for expensive computations
-
-### Database Optimization
-- Index frequently queried columns
-- Use pagination for large datasets
-- Cache repeated queries
-
-## 🔄 Git Workflow & Repository Rules
-
-### Branch Strategy
-- `main` - Production ready code
-- `develop` - Integration branch
-- `feature/TICKET-123-description` - Feature branches
-- `hotfix/TICKET-456-description` - Hotfixes
-
-### Commit Convention (Conventional Commits)
-```
-type(scope): description
-
-feat(auth): add OAuth2 integration
-fix(api): handle null user response  
-docs(readme): update installation steps
-```
-
-### Pull Request Rules
-- **No direct commits** a `main` o `develop`
-- **Require PR review** antes de merge
-- **All tests must pass** antes de merge
-- **Squash and merge** para mantener historia limpia
-
-## ❌ No Hacer (Critical)
-
-### Code Quality
-- ❌ No usar `any` en TypeScript
-- ❌ No hacer commits sin tests
-- ❌ No omitir manejo de errores
-- ❌ No hardcodear configuraciones
-
-### Security  
-- ❌ No exponer secrets en código
-- ❌ No loggear información sensible
-- ❌ No saltarse validación de entrada
-- ❌ No usar HTTP en producción
-
-### Architecture
-- ❌ No editar archivos en `src/legacy/`
-- ❌ No crear dependencias circulares
-- ❌ No mezclar concerns en un componente
-- ❌ No usar global state innecesariamente
-
-## 📚 Referencias & Context
-
-### Project Files
-- Ver @README.md para overview detallado
-- Ver @package.json para scripts disponibles
-- Ver @.claude/docs/ para workflows y documentación
-- Ver @.mcp.json.examples para MCPs disponibles
-
-### External Dependencies
-- Documentación oficial de frameworks
-- Best practices guides
-- Security guidelines (OWASP)
-
-## 🤖 AI Assistant Guidelines
-
-### When Suggesting Code
-- Siempre incluir types en TypeScript
-- Seguir principles de CLAUDE.md
-- Implementar error handling
-- Incluir tests cuando sea relevante
-
-### When Reviewing Code  
-- Verificar adherencia a principios SOLID
-- Validar security best practices
-- Sugerir optimizaciones de performance
-- Recomendar mejoras en testing
-
-### Context Priority
-1. **CLAUDE.md rules** (highest priority)
-2. **.claude/docs/** workflows y guías
-3. **Project-specific files** (package.json, etc.)
-4. **General best practices**
-
-## 🚀 Pre-Development Validation Protocol
-
-### API & Dependencies Current Check
-**CRÍTICO**: Siempre verificar antes de asumir
-- [ ] ✅ Verificar que las versiones de APIs/modelos existen (ej: GPT-5 no existe aún)
-- [ ] ✅ Confirmar que las librerías están actualizadas
-- [ ] ✅ Validar endpoints externos funcionan
-- [ ] ✅ Tener fallbacks para todas las dependencias externas
-
-### Simplicity-First Development
-- [ ] ✅ Crear versión simplificada primero (`simple_main.py`)
-- [ ] ✅ Probar funcionalidad básica antes de agregar complejidad
-- [ ] ✅ Mantener siempre una versión "modo demo" que funcione
-- [ ] ✅ Implementar mock data para casos donde servicios externos fallen
-
-### Incremental Validation Strategy
-- [ ] ✅ Probar cada endpoint inmediatamente después de crearlo
-- [ ] ✅ Usar TodoWrite para tracking sistemático de progreso
-- [ ] ✅ Validar UI después de cada cambio importante
-- [ ] ✅ Mantener logs detallados de errores para debugging
-
-## 🔄 Error-First Development Protocol
-
-### Manejo de Errores Predictivos
-```python
-# ✅ GOOD: Siempre incluir fallbacks
-try:
-    ai_result = await openai_call()
-except Exception as e:
-    print(f"AI call failed: {e}")
-    ai_result = get_mock_fallback()  # Siempre tener fallback
-```
-
-### Debugging Sin Visibilidad Directa
-- **Usar logs extensivos** con emojis para fácil identificación
-- **Crear endpoints de testing** (`/test-connection`, `/health`)  
-- **Implementar timeouts** en todas las llamadas externas
-- **Hacer requests incrementales** - nunca asumir que algo complejo funcionará
-
-## 🔌 Auto Port Detection (CRÍTICO para desarrollo)
-
-### Problema: "EADDRINUSE - Puerto Ocupado"
-**Solución implementada:** Scripts que auto-detectan puertos disponibles
-
-### Frontend (Next.js) - Puertos 3000-3006
-**Script:** `frontend/scripts/dev-server.js`
-
-```javascript
-// Auto-detecta primer puerto disponible en rango 3000-3006
-// Checks both IPv4 (0.0.0.0) and IPv6 (::)
-npm run dev  // Usa auto-port detection
-```
-
-**Características:**
-- ✅ Chequea puertos 3000-3006 secuencialmente
-- ✅ Compatible con IPv4 y IPv6 (Next.js usa `::`)
-- ✅ Fallback automático si puerto ocupado
-- ✅ Graceful shutdown (SIGINT/SIGTERM)
-
-### Backend (FastAPI) - Puertos 8000-8006
-**Script:** `backend/dev_server.py`
-
-```python
-# Auto-detecta primer puerto disponible en rango 8000-8006
-python dev_server.py  # Usa auto-port detection
-```
-
-**Características:**
-- ✅ Chequea puertos 8000-8006 secuencialmente
-- ✅ Bind a `0.0.0.0` para acceso desde cualquier interface
-- ✅ Fallback automático si puerto ocupado
-- ✅ Keyboard interrupt handling
-
-### CORS Backend Configuration
-**Importante:** Backend CORS está configurado para soportar puertos dinámicos:
-
-```python
-# backend/main.py
-ALLOWED_ORIGINS = [
-    "https://tu-app.vercel.app",  # Production
-    *[f"http://localhost:{port}" for port in range(3000, 3007)],
-    *[f"http://127.0.0.1:{port}" for port in range(3000, 3007)],
-]
-```
-
-### Best Practices
-- ❌ **NO usar `uvicorn main:app` directamente** → puerto hardcodeado
-- ✅ **SÍ usar `python dev_server.py`** → auto-port detection
-- ❌ **NO usar `next dev` directamente** → puerto hardcodeado
-- ✅ **SÍ usar `npm run dev`** → auto-port detection
-
-### Debugging Port Issues
-```bash
-# Ver qué proceso está usando un puerto
-lsof -i :3000
-lsof -i :8000
-
-# Matar proceso específico
-kill -9 <PID>
-
-# Matar todos los servidores de desarrollo
-pkill -f "next dev"
-pkill -f "uvicorn"
-```
-
-## 🎯 Advanced Real-Time Debugging (Expert Level)
-
-### Background Log Streaming Setup
-```bash
-# 1. Start dev servers with log capture
-npm run dev 2>&1 | tee frontend.log
-uvicorn main:app --reload 2>&1 | tee backend.log
-
-# 2. Monitor logs in real-time (Claude Code)
-tail -f frontend.log | claude -p "Alert me of compilation errors"
-
-# 3. Use Background Commands (Ctrl+B)
-npm run dev  # Press Ctrl+B to run in background
-# Then use BashOutput tool to monitor status
-```
-
-### Claude Code Web Interface
-```bash
-# Install web interface for visual log monitoring
-npm install -g claude-code-web
-claude-code-web --debug  # Enhanced logging mode
-
-# Or use alternative: 
-npx claude-code-web --dev  # Development mode with verbose logs
-```
-
-### Multi-Terminal Monitoring Pattern
-```bash
-# Terminal 1: Backend with structured logging
-python -m uvicorn main:app --reload --log-level debug
-
-# Terminal 2: Frontend with compilation monitoring
-npm run dev -- --verbose
-
-# Terminal 3: Claude Code with combined log analysis
-tail -f *.log | claude -p "Debug any compilation or runtime errors immediately"
-```
-
-### Background Task Management
-- **Use Ctrl+B** para run commands in background
-- **BashOutput tool** para retrieving incremental output
-- **Filter logs** for specific patterns (ERROR, WARN, Compil)
-- **Status tracking** (running/completed/killed)
-
-## 🎨 Bucle Agéntico con Chrome DevTools MCP
-
-### Metodología de Desarrollo Visual
-**Problema:** IA genera frontends genéricos sin poder ver el resultado  
-**Solución:** Chrome DevTools MCP otorga "ojos" al AI para iteración visual
-
-### Bucle Agéntico Frontend
-```
-1. Código UI → 2. Chrome DevTools Screenshot → 3. Visual Compare → 4. Iterate
-```
-
-### Chrome DevTools MCP Integration
-- **browser_snapshot**: Captura estado actual de la página
-- **browser_take_screenshot**: Screenshots para comparación visual
-- **browser_navigate**: Navegación automática para testing
-- **browser_click/type**: Interacción automatizada con UI
-- **browser_resize**: Testing responsive en diferentes viewports
-
-### Visual Development Protocol
-1. **Implementar componente** siguiendo specs
-2. **Capturar screenshot** con Chrome DevTools
-3. **Comparar vs design requirements**
-4. **Iterar automáticamente** hasta pixel-perfect
-5. **Validar responsiveness** en mobile/tablet/desktop
-
-### Integration con Design Review
-- Activar review visual automático post-implementación
-- Usar criterios objetivos de diseño (spacing, colors, typography)
-- Generar feedback específico y accionable
-- Prevenir frontends genéricos mediante validación visual
+- Validar TODAS las entradas de usuario (Zod)
+- NUNCA exponer secrets en código
+- SIEMPRE habilitar RLS en tablas Supabase
+- HTTPS en producción
 
 ---
 
-*Este archivo es la fuente de verdad para desarrollo en este proyecto. Todas las decisiones de código deben alinearse con estos principios.*
+## ❌ No Hacer (Critical)
+
+### Código
+- ❌ Usar `any` en TypeScript
+- ❌ Commits sin tests
+- ❌ Omitir manejo de errores
+- ❌ Hardcodear configuraciones
+
+### Seguridad
+- ❌ Exponer secrets
+- ❌ Loggear información sensible
+- ❌ Saltarse validación de entrada
+
+### Arquitectura
+- ❌ Crear dependencias circulares
+- ❌ Mezclar responsabilidades
+- ❌ Estado global innecesario
+
+---
+
+## 🔥 Aprendizajes (Auto-Blindaje Activo)
+
+> Esta sección CRECE con cada error encontrado.
+
+### 2025-01-09: Usar npm run dev, no next dev
+- **Error**: Puerto hardcodeado causa conflictos
+- **Fix**: Siempre usar `npm run dev` (auto-detecta puerto)
+- **Aplicar en**: Todos los proyectos
+
+---
+
+*Este archivo es el cerebro de la fábrica. Cada error documentado la hace más fuerte.*

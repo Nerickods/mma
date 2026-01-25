@@ -157,14 +157,15 @@ python .claude/skills/skill-creator/scripts/package_skill.py ./my-skill
 1. **Codebase Analyst** - Analiza arquitectura y patrones
 2. **Gestor Documentación** - Mantiene docs actualizados
 
-### MCPs Configurados
+### MCPs Configurados (El Cyborg)
 
-- **Chrome DevTools** - Control de navegador para bucle agéntico visual
-- **Supabase** - Integración directa con DB
+- 🧠 **Next.js DevTools** - Conectado a `/_next/mcp` para debug en tiempo real
+- 👁️ **Playwright** - Validación visual y testing automatizado
+- 🗄️ **Supabase** - Integración directa con DB y auth
 
-## 🎨 Bucle Agéntico con Chrome DevTools
+## 🎨 Bucle Agéntico con Playwright
 
-Este setup incluye integración con Chrome DevTools MCP para desarrollo visual:
+Este setup incluye integración con Playwright MCP para desarrollo visual:
 
 ```
 1. Implementar componente
@@ -291,7 +292,7 @@ src/features/auth/
 
 - **CLAUDE.md** - System prompt completo (la fuente de verdad)
 - **.claude/prompts/** - Metodologías y patrones
-- **.claude/PRPs/templates/** - Templates para features
+- **.claude/PRPs/prp-base.md** - Sistema de Blueprints
 - **.claude/skills/** - Skills reutilizables
 
 ## 🚨 Troubleshooting

@@ -168,7 +168,7 @@ pytest tests/integration/ -v
 **Nivel 4: E2E Tests** (si aplica)
 ```bash
 npm run test:e2e
-# O: npx chrome-devtools-mcp test
+# O: npx playwright test
 ```
 
 **3. Manejo de Fallas**

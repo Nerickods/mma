@@ -97,7 +97,7 @@ export default function HeroSection({ onCtaClick, animationConfig }: HeroSection
         className="container mx-auto px-6 py-24 text-center relative z-20 max-w-6xl"
       >
         {/* Resplandor dorado de fondo para el texto */}
-        <div className="absolute inset-0 bg-[var(--accent)]/5 rounded-3xl blur-3xl pointer-events-none"></div>
+        <div className="absolute inset-0 bg-[var(--brand-red)]/5 rounded-3xl blur-3xl pointer-events-none"></div>
 
         <div className="relative">
           <motion.h1
@@ -109,7 +109,7 @@ export default function HeroSection({ onCtaClick, animationConfig }: HeroSection
           >
             {heroContent.title.main}
             <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--accent)] via-yellow-200 to-[var(--accent)] relative">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--brand-red)] via-[var(--brand-yellow)] to-[var(--brand-red)] relative">
               {heroContent.title.highlight}
             </span>
           </motion.h1>
@@ -122,7 +122,7 @@ export default function HeroSection({ onCtaClick, animationConfig }: HeroSection
               <span key={index}>
                 {part}
                 {index < array.length - 1 && (
-                  <span className="text-[var(--accent)] font-bold">GRATIS</span>
+                  <span className="text-[var(--brand-red)] font-bold">GRATIS</span>
                 )}
               </span>
             ))}
@@ -135,7 +135,7 @@ export default function HeroSection({ onCtaClick, animationConfig }: HeroSection
             <motion.button
               onClick={scrollToForm}
               {...animations.buttonHover}
-              className="cta-button text-lg md:text-xl px-12 py-5 relative overflow-hidden group bg-[var(--accent)] text-black font-black tracking-wider uppercase"
+              className="cta-button text-lg md:text-xl px-12 py-5 relative overflow-hidden group bg-[var(--brand-red)] text-black font-black tracking-wider uppercase"
             >
               <span className="relative z-10">{heroContent.cta.text}</span>
               <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
@@ -145,7 +145,7 @@ export default function HeroSection({ onCtaClick, animationConfig }: HeroSection
       </motion.div>
 
       {/* Banner de disciplinas corrido estilo ACE */}
-      <div className="absolute bottom-0 left-0 w-full bg-[var(--accent)] py-3 overflow-hidden z-20 border-t-4 border-black">
+      <div className="absolute bottom-0 left-0 w-full bg-[var(--brand-red)] py-3 overflow-hidden z-20 border-t-4 border-black">
         <motion.div
           className="whitespace-nowrap flex gap-8"
           animate={{ x: ["0%", "-50%"] }}

@@ -223,7 +223,7 @@ const QuickActions: React.FC<QuickActionsProps> = memo(({
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
         onClick={onQuickView}
-        className="w-10 h-10 bg-black/80 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-[var(--accent)] hover:text-black transition-all duration-300"
+        className="w-10 h-10 bg-black/80 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-[var(--brand-red)] hover:text-black transition-all duration-300"
         title="Vista rápida"
       >
         <ExternalLink className="w-4 h-4" />
@@ -233,7 +233,7 @@ const QuickActions: React.FC<QuickActionsProps> = memo(({
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
         onClick={onAddToCompare}
-        className="w-10 h-10 bg-black/80 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-[var(--accent)] hover:text-black transition-all duration-300"
+        className="w-10 h-10 bg-black/80 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-[var(--brand-red)] hover:text-black transition-all duration-300"
         title="Comparar"
       >
         <ChevronRight className="w-4 h-4" />
@@ -271,7 +271,7 @@ const SocialLinks: React.FC<SocialLinksProps> = memo(({ socialMedia }) => {
           rel="noopener noreferrer"
           whileHover={{ scale: 1.2 }}
           whileTap={{ scale: 0.9 }}
-          className="w-8 h-8 bg-black/20 rounded-full flex items-center justify-center text-black hover:bg-[var(--accent)] hover:text-black transition-colors duration-300"
+          className="w-8 h-8 bg-black/20 rounded-full flex items-center justify-center text-black hover:bg-[var(--brand-red)] hover:text-black transition-colors duration-300"
           title={link.label}
         >
           <link.icon className="w-4 h-4" />
@@ -337,7 +337,7 @@ const TrainerCard: React.FC<TrainerCardProps> = memo(({
   const variantClasses = {
     default: 'max-w-sm',
     compact: 'max-w-xs',
-    featured: 'max-w-md ring-2 ring-[var(--accent)] ring-offset-2'
+    featured: 'max-w-md ring-2 ring-[var(--brand-red)] ring-offset-2'
   };
 
   // Get min price for display

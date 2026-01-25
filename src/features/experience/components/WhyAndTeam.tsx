@@ -1,34 +1,50 @@
 'use client';
 
 import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { FaShieldAlt, FaBolt, FaBrain, FaUsers, FaInstagram, FaFacebook, FaTrophy } from 'react-icons/fa';
+import { motion, AnimatePresence } from 'framer-motion';
+import { DoorOpen, Hammer, BrainCircuit, Crown, Instagram, Facebook, ChevronRight } from 'lucide-react';
 
-// --- DATA ---
-const differentiators = [
+// --- DATA: THE EVOLUTION JOURNEY (PAIN-TO-POWER ALIGNED) ---
+const journeyStages = [
     {
-        title: "SEGURIDAD TOTAL",
-        description: "El conocimiento es tu mejor escudo.",
-        icon: FaShieldAlt,
-        details: ["Defensa efectiva", "Conciencia situacional"]
+        id: 'stage-1',
+        title: "EL UMBRAL",
+        period: "Día 1 - Mes 1",
+        focus: "Seguridad y Pertenencia",
+        icon: DoorOpen,
+        copy: "Dudas si perteneces aquí. Te recibimos no como un cliente, sino como alguien listo para dejar de mentirse sobre su seguridad. Tu misión: cruzar el umbral del miedo y descubrir que no estás hecho de cristal.",
+        methodology: "Metodología 'Zero-Daño'. Ese miedo a ser lastimado es lo primero que desmontamos. Sin sparring agresivo. Te sumergimos en drills técnicos donde 'sobrevivir' es simplemente aprender a caer y levantarte. Reprogramamos el pánico por técnica.",
+        tags: ["SeguridadTotal", "Fundamentos"]
     },
     {
-        title: "ENERGÍA RENOVADA",
-        description: "Recupera tu vitalidad diaria.",
-        icon: FaBolt,
-        details: ["Adiós estrés", "Cuerpo ágil"]
+        id: 'stage-2',
+        title: "LA FORJA",
+        period: "Mes 1 - Mes 3",
+        focus: "Disciplina y Adaptación",
+        icon: Hammer,
+        copy: "La comodidad que dejaste atrás empieza a sentirse vacía. Aquí, el dolor muscular es el precio de tu nueva armadura. Descubres que la \"versión segura\" de ti mismo era una cárcel. En La Forja, rompes los límites físicos que creías tener.",
+        methodology: "Inoculación de Estrés Programada. Drills de 'Tiburón'. Te ponemos en situaciones de desventaja controlada (cansado, acorralado) para que tu mente aprenda a resolver problemas bajo presión. Dejas de congelarte; empiezas a calcular.",
+        tags: ["Resistencia", "TecnicaPura"]
     },
     {
-        title: "MENTALIDAD DE ACERO",
-        description: "Disciplina dentro y fuera del tatami.",
-        icon: FaBrain,
-        details: ["Resiliencia", "Foco total"]
+        id: 'stage-3',
+        title: "EL DESPERTAR",
+        period: "Mes 3 - Mes 6",
+        focus: "Confianza y Reacción",
+        icon: BrainCircuit,
+        copy: "Ya no eres el mismo que entró temblando. Ahora caminas con una seguridad que se nota antes de que abras la boca; te paras diferente, ocupas tu espacio. Has despertado una conciencia nueva: en el caos del combate has aprendido a filtrar el ruido y concentrarte solo en lo que realmente importa. Esa claridad mental se traslada a tus estudios o trabajo; dejas de reaccionar a las urgencias de otros para darle prioridad a tu propio propósito.",
+        methodology: "Ajedrez Humano (Sparring Situacional). Esta calma nace del control absoluto. Al desglosar la pelea en situaciones específicas, obligamos a tu cerebro a mantener el foco bajo presión extrema. La concentración que desarrollas para escapar de una posición difícil es la misma 'herramienta' que usarás para dominar tus retos fuera del tatami.",
+        tags: ["FlowState", "Control"]
     },
     {
-        title: "COMUNIDAD REAL",
-        description: "Una hermandad que te impulsa.",
-        icon: FaUsers,
-        details: ["Sin egos", "Apoyo constante"]
+        id: 'stage-4',
+        title: "LA TRANSFORMACIÓN",
+        period: "Año 1+",
+        focus: "Identidad y Liderazgo",
+        icon: Crown,
+        copy: "Has matado al impostor que vivía en tu cabeza. El mayor beneficio no es saber pelear, sino la libertad emocional de conocer tu verdadera identidad. Al entrar a cualquier lugar, proyectas la certeza de alguien que ha pasado por el fuego y ha salido íntegro; es imposible que pasas desapercibido. Dejas de buscar validación externa porque has encontrado tu verdad en el esfuerzo. Ya no entrenas para ser fuerte, sino para ser libre.",
+        methodology: "El Código de la Tribu. Tu evolución se completa al convertirte en el espejo para los demás. Al mentorear a los nuevos que llegan con las mismas dudas que tú tenías, validas tu propia maestría. Tu liderazgo no es un título, es una radiación de carácter que infecta positivamente cada área de tu vida. te conviertes en un autentico Blackbird.",
+        tags: ["Liderazgo", "NuevaIdentidad"]
     }
 ];
 
@@ -60,154 +76,205 @@ const coaches = [
 ];
 
 export default function WhyAndTeam() {
-    const [activeValue, setActiveValue] = useState<number | null>(0);
+    const [expandedStage, setExpandedStage] = useState<string | null>('stage-1');
+
+    const toggleStage = (id: string) => {
+        setExpandedStage(current => current === id ? null : id);
+    };
 
     return (
-        <section className="py-24 bg-black relative overflow-hidden">
+        <section id="experiencia" className="py-24 md:py-32 bg-black relative overflow-hidden">
             {/* Background Gradient */}
-            <div className="absolute inset-0 bg-gradient-to-br from-gray-900/50 via-black to-black z-0" />
+            <div className="absolute inset-0 z-0">
+                <img
+                    src="/assets/backgrounds/initiate.png"
+                    alt="Path of the Initiate"
+                    className="w-full h-full object-cover opacity-70"
+                />
+                {/* Smart Gradient: Tunnel effect (Vignette) */}
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_20%,black_100%)]" />
+                <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black" />
+            </div>
 
             <div className="container mx-auto px-6 relative z-10">
 
-                {/* HEADER */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    className="mb-16 text-center lg:text-left"
-                >
-                    <span className="text-[var(--accent)] font-bold tracking-[0.2em] text-sm uppercase mb-4 block">
-                        Filosofía & Liderazgo
-                    </span>
-                    <h2 className="text-4xl md:text-6xl font-black text-white leading-tight">
-                        LA EXPERIENCIA <br className="hidden lg:block" />
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--accent)] to-yellow-600">BLACKBIRD</span>
-                    </h2>
-                </motion.div>
+                {/* --- SECTION 1: METHODOLOGY JOURNEY --- */}
+                <div className="max-w-4xl mx-auto mb-32">
+                    {/* Header */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        className="text-center mb-16"
+                    >
+                        <span className="text-[var(--accent)] font-bold tracking-[0.2em] text-sm uppercase mb-4 block">
+                            Metodología Evolutiva
+                        </span>
+                        <h2 className="text-4xl md:text-6xl font-black text-white leading-tight mb-6">
+                            EL CAMINO DEL <br className="hidden lg:block" />
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--accent)] to-yellow-600">INICIADO</span>
+                        </h2>
+                        <p className="text-gray-400 text-lg max-w-2xl mx-auto leading-relaxed">
+                            No vendemos clases sueltas. Diseñamos tu evolución completa, desde el primer día hasta tu transformación total.
+                        </p>
+                    </motion.div>
 
-                <div className="grid lg:grid-cols-12 gap-12 lg:gap-20">
-
-                    {/* LEFT COLUMN: VALUES (4 cols in 12-grid system => 33% width? No, let's do 5/7 split) */}
-                    <div className="lg:col-span-5 space-y-4">
-                        <h3 className="text-2xl font-bold text-white mb-8 border-l-4 border-[var(--accent)] pl-4">
-                            NUESTROS PILARES
-                        </h3>
-
-                        <div className="space-y-4">
-                            {differentiators.map((item, index) => (
+                    {/* Timeline Stages (Stacked) */}
+                    <div className="flex flex-col gap-6">
+                        {journeyStages.map((stage, index) => {
+                            const isExpanded = expandedStage === stage.id;
+                            return (
                                 <motion.div
-                                    key={index}
+                                    key={stage.id}
                                     initial={{ opacity: 0, x: -20 }}
                                     whileInView={{ opacity: 1, x: 0 }}
                                     transition={{ delay: index * 0.1 }}
                                     viewport={{ once: true }}
-                                    onMouseEnter={() => setActiveValue(index)}
-                                    className={`p-6 rounded-sm border transition-all duration-300 cursor-pointer group
-                    ${activeValue === index
-                                            ? 'bg-zinc-900 border-[var(--accent)]'
-                                            : 'bg-zinc-900/30 border-white/5 hover:border-[var(--accent)]/50'
-                                        }`}
+                                    onClick={() => toggleStage(stage.id)}
+                                    className={`
+                                        relative rounded-xl border transition-all duration-500 cursor-pointer overflow-hidden
+                                        ${isExpanded
+                                            ? 'bg-zinc-900 border-[var(--accent)] shadow-[0_0_40px_-10px_rgba(255,215,0,0.1)]'
+                                            : 'bg-zinc-900/30 border-white/5 hover:border-[var(--accent)]/30 hover:bg-zinc-900/50'
+                                        }
+                                    `}
                                 >
-                                    <div className="flex items-start gap-4">
-                                        <div className={`p-3 rounded-full ${activeValue === index ? 'bg-[var(--accent)] text-black' : 'bg-black text-[var(--accent)]'}`}>
-                                            <item.icon size={20} />
+                                    {/* Collapsed/Header View */}
+                                    <div className="p-6 md:p-8 flex items-center gap-6">
+                                        <div className={`
+                                            p-4 rounded-xl transition-colors duration-300 shrink-0
+                                            ${isExpanded ? 'bg-[var(--accent)] text-black' : 'bg-black text-[var(--accent)]'}
+                                        `}>
+                                            <stage.icon size={28} />
                                         </div>
-                                        <div>
-                                            <h4 className={`font-bold text-lg mb-1 uppercase ${activeValue === index ? 'text-white' : 'text-gray-400 group-hover:text-white'}`}>
-                                                {item.title}
-                                            </h4>
-                                            <p className="text-sm text-gray-400 leading-relaxed">
-                                                {item.description}
-                                            </p>
 
-                                            {/* Expanded Details */}
-                                            <div className={`overflow-hidden transition-all duration-300 ${activeValue === index ? 'max-h-20 mt-3 opacity-100' : 'max-h-0 opacity-0'}`}>
-                                                <div className="flex gap-3">
-                                                    {item.details.map((detail, i) => (
-                                                        <span key={i} className="text-xs font-medium text-[var(--accent)] bg-[var(--accent)]/10 px-2 py-1 rounded">
-                                                            {detail}
-                                                        </span>
-                                                    ))}
+                                        <div className="flex-1">
+                                            <div className="flex justify-between items-center">
+                                                <div>
+                                                    <span className="text-xs font-bold tracking-widest text-[var(--accent)] block mb-1">
+                                                        {stage.period}
+                                                    </span>
+                                                    <h4 className={`font-bold text-xl uppercase ${isExpanded ? 'text-white' : 'text-gray-400'}`}>
+                                                        {stage.title}
+                                                    </h4>
+                                                </div>
+                                                <div className={`p-2 rounded-full transition-all duration-300 ${isExpanded ? 'bg-[var(--accent)]/10 text-[var(--accent)] rotate-90' : 'text-gray-500'}`}>
+                                                    <ChevronRight size={20} />
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+
+                                    {/* Expanded Content */}
+                                    <AnimatePresence>
+                                        {isExpanded && (
+                                            <motion.div
+                                                initial={{ height: 0, opacity: 0 }}
+                                                animate={{ height: "auto", opacity: 1 }}
+                                                exit={{ height: 0, opacity: 0 }}
+                                                transition={{ duration: 0.3, ease: "easeInOut" }}
+                                                className="overflow-hidden"
+                                            >
+                                                <div className="px-6 md:px-8 pb-8 pt-0 border-t border-white/5 mx-6 md:mx-8">
+                                                    <div className="mt-6 flex flex-col gap-6">
+                                                        {/* Narrative Copy */}
+                                                        <p className="text-gray-300 text-base leading-relaxed">
+                                                            {stage.copy}
+                                                        </p>
+
+                                                        {/* Methodology Block */}
+                                                        <div className="bg-black/30 p-6 rounded-lg border-l-2 border-[var(--accent)] bg-gradient-to-r from-[var(--accent)]/5 to-transparent">
+                                                            <p className="text-gray-400 text-sm leading-relaxed italic">
+                                                                <span className="text-white font-bold not-italic mr-2">Cómo lo logramos:</span>
+                                                                {stage.methodology}
+                                                            </p>
+                                                        </div>
+
+                                                        {/* Tags */}
+                                                        <div className="flex flex-wrap gap-2">
+                                                            {stage.tags.map(tag => (
+                                                                <span key={tag} className="text-[10px] font-bold uppercase bg-white/5 text-gray-500 border border-white/5 px-2 py-1 rounded tracking-wider">
+                                                                    #{tag}
+                                                                </span>
+                                                            ))}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </motion.div>
+                                        )}
+                                    </AnimatePresence>
                                 </motion.div>
-                            ))}
+                            );
+                        })}
+                    </div>
+                </div>
+
+
+                {/* --- SECTION 2: THE SQUAD (TRAINERS) --- */}
+                <div className="max-w-6xl mx-auto">
+                    <div className="flex items-center justify-between mb-12">
+                        <div className="flex items-center gap-4">
+                            <div className="w-1 h-12 bg-[var(--accent)]" />
+                            <div>
+                                <h3 className="text-3xl font-black text-white uppercase tracking-tight">
+                                    El Escuadrón
+                                </h3>
+                                <p className="text-gray-500 text-sm font-medium tracking-widest uppercase">
+                                    Mentores de Élite
+                                </p>
+                            </div>
                         </div>
                     </div>
 
-                    {/* RIGHT COLUMN: TRAINERS (7 cols in 12-grid system) */}
-                    <div className="lg:col-span-7">
-                        <div className="flex items-center justify-between mb-8">
-                            <h3 className="text-2xl font-bold text-white border-l-4 border-[var(--accent)] pl-4">
-                                EL ESCUADRÓN
-                            </h3>
-                            <span className="text-xs text-gray-500 uppercase tracking-widest hidden md:block">
-                                Expertos de clase mundial
-                            </span>
-                        </div>
-
-                        <div className="grid md:grid-cols-2 gap-6">
-                            {/* Featured/Large Trainer Card (First one) */}
+                    <div className="grid md:grid-cols-3 gap-6">
+                        {coaches.map((coach, index) => (
                             <motion.div
-                                className="md:col-span-2 relative group rounded-sm overflow-hidden h-[300px] md:h-[350px] bg-zinc-900"
-                                initial={{ opacity: 0, scale: 0.95 }}
-                                whileInView={{ opacity: 1, scale: 1 }}
+                                key={coach.id}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ delay: index * 0.1 }}
                                 viewport={{ once: true }}
+                                className="group relative h-[450px] overflow-hidden rounded-sm bg-zinc-900"
                             >
+                                {/* Image */}
                                 <img
-                                    src={coaches[0].image}
-                                    alt={coaches[0].name}
-                                    className="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 md:object-[center_top] object-top"
+                                    src={coach.image}
+                                    alt={coach.name}
+                                    className="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 object-top"
                                 />
+
+                                {/* Overlay Gradient */}
                                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
 
-                                <div className="absolute bottom-0 left-0 p-8 w-full">
-                                    <div className="flex justify-between items-end">
-                                        <div>
-                                            <span className="inline-block px-2 py-1 bg-[var(--accent)] text-black text-xs font-black uppercase mb-2">
-                                                {coaches[0].record}
-                                            </span>
-                                            <h4 className="text-3xl font-black text-white italic uppercase">{coaches[0].name}</h4>
-                                            <p className="text-[var(--accent)] text-sm font-bold tracking-widest">{coaches[0].role}</p>
+                                {/* Content */}
+                                <div className="absolute bottom-0 left-0 w-full p-6">
+                                    <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                                        <div className="inline-block px-2 py-1 bg-[var(--accent)] text-black text-xs font-black uppercase mb-3">
+                                            {coach.record}
                                         </div>
-                                        <div className="flex gap-3 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                            <FaInstagram className="hover:text-[var(--accent)] cursor-pointer" />
-                                            <FaFacebook className="hover:text-[var(--accent)] cursor-pointer" />
+                                        <h4 className="text-2xl font-black text-white italic uppercase mb-1 leading-none">
+                                            {coach.name}
+                                        </h4>
+                                        <p className="text-[var(--accent)] text-xs font-bold tracking-widest uppercase mb-4">
+                                            {coach.role}
+                                        </p>
+
+                                        {/* Socials (Reveal on Hover) */}
+                                        <div className="flex gap-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                                            <a href={coach.social.instagram} className="text-white hover:text-[var(--accent)] transition-colors">
+                                                <Instagram size={20} />
+                                            </a>
+                                            <a href={coach.social.facebook} className="text-white hover:text-[var(--accent)] transition-colors">
+                                                <Facebook size={20} />
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
                             </motion.div>
-
-                            {/* Secondary Trainers */}
-                            {coaches.slice(1).map((coach, index) => (
-                                <motion.div
-                                    key={coach.id}
-                                    initial={{ opacity: 0, y: 20 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: 0.2 + (index * 0.1) }}
-                                    viewport={{ once: true }}
-                                    className="relative group rounded-sm overflow-hidden h-[250px] bg-zinc-900"
-                                >
-                                    <img
-                                        src={coach.image}
-                                        alt={coach.name}
-                                        className="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 object-top"
-                                    />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
-
-                                    <div className="absolute bottom-0 left-0 p-6 w-full">
-                                        <span className="text-[var(--accent)] text-xs font-bold block mb-1">{coach.record}</span>
-                                        <h4 className="text-xl font-black text-white italic uppercase">{coach.name}</h4>
-                                        <p className="text-gray-400 text-xs uppercase tracking-wider">{coach.role}</p>
-                                    </div>
-                                </motion.div>
-                            ))}
-                        </div>
+                        ))}
                     </div>
-
                 </div>
+
             </div>
         </section>
     );
