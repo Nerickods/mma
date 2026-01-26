@@ -5,6 +5,9 @@ const nextConfig: NextConfig = {
   // Next.js 16 Features
   reactCompiler: false,
 
+  // Transpile framer-motion to fix Turbopack issue
+  transpilePackages: ['framer-motion', 'motion-dom'],
+
   experimental: {
     turbopackFileSystemCacheForDev: true,  // Faster dev restarts
   },

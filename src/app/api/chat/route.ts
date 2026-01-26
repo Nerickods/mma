@@ -1,134 +1,134 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { supabase } from '@/shared/lib/supabase';
-import { openAiService } from '@/features/chat/services/openAiService';
-import { ChatMessage } from '@/features/chat/types';
+import { streamText } from 'ai'
+import { createOpenRouter } from '@openrouter/ai-sdk-provider'
+import { createClient } from '@/shared/lib/supabase/server'
+import { cookies } from 'next/headers'
 
-export const maxDuration = 60; // Allow up to 60 seconds for tool usage
+const openrouter = createOpenRouter({
+    apiKey: process.env.OPENROUTER_API_KEY,
+})
 
+const DEFAULT_SYSTEM_PROMPT = `Eres Blackbird AI, el asistente virtual de MMA Academy. Tu objetivo es ayudar a los visitantes con información sobre:
+- Clases y disciplinas disponibles (MMA, Muay Thai, Jiu-Jitsu, Boxing)
+- Horarios de clases
+- Precios y planes de membresía
+- Visitas de prueba gratuitas
+- Información general del gimnasio
 
-export async function POST(req: NextRequest) {
-    try {
-        const body = await req.json();
-        const { message, conversationId: existingConversationId } = body;
+Sé amable, profesional y motivador. Responde en español de manera concisa.`
 
-        let conversationId = existingConversationId;
+// Generate or get visitor ID from cookie
+async function getVisitorId(requestVisitorId?: string): Promise<string> {
+    const cookieStore = await cookies()
+    let visitorId = requestVisitorId || cookieStore.get('visitor_id')?.value
 
-        // 1. Create Conversation if needed
-        if (!conversationId) {
-            const { data: conversation, error: convError } = await supabase
-                .from('chat_conversations')
-                .insert([{ metadata: {} }])
-                .select()
-                .single();
-
-            if (convError) throw convError;
-            conversationId = conversation.id;
-        }
-
-        // 2. Save User Message
-        const { error: msgError } = await supabase
-            .from('chat_messages')
-            .insert([{
-                conversation_id: conversationId,
-                role: 'user',
-                content: message
-            }]);
-
-        if (msgError) throw msgError;
-
-        // 3. Fetch History (Last 10 messages for context)
-        const { data: historyData, error: historyError } = await supabase
-            .from('chat_messages')
-            .select('*')
-            .eq('conversation_id', conversationId)
-            .order('created_at', { ascending: false }) // Get latest first
-            .limit(10); // Limit context window
-
-        if (historyError) throw historyError;
-
-        // Reorder to chronological (oldest -> newest) for OpenAI
-        const chronologicalHistory = historyData.reverse();
-
-        // Format for OpenAI (exclude ID, created_at, etc.)
-        const rawHistory = chronologicalHistory;
-
-        // Robust Sanitization using reduce
-        const openAiHistory = rawHistory.reduce((acc: any[], msg: any, index: number, arr: any[]) => {
-            // 1. Handle Tool Messages (Remove orphans)
-            if (msg.role === 'tool') {
-                const prev = arr[index - 1];
-                // Must have previous msg, must be assistant, must have matching tool_call_id
-                const isValidParent = prev &&
-                    prev.role === 'assistant' &&
-                    prev.tool_calls &&
-                    prev.tool_calls.some((tc: any) => tc.id === msg.tool_call_id);
-
-                if (!isValidParent) {
-                    console.warn(`[Sanitizer] Dropping Orphan Tool Message: ${msg.id}`);
-                    return acc;
-                }
-            }
-
-            // 2. Handle Assistant Messages with Tool Calls (Remove dangling)
-            if (msg.role === 'assistant' && msg.tool_calls && msg.tool_calls.length > 0) {
-                const next = arr[index + 1];
-                // Must have next msg, must be tool, must match first tool call id
-                const hasToolResponse = next &&
-                    next.role === 'tool' &&
-                    next.tool_call_id === msg.tool_calls[0].id;
-
-                if (!hasToolResponse) {
-                    console.warn(`[Sanitizer] Dropping Dangling Assistant Tool Call: ${msg.id}`);
-                    return acc;
-                }
-            }
-
-            // Valid Message - Add to history
-            acc.push({
-                role: msg.role,
-                content: msg.content,
-                tool_calls: msg.tool_calls || undefined,
-                tool_call_id: msg.tool_call_id || undefined
-            });
-            return acc;
-        }, []);
-
-        console.log('[Chat API] Final Validated Payload size:', openAiHistory.length);
-        if (openAiHistory.length > 0) {
-            console.log('[Chat API] Last message in payload:', JSON.stringify(openAiHistory[openAiHistory.length - 1]));
-        }
-
-        // 4. Process with OpenAI (now returns an array of messages)
-        const assistantResponses = await openAiService.processChat(openAiHistory);
-
-        // 5. Save All Assistant/Tool Messages (BATCH INSERT)
-        if (assistantResponses.length > 0) {
-            const messagesToInsert = assistantResponses.map(response => ({
-                conversation_id: conversationId,
-                role: response.role,
-                content: response.content || null,
-                tool_calls: response.tool_calls || null,
-                tool_call_id: response.tool_call_id || null
-            }));
-
-            const { error: saveError } = await supabase
-                .from('chat_messages')
-                .insert(messagesToInsert);
-
-            if (saveError) throw saveError;
-        }
-
-        // Get the last message to return to the UI
-        const lastAssistantMessage = assistantResponses[assistantResponses.length - 1];
-
-        // 6. Return Response
-        return NextResponse.json({
-            conversationId,
-            message: lastAssistantMessage
-        });
-
-    } catch (error: any) {
-        console.error('Chat API Error:', error);
-        return NextResponse.json({ error: error.message }, { status: 500 });
+    if (!visitorId) {
+        visitorId = `visitor_${Date.now()}_${Math.random().toString(36).substring(7)}`
     }
+
+    return visitorId
+}
+
+export async function POST(req: Request) {
+    const { messages, conversationId: requestConversationId, visitorId: requestVisitorId } = await req.json()
+    const visitorId = await getVisitorId(requestVisitorId)
+
+    const supabase = await createClient()
+
+    // Get agent configuration
+    const { data: agent } = await supabase
+        .from('agents')
+        .select('id, system_prompt, model_id, temperature, max_tokens')
+        .eq('is_active', true)
+        .single()
+
+    const systemPrompt = agent?.system_prompt || DEFAULT_SYSTEM_PROMPT
+    const modelId = agent?.model_id || 'google/gemini-2.0-flash-001'
+    const temperature = agent?.temperature || 0.7
+
+    // REUTILIZAR conversación existente o crear nueva
+    let currentConversationId = requestConversationId
+
+    if (requestConversationId) {
+        // Verify conversation exists
+        const { data: existingConv } = await supabase
+            .from('conversations')
+            .select('id')
+            .eq('id', requestConversationId)
+            .single()
+
+        if (existingConv) {
+            currentConversationId = existingConv.id
+        } else {
+            // Conversation doesn't exist, create new
+            currentConversationId = null
+        }
+    }
+
+    // Create new conversation only if we don't have one
+    if (!currentConversationId) {
+        const { data: newConv, error: convError } = await supabase
+            .from('conversations')
+            .insert({
+                visitor_id: visitorId,
+                agent_id: agent?.id,
+                visitor_metadata: { userAgent: req.headers.get('user-agent') }
+            })
+            .select('id')
+            .single()
+
+        if (!convError && newConv) {
+            currentConversationId = newConv.id
+        }
+    }
+
+    // Save user message (last one in the array)
+    const lastUserMessage = messages[messages.length - 1]
+    if (currentConversationId && lastUserMessage?.role === 'user') {
+        await supabase
+            .from('messages')
+            .insert({
+                conversation_id: currentConversationId,
+                role: 'user',
+                content: lastUserMessage.content,
+            })
+    }
+
+    const result = streamText({
+        model: openrouter(modelId),
+        system: systemPrompt,
+        messages,
+        temperature,
+        onFinish: async ({ text }) => {
+            try {
+                if (currentConversationId) {
+                    // Save assistant message
+                    await supabase
+                        .from('messages')
+                        .insert({
+                            conversation_id: currentConversationId,
+                            role: 'assistant',
+                            content: text,
+                        })
+
+                    // Update conversation updated_at
+                    await supabase
+                        .from('conversations')
+                        .update({ updated_at: new Date().toISOString() })
+                        .eq('id', currentConversationId)
+                }
+            } catch (error) {
+                console.error('Failed to save message:', error)
+            }
+        },
+    })
+
+    // Create response with conversation ID and visitor cookie
+    const response = result.toTextStreamResponse()
+
+    // Set headers for client to track conversation
+    response.headers.set('Set-Cookie', `visitor_id=${visitorId}; Path=/; Max-Age=31536000; SameSite=Lax`)
+    response.headers.set('X-Conversation-Id', currentConversationId || '')
+    response.headers.set('Access-Control-Expose-Headers', 'X-Conversation-Id')
+
+    return response
 }

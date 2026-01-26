@@ -1,17 +1,17 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useRef, useEffect, useState, FormEvent } from 'react';
 import { useChatStore } from '../store/chatStore';
 import { useChat } from '../hooks/useChat';
-import { ChatMessage } from './ChatMessage';
-import { MessageCircle, X, Send, Loader2 } from 'lucide-react';
+import { MessageCircle, X, Send, Loader2, RotateCcw } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/shared/utils/cn';
+import ReactMarkdown from 'react-markdown';
 
 export default function ChatWidget() {
     const { isOpen, toggleOpen } = useChatStore();
-    const { messages, isLoading, sendMessage } = useChat();
-    const inputRef = useRef<HTMLInputElement>(null);
+    const { messages, isLoading, sendMessage, startNewConversation } = useChat();
+    const [input, setInput] = useState('');
     const scrollRef = useRef<HTMLDivElement>(null);
 
     // Auto-scroll to bottom
@@ -21,12 +21,16 @@ export default function ChatWidget() {
         }
     }, [messages, isLoading]);
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (inputRef.current && inputRef.current.value.trim()) {
-            sendMessage(inputRef.current.value);
-            inputRef.current.value = '';
+        if (input.trim()) {
+            sendMessage(input);
+            setInput('');
         }
+    };
+
+    const handleSuggestionClick = (text: string) => {
+        sendMessage(text);
     };
 
     return (
@@ -49,12 +53,24 @@ export default function ChatWidget() {
                                     <p className="text-xs text-zinc-400">En línea ahora</p>
                                 </div>
                             </div>
-                            <button
-                                onClick={toggleOpen}
-                                className="p-2 hover:bg-zinc-800 rounded-lg transition-colors text-zinc-400 hover:text-white"
-                            >
-                                <X size={18} />
-                            </button>
+                            <div className="flex items-center gap-2">
+                                {/* New Conversation Button */}
+                                {messages.length > 0 && (
+                                    <button
+                                        onClick={startNewConversation}
+                                        title="Nueva conversación"
+                                        className="p-2 hover:bg-zinc-800 rounded-lg transition-colors text-zinc-400 hover:text-white"
+                                    >
+                                        <RotateCcw size={16} />
+                                    </button>
+                                )}
+                                <button
+                                    onClick={toggleOpen}
+                                    className="p-2 hover:bg-zinc-800 rounded-lg transition-colors text-zinc-400 hover:text-white"
+                                >
+                                    <X size={18} />
+                                </button>
+                            </div>
                         </div>
 
                         {/* Messages Area */}
@@ -72,41 +88,58 @@ export default function ChatWidget() {
                                         <p className="text-xs">Pregúntame sobre horarios o tu visita gratuita.</p>
                                     </div>
                                     <div className="grid grid-cols-1 gap-2 w-full max-w-[200px]">
-                                        <SuggestionButton text="¿Cómo es la visita de prueba?" onClick={() => sendMessage("¿Cómo es la visita de prueba?")} />
-                                        <SuggestionButton text="¿Qué horarios tienen?" onClick={() => sendMessage("¿Qué horarios tienen?")} />
+                                        <SuggestionButton text="¿Cómo es la visita de prueba?" onClick={() => handleSuggestionClick("¿Cómo es la visita de prueba?")} />
+                                        <SuggestionButton text="¿Qué horarios tienen?" onClick={() => handleSuggestionClick("¿Qué horarios tienen?")} />
                                     </div>
                                 </div>
                             )}
 
                             {messages.map((msg) => (
-                                <ChatMessage key={msg.id} message={msg} />
-                            ))}
-
-                            {isLoading && (
-                                <div className="flex gap-2">
-                                    <div className="w-8 h-8 bg-[var(--accent)] border-none text-black rounded-full flex items-center justify-center shrink-0">
-                                        <BotIcon />
-                                    </div>
-                                    <div className="bg-zinc-900 border border-zinc-800 px-4 py-3 rounded-2xl rounded-tl-sm flex items-center gap-2">
-                                        <Loader2 size={14} className="animate-spin text-zinc-400" />
-                                        <span className="text-xs text-zinc-400">Escribiendo...</span>
+                                <div key={msg.id} className={cn("flex gap-2", msg.role === 'user' && "justify-end")}>
+                                    {msg.role === 'assistant' && (
+                                        <div className="w-8 h-8 bg-[var(--accent)] border-none text-black rounded-full flex items-center justify-center shrink-0">
+                                            <BotIcon />
+                                        </div>
+                                    )}
+                                    <div
+                                        className={cn(
+                                            "max-w-[80%] px-4 py-3 rounded-2xl text-sm",
+                                            msg.role === 'user'
+                                                ? "bg-[var(--accent)] text-black rounded-tr-sm"
+                                                : "bg-zinc-900 border border-zinc-800 text-white rounded-tl-sm prose prose-sm prose-invert max-w-none"
+                                        )}
+                                    >
+                                        {msg.role === 'assistant' ? (
+                                            msg.content ? (
+                                                <ReactMarkdown>{msg.content}</ReactMarkdown>
+                                            ) : (
+                                                <span className="flex items-center gap-2">
+                                                    <Loader2 size={14} className="animate-spin" />
+                                                    Escribiendo...
+                                                </span>
+                                            )
+                                        ) : (
+                                            msg.content
+                                        )}
                                     </div>
                                 </div>
-                            )}
+                            ))}
                         </div>
 
                         {/* Input Area */}
                         <div className="p-4 bg-zinc-900/50 backdrop-blur-sm border-t border-zinc-800 shrink-0">
                             <form onSubmit={handleSubmit} className="relative">
                                 <input
-                                    ref={inputRef}
+                                    value={input}
+                                    onChange={(e) => setInput(e.target.value)}
                                     type="text"
                                     placeholder="Escribe un mensaje..."
-                                    className="w-full bg-zinc-950 border border-zinc-800 rounded-xl pl-4 pr-12 py-3 text-sm text-white focus:outline-none focus:border-[var(--accent)]/50 focus:ring-1 focus:ring-[var(--accent)]/50 transition-all placeholder:text-zinc-600"
+                                    disabled={isLoading}
+                                    className="w-full bg-zinc-950 border border-zinc-800 rounded-xl pl-4 pr-12 py-3 text-sm text-white focus:outline-none focus:border-[var(--accent)]/50 focus:ring-1 focus:ring-[var(--accent)]/50 transition-all placeholder:text-zinc-600 disabled:opacity-50"
                                 />
                                 <button
                                     type="submit"
-                                    disabled={isLoading}
+                                    disabled={isLoading || !input.trim()}
                                     className="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-[var(--accent)] text-black rounded-lg hover:bg-[var(--accent)]/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
                                     <Send size={16} />
