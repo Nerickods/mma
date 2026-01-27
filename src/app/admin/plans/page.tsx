@@ -2,7 +2,6 @@
 import { useState, useEffect } from 'react';
 import { plansService } from '@/features/plans/services/plansService';
 import { Plan } from '@/features/plans/types/plan';
-import { toast } from 'sonner';
 
 export default function AdminPlansPage() {
     const [plans, setPlans] = useState<Plan[]>([]);
@@ -116,8 +115,8 @@ export default function AdminPlansPage() {
                                         onClick={() => handleSave(plan.id)}
                                         disabled={!hasChanges || savingId === plan.id}
                                         className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${hasChanges
-                                                ? 'bg-green-600 hover:bg-green-500 text-white shadow-[0_0_15px_rgba(34,197,94,0.3)]'
-                                                : 'bg-zinc-800 text-zinc-500 cursor-not-allowed'
+                                            ? 'bg-green-600 hover:bg-green-500 text-white shadow-[0_0_15px_rgba(34,197,94,0.3)]'
+                                            : 'bg-zinc-800 text-zinc-500 cursor-not-allowed'
                                             }`}
                                     >
                                         {savingId === plan.id ? 'Guardando...' : hasChanges ? 'Guardar Cambios' : 'Sin Cambios'}
@@ -169,8 +168,8 @@ export default function AdminPlansPage() {
                                         {/* Flags */}
                                         <div className="grid grid-cols-2 gap-3 pt-2">
                                             <label className={`flex items-center justify-between p-3 rounded-lg border cursor-pointer transition-all ${getValue(plan, 'isActive')
-                                                    ? 'bg-emerald-950/20 border-emerald-500/50 text-emerald-400'
-                                                    : 'bg-zinc-950 border-zinc-800 text-zinc-500'
+                                                ? 'bg-emerald-950/20 border-emerald-500/50 text-emerald-400'
+                                                : 'bg-zinc-950 border-zinc-800 text-zinc-500'
                                                 }`}>
                                                 <span className="text-sm font-semibold">Activo</span>
                                                 <input
@@ -182,8 +181,8 @@ export default function AdminPlansPage() {
                                             </label>
 
                                             <label className={`flex items-center justify-between p-3 rounded-lg border cursor-pointer transition-all ${getValue(plan, 'isPopular')
-                                                    ? 'bg-amber-950/20 border-amber-500/50 text-amber-400'
-                                                    : 'bg-zinc-950 border-zinc-800 text-zinc-500'
+                                                ? 'bg-amber-950/20 border-amber-500/50 text-amber-400'
+                                                : 'bg-zinc-950 border-zinc-800 text-zinc-500'
                                                 }`}>
                                                 <span className="text-sm font-semibold">Popular</span>
                                                 <input
@@ -195,8 +194,8 @@ export default function AdminPlansPage() {
                                             </label>
 
                                             <label className={`col-span-2 flex items-center justify-between p-3 rounded-lg border cursor-pointer transition-all ${getValue(plan, 'highlight')
-                                                    ? 'bg-purple-950/20 border-purple-500/50 text-purple-400'
-                                                    : 'bg-zinc-950 border-zinc-800 text-zinc-500'
+                                                ? 'bg-purple-950/20 border-purple-500/50 text-purple-400'
+                                                : 'bg-zinc-950 border-zinc-800 text-zinc-500'
                                                 }`}>
                                                 <span className="text-sm font-semibold">Resaltado (Highlight Cards)</span>
                                                 <input

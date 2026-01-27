@@ -31,3 +31,11 @@ export interface Promotion {
     isActive?: boolean;
     validUntil?: string;
 }
+
+export interface SectionConfig {
+    key: string;
+    title: string; // "OFERTA POR TIEMPO LIMITADO"
+    subtitle: string; // "2026: Tu Año. Tu Legado"
+    description?: string;
+    isActive: boolean;
+}

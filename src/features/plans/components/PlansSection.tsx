@@ -7,35 +7,50 @@ import { Check } from 'lucide-react';
 import UiverseButton from '@/shared/components/UiverseButton';
 import { GlassCard } from '@/shared/components/ui/GlassCard';
 import { plansService } from '../services/plansService';
-import { Plan, Promotion } from '../types/plan';
+import { Plan, Promotion, SectionConfig } from '../types/plan';
 import { PLANS as STATIC_PLANS, PROMOTIONS_2026 as STATIC_PROMOS } from '../data/plans'; // Fallback
 
 export default function PlansSection() {
     const [plans, setPlans] = useState<Plan[]>([]);
     const [promotions, setPromotions] = useState<Promotion[]>([]);
+    const [headerConfig, setHeaderConfig] = useState<SectionConfig | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [plansData, promosData] = await Promise.all([
+                const [plansData, promosData, headerData] = await Promise.all([
                     plansService.getPlans(),
-                    plansService.getPromotions()
+                    plansService.getPromotions(),
+                    plansService.getSectionConfig('promotions_header')
                 ]);
 
-                // If DB empty (shouldn't be), use static as fallback
+                // If DB empty for plans, use static as fallback (optional safeguard)
                 setPlans(plansData.length > 0 ? plansData : STATIC_PLANS);
-                setPromotions(promosData.length > 0 ? promosData : STATIC_PROMOS);
+
+                // For promotions, we respect the DB result even if empty (user might have deactivated all)
+                setPromotions(promosData);
+
+                // Set header config if available
+                if (headerData) setHeaderConfig(headerData);
+
             } catch (error) {
                 console.error("Failed to fetch plans/promos", error);
                 setPlans(STATIC_PLANS);
-                setPromotions(STATIC_PROMOS);
+                setPromotions(STATIC_PROMOS); // Fallback for promotions too if fetch fails
             } finally {
                 setLoading(false);
             }
         };
         fetchData();
     }, []);
+
+    // Helper to map DB fields to UI if needed, currently types match mostly
+    // Note: PlanCard expects 'plan' object. Ensure structure matches.
+    const showPromotions = headerConfig?.isActive !== false; // Default true if no config found, or respect false
+    const subTitle = headerConfig?.title || 'OFERTA POR TIEMPO LIMITADO';
+    const mainTitle = headerConfig?.subtitle || '2026: Tu Año. Tu Legado.';
+    const description = headerConfig?.description || 'Promociones válidas por tiempo limitado.';
 
     return (
         <section id="planes" className="py-32 bg-black relative overflow-hidden min-h-[140vh] flex flex-col items-center justify-start">
@@ -108,102 +123,116 @@ export default function PlansSection() {
                 </div>
 
                 {/* 🏆 PROMOCIONES 2026: THE GOLDEN ERA 🏆 */}
-                <div className="relative py-20 max-w-5xl mx-auto">
+                {showPromotions && (
+                    <div className="relative py-20 max-w-5xl mx-auto">
 
-                    {/* Section Header */}
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        whileInView={{ opacity: 1 }}
-                        viewport={{ once: true }}
-                        className="text-center mb-12"
-                    >
-                        <h3 className="text-sm font-bold tracking-[0.3em] text-[var(--accent)] uppercase mb-2">
-                            OFERTA POR TIEMPO LIMITADO
-                        </h3>
-                        <div className="text-3xl md:text-4xl font-black text-white uppercase tracking-tighter">
-                            2026: Tu Año. <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--accent)] via-amber-200 to-[var(--accent)]">Tu Legado.</span>
-                        </div>
-                    </motion.div>
+                        {/* Section Header */}
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            whileInView={{ opacity: 1 }}
+                            viewport={{ once: true }}
+                            className="text-center mb-12"
+                        >
+                            <h3 className="text-sm font-bold tracking-[0.3em] text-[var(--accent)] uppercase mb-2">
+                                {subTitle}
+                            </h3>
+                            <div className="text-3xl md:text-4xl font-black text-white uppercase tracking-tighter">
+                                {mainTitle}
+                            </div>
+                        </motion.div>
 
-                    {/* The Golden Ticket Board */}
-                    <GlassCard
-                        variant="holographic"
-                        className="p-0 border-[var(--accent)]/20"
-                    >
-                        {/* Background Effects */}
-                        <div className="absolute inset-0 bg-zinc-950/80 z-0" />
-                        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[var(--accent)]/50 to-transparent opacity-50" />
+                        {promotions.length === 0 ? (
+                            <div className="text-center py-10 text-zinc-500">
+                                {/* Empty state if active but no promos */}
+                                <p>No hay promociones activas en este momento.</p>
+                            </div>
+                        ) : (
+                            /* The Golden Ticket Board */
+                            <GlassCard
+                                variant="holographic"
+                                className="p-0 border-[var(--accent)]/20"
+                            >
+                                {/* Background Effects */}
+                                <div className="absolute inset-0 bg-zinc-950/80 z-0" />
+                                <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[var(--accent)]/50 to-transparent opacity-50" />
 
-                        <div className="grid grid-cols-1 md:grid-cols-3 relative z-10 divide-y md:divide-y-0 md:divide-x divide-white/10">
-                            {promotions.map((promo, idx) => (
-                                <div
-                                    key={promo.id}
-                                    className="relative p-8 group transition-all duration-500 overflow-hidden"
-                                >
-                                    {/* 0. Background Image with Zoom Effect */}
-                                    {promo.backgroundImage && (
-                                        <div className="absolute inset-0 z-0">
-                                            <div className="absolute inset-0 bg-black/70 z-10" /> {/* Dark Overlay */}
-                                            <img
-                                                src={promo.backgroundImage}
-                                                alt={promo.title}
-                                                className="w-full h-full object-cover opacity-80 group-hover:scale-110 transition-transform duration-700 ease-out grayscale-[0.3] group-hover:grayscale-0"
-                                            />
-                                        </div>
-                                    )}
+                                <div className={cn(
+                                    "grid relative z-10 divide-y md:divide-y-0 md:divide-x divide-white/10 transition-all duration-300",
+                                    promotions.length === 1 ? "grid-cols-1" :
+                                        promotions.length === 2 ? "grid-cols-1 md:grid-cols-2" :
+                                            "grid-cols-1 md:grid-cols-3"
+                                )}>
+                                    {promotions.map((promo, idx) => (
+                                        <div
+                                            key={promo.id}
+                                            className="relative p-8 group transition-all duration-500 overflow-hidden"
+                                        >
+                                            {/* 0. Background Image with Zoom Effect */}
+                                            {promo.backgroundImage && (
+                                                <div className="absolute inset-0 z-0">
+                                                    <div className="absolute inset-0 bg-black/70 z-10" /> {/* Dark Overlay */}
+                                                    <img
+                                                        src={promo.backgroundImage}
+                                                        alt={promo.title}
+                                                        className="w-full h-full object-cover opacity-80 group-hover:scale-110 transition-transform duration-700 ease-out grayscale-[0.3] group-hover:grayscale-0"
+                                                    />
+                                                </div>
+                                            )}
 
-                                    {/* 1. Large Background Number (Blended) */}
-                                    <span className="absolute -right-4 -bottom-8 text-[12rem] font-black text-white/[0.05] leading-none pointer-events-none select-none transition-transform duration-500 group-hover:scale-110 z-0 mix-blend-overlay">
-                                        {promo.description?.split(' ')[0]}
-                                    </span>
-
-                                    {/* 2. Content */}
-                                    <div className="relative z-10 flex flex-col h-full items-center text-center">
-                                        <div className="mb-6">
-                                            <h4 className="text-lg font-bold text-white tracking-[0.2em] mb-1 drop-shadow-md">
-                                                {promo.title}
-                                            </h4>
-                                            <p className="text-xs text-zinc-300 uppercase font-semibold tracking-widest">
-                                                {promo.description}
-                                            </p>
-                                        </div>
-
-                                        <div className="text-4xl md:text-5xl font-black text-white mb-8 tracking-tighter">
-                                            <span className="bg-gradient-to-b from-white via-white to-white/70 bg-clip-text text-transparent">
-                                                {promo.discount}
+                                            {/* 1. Large Background Number (Blended) */}
+                                            <span className="absolute -right-4 -bottom-8 text-[12rem] font-black text-white/[0.05] leading-none pointer-events-none select-none transition-transform duration-500 group-hover:scale-110 z-0 mix-blend-overlay">
+                                                {promo.description?.split(' ')[0]}
                                             </span>
-                                        </div>
 
-                                        <ul className="space-y-4 mb-10 w-full text-left pl-4">
-                                            {promo.features && promo.features.map((feat, i) => (
-                                                <li key={i} className="flex items-start gap-3 text-zinc-400 text-sm group-hover:text-zinc-200 transition-colors">
-                                                    <Check size={14} className="mt-1 text-[var(--accent)] shrink-0" />
-                                                    {feat}
-                                                </li>
-                                            ))}
-                                        </ul>
+                                            {/* 2. Content */}
+                                            <div className="relative z-10 flex flex-col h-full items-center text-center">
+                                                <div className="mb-6">
+                                                    <h4 className="text-lg font-bold text-white tracking-[0.2em] mb-1 drop-shadow-md">
+                                                        {promo.title}
+                                                    </h4>
+                                                    <p className="text-xs text-zinc-300 uppercase font-semibold tracking-widest">
+                                                        {promo.description}
+                                                    </p>
+                                                </div>
 
-                                        <div className="mt-auto w-full">
-                                            <UiverseButton
-                                                text="NO DISPONIBLE ONLINE"
-                                                onClick={undefined}
-                                                style={{
-                                                    '--pulse-hue': '0deg', // Red for unavailable
-                                                    '--btn-font-size': '12px',
-                                                    cursor: 'default'
-                                                } as React.CSSProperties}
-                                                className="w-full hover:scale-[1.01] transition-all duration-300"
-                                            />
-                                            <p className="text-[10px] text-zinc-500 text-center mt-3 font-bold tracking-widest uppercase opacity-60">
-                                                Solo en sucursal
-                                            </p>
+                                                <div className="text-4xl md:text-5xl font-black text-white mb-8 tracking-tighter">
+                                                    <span className="bg-gradient-to-b from-white via-white to-white/70 bg-clip-text text-transparent">
+                                                        {promo.discount}
+                                                    </span>
+                                                </div>
+
+                                                <ul className="space-y-4 mb-10 w-full text-left pl-4">
+                                                    {promo.features && promo.features.map((feat, i) => (
+                                                        <li key={i} className="flex items-start gap-3 text-zinc-400 text-sm group-hover:text-zinc-200 transition-colors">
+                                                            <Check size={14} className="mt-1 text-[var(--accent)] shrink-0" />
+                                                            {feat}
+                                                        </li>
+                                                    ))}
+                                                </ul>
+
+                                                <div className="mt-auto w-full">
+                                                    <UiverseButton
+                                                        text="NO DISPONIBLE ONLINE"
+                                                        onClick={undefined}
+                                                        style={{
+                                                            '--pulse-hue': '0deg', // Red for unavailable
+                                                            '--btn-font-size': '12px',
+                                                            cursor: 'default'
+                                                        } as React.CSSProperties}
+                                                        className="w-full hover:scale-[1.01] transition-all duration-300"
+                                                    />
+                                                    <p className="text-[10px] text-zinc-500 text-center mt-3 font-bold tracking-widest uppercase opacity-60">
+                                                        Solo en sucursal
+                                                    </p>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
+                                    ))}
                                 </div>
-                            ))}
-                        </div>
-                    </GlassCard>
-                </div>
+                            </GlassCard>
+                        )}
+                    </div>
+                )}
 
                 <motion.div
                     initial={{ opacity: 0 }}

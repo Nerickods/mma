@@ -1,6 +1,6 @@
 
 import { createClient } from '@/shared/lib/supabase/client';
-import { Plan, Promotion } from '../types/plan';
+import { Plan, Promotion, SectionConfig } from '../types/plan';
 
 // --- Helpers for Mapping ---
 
@@ -71,6 +71,23 @@ function mapPromoToDB(promo: Partial<Promotion>) {
     return dbPromo;
 }
 
+function mapSectionConfigFromDB(dbConfig: any): SectionConfig {
+    return {
+        key: dbConfig.key,
+        title: dbConfig.title,
+        subtitle: dbConfig.subtitle,
+        description: dbConfig.description,
+        isActive: dbConfig.is_active
+    };
+}
+
+function mapSectionConfigToDB(config: Partial<SectionConfig>) {
+    const dbConfig: any = { ...config };
+    if (config.isActive !== undefined) dbConfig.is_active = config.isActive;
+    delete dbConfig.isActive;
+    return dbConfig;
+}
+
 export const plansService = {
     // --- PLANS ---
     async getPlans(): Promise<Plan[]> {
@@ -127,12 +144,24 @@ export const plansService = {
         const { data, error } = await supabase
             .from('promotions')
             .select('*')
-            .order('display_order', { ascending: true }); // Removed .eq('is_active', true) for generally better fetching, filter in frontend if needed or use separate method
+            .eq('is_active', true) // Filter: Only active for public
+            .order('display_order', { ascending: true });
 
         if (error) {
             console.error('Error fetching promotions:', error);
             return [];
         }
+        return (data || []).map(mapPromoFromDB);
+    },
+
+    async getAllPromotionsAdmin(): Promise<Promotion[]> {
+        const supabase = createClient();
+        const { data, error } = await supabase
+            .from('promotions')
+            .select('*')
+            .order('display_order', { ascending: true }); // No filter: Admin sees all
+
+        if (error) throw error;
         return (data || []).map(mapPromoFromDB);
     },
 
@@ -142,6 +171,35 @@ export const plansService = {
         const { data, error } = await supabase.from('promotions').update(dbPayload).eq('id', id).select().single();
         if (error) throw error;
         return mapPromoFromDB(data);
+    },
+
+    // --- SECTION CONFIG ---
+    async getSectionConfig(key: string): Promise<SectionConfig | null> {
+        const supabase = createClient();
+        const { data, error } = await supabase
+            .from('section_config')
+            .select('*')
+            .eq('key', key)
+            .single();
+
+        if (error) {
+            console.warn(`Config for ${key} not found or error:`, error);
+            return null;
+        }
+        return mapSectionConfigFromDB(data);
+    },
+
+    async updateSectionConfig(key: string, updates: Partial<SectionConfig>) {
+        const supabase = createClient();
+        const dbPayload = mapSectionConfigToDB(updates);
+        const { data, error } = await supabase
+            .from('section_config')
+            .update(dbPayload)
+            .eq('key', key)
+            .select()
+            .single();
+
+        if (error) throw error;
+        return mapSectionConfigFromDB(data);
     }
 };
-
