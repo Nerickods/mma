@@ -1,20 +1,41 @@
-import { streamText } from 'ai'
+import { streamText, tool } from 'ai'
 import { createOpenRouter } from '@openrouter/ai-sdk-provider'
 import { createClient } from '@/shared/lib/supabase/server'
 import { cookies } from 'next/headers'
+import { z } from 'zod'
 
 const openrouter = createOpenRouter({
     apiKey: process.env.OPENROUTER_API_KEY,
 })
 
-const DEFAULT_SYSTEM_PROMPT = `Eres Blackbird AI, el asistente virtual de MMA Academy. Tu objetivo es ayudar a los visitantes con información sobre:
-- Clases y disciplinas disponibles (MMA, Muay Thai, Jiu-Jitsu, Boxing)
-- Horarios de clases
-- Precios y planes de membresía
-- Visitas de prueba gratuitas
-- Información general del gimnasio
+const BRANDING_SYSTEM_PROMPT = `Eres Blackbird AI, el entrenador y mentor virtual de Blackbird House MMA.
+TU IDENTIDAD:
+- Eres un atleta de élite estoico pero accesible. No "vendes", retas a las personas a mejorar.
+- Valoras el honor, el respeto, la disciplina y la superación personal por encima de todo.
+- Tu tono es motivador, directo, conciso y profesional. Evita el exceso de entusiasmo falso.
 
-Sé amable, profesional y motivador. Responde en español de manera concisa.`
+TUS REGLAS DE ORO (Reglamento Interno):
+1. El respeto es innegociable.
+2. La higiene es crítica: toalla y desodorante obligatorios.
+3. Puntualidad: Llegar 10 minutos antes.
+4. Privacidad: Los datos están protegidos.
+
+TU OBJETIVO PRINCIPAL:
+- Convertir la curiosidad en una VISITA AGENDADA.
+
+PROCESO DE CAPTURA DE LEADS (IMPORTANTE):
+1. Cuando el usuario acepte la visita o pida información que requiera contacto:
+   - Pide: **Nombre**, **Correo Electrónico** y **Fecha tentativa de visita** (ej: "mañana", "lunes", "25 de enero").
+2. **CONFIRMACIÓN OBLIGATORIA**:
+   - Una vez tengas los 3 datos, REPITELOS al usuario para confirmar.
+   - Ejemplo: "Entendido [Nombre]. Confirmo: Correo [Email] para visita el [Fecha]. ¿Es correcto?"
+3. Solo cuando el usuario diga "Sí" o confirme, EJECUTA la herramienta 'saveLead'.
+   - Si dice "No" o corrige, actualiza los datos y vuelve a confirmar.
+
+OFERTA GANCHO:
+- "Tu primera visita corre por cuenta de la casa. ¿Te anoto para esta semana?"
+
+Responde siempre en español.`
 
 // Generate or get visitor ID from cookie
 async function getVisitorId(requestVisitorId?: string): Promise<string> {
@@ -34,14 +55,16 @@ export async function POST(req: Request) {
 
     const supabase = await createClient()
 
-    // Get agent configuration
+    // Get agent configuration or use Default Branding
     const { data: agent } = await supabase
         .from('agents')
         .select('id, system_prompt, model_id, temperature, max_tokens')
         .eq('is_active', true)
         .single()
 
-    const systemPrompt = agent?.system_prompt || DEFAULT_SYSTEM_PROMPT
+    // Use DB prompt if available, otherwise use code constant
+    // NOTE: To update what is shown in Admin Panel, we must update the DB record.
+    const systemPrompt = agent?.system_prompt || BRANDING_SYSTEM_PROMPT
     const modelId = agent?.model_id || 'google/gemini-2.0-flash-001'
     const temperature = agent?.temperature || 0.7
 
@@ -98,6 +121,40 @@ export async function POST(req: Request) {
         system: systemPrompt,
         messages,
         temperature,
+        tools: {
+            saveLead: tool({
+                description: 'Guardar datos confirmados para agendar visita',
+                parameters: z.object({
+                    name: z.string().describe('Nombre del usuario'),
+                    email: z.string().describe('Correo electrónico del usuario'),
+                    date: z.string().describe('Fecha de visita en formato ISO o lenguaje natural claro (ej: 2024-02-20, Mañana)')
+                }),
+                execute: async ({ name, email, date }: { name: string, email: string, date: string }) => {
+                    try {
+                        const { error } = await supabase
+                            .from('leads')
+                            .insert({
+                                name,
+                                email,
+                                visit_date: date,
+                                source: 'chat_agent',
+                                visitor_id: visitorId,
+                                conversation_id: currentConversationId
+                            })
+
+                        if (error) {
+                            console.error('Error saving lead:', error)
+                            return 'Hubo un error técnico. Por favor intenta más tarde.'
+                        }
+
+                        return '¡Confirmado! Tu visita ha sido agendada en nuestro sistema. Te esperamos.'
+                    } catch (e) {
+                        console.error('Exception saving lead:', e)
+                        return 'Error al procesar la solicitud.'
+                    }
+                }
+            })
+        },
         onFinish: async ({ text }) => {
             try {
                 if (currentConversationId) {

@@ -1,12 +1,42 @@
-import { PLANS, PROMOTIONS_2026 } from '../data/plans';
+'use client';
+import { useState, useEffect } from 'react';
 import PlanCard from './PlanCard';
 import { motion } from 'framer-motion';
 import { cn } from '@/shared/utils/cn';
 import { Check } from 'lucide-react';
 import UiverseButton from '@/shared/components/UiverseButton';
 import { GlassCard } from '@/shared/components/ui/GlassCard';
+import { plansService } from '../services/plansService';
+import { Plan, Promotion } from '../types/plan';
+import { PLANS as STATIC_PLANS, PROMOTIONS_2026 as STATIC_PROMOS } from '../data/plans'; // Fallback
 
 export default function PlansSection() {
+    const [plans, setPlans] = useState<Plan[]>([]);
+    const [promotions, setPromotions] = useState<Promotion[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const [plansData, promosData] = await Promise.all([
+                    plansService.getPlans(),
+                    plansService.getPromotions()
+                ]);
+
+                // If DB empty (shouldn't be), use static as fallback
+                setPlans(plansData.length > 0 ? plansData : STATIC_PLANS);
+                setPromotions(promosData.length > 0 ? promosData : STATIC_PROMOS);
+            } catch (error) {
+                console.error("Failed to fetch plans/promos", error);
+                setPlans(STATIC_PLANS);
+                setPromotions(STATIC_PROMOS);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchData();
+    }, []);
+
     return (
         <section id="planes" className="py-32 bg-black relative overflow-hidden min-h-[140vh] flex flex-col items-center justify-start">
             {/* Background Image Layer */}
@@ -22,8 +52,6 @@ export default function PlansSection() {
                 {/* Layered Gradients for Legibility and Transition */}
                 <div className="absolute inset-0 bg-gradient-to-b from-black via-black/60 to-black z-10" />
                 <div className="absolute inset-0 bg-black/40 z-10 backdrop-contrast-[1.1]" />
-                {/* Subtle Grain/Noise Overlay could be added here if a CSS utility exists */}
-
             </div>
 
             <div className="container mx-auto px-6 relative z-20">
@@ -60,19 +88,23 @@ export default function PlansSection() {
                 </div>
 
                 {/* Standard Plans Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8 items-stretch mb-24">
-                    {PLANS.map((plan, index) => (
-                        <div
-                            key={plan.id}
-                            className={cn(
-                                "flex flex-col",
-                                plan.highlight && "md:col-span-1 lg:col-span-1 xl:col-span-1",
-                                index >= 3 && "lg:col-span-1 lg:first-of-type:ml-[16.666%] lg:last-of-type:mr-[16.666%]"
-                            )}
-                        >
-                            <PlanCard plan={plan} index={index} />
-                        </div>
-                    ))}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8 items-stretch mb-24 min-h-[500px]">
+                    {loading ? (
+                        <div className="col-span-full flex justify-center items-center text-white/50">Cargando planes...</div>
+                    ) : (
+                        plans.map((plan, index) => (
+                            <div
+                                key={plan.id}
+                                className={cn(
+                                    "flex flex-col",
+                                    plan.highlight && "md:col-span-1 lg:col-span-1 xl:col-span-1",
+                                    index >= 3 && "lg:col-span-1 lg:first-of-type:ml-[16.666%] lg:last-of-type:mr-[16.666%]"
+                                )}
+                            >
+                                <PlanCard plan={plan} index={index} />
+                            </div>
+                        ))
+                    )}
                 </div>
 
                 {/* 🏆 PROMOCIONES 2026: THE GOLDEN ERA 🏆 */}
@@ -103,24 +135,26 @@ export default function PlansSection() {
                         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[var(--accent)]/50 to-transparent opacity-50" />
 
                         <div className="grid grid-cols-1 md:grid-cols-3 relative z-10 divide-y md:divide-y-0 md:divide-x divide-white/10">
-                            {PROMOTIONS_2026.map((promo, idx) => (
+                            {promotions.map((promo, idx) => (
                                 <div
                                     key={promo.id}
                                     className="relative p-8 group transition-all duration-500 overflow-hidden"
                                 >
                                     {/* 0. Background Image with Zoom Effect */}
-                                    <div className="absolute inset-0 z-0">
-                                        <div className="absolute inset-0 bg-black/70 z-10" /> {/* Dark Overlay */}
-                                        <img
-                                            src={promo.backgroundImage}
-                                            alt={promo.title}
-                                            className="w-full h-full object-cover opacity-80 group-hover:scale-110 transition-transform duration-700 ease-out grayscale-[0.3] group-hover:grayscale-0"
-                                        />
-                                    </div>
+                                    {promo.backgroundImage && (
+                                        <div className="absolute inset-0 z-0">
+                                            <div className="absolute inset-0 bg-black/70 z-10" /> {/* Dark Overlay */}
+                                            <img
+                                                src={promo.backgroundImage}
+                                                alt={promo.title}
+                                                className="w-full h-full object-cover opacity-80 group-hover:scale-110 transition-transform duration-700 ease-out grayscale-[0.3] group-hover:grayscale-0"
+                                            />
+                                        </div>
+                                    )}
 
                                     {/* 1. Large Background Number (Blended) */}
                                     <span className="absolute -right-4 -bottom-8 text-[12rem] font-black text-white/[0.05] leading-none pointer-events-none select-none transition-transform duration-500 group-hover:scale-110 z-0 mix-blend-overlay">
-                                        {promo.description.split(' ')[0]}
+                                        {promo.description?.split(' ')[0]}
                                     </span>
 
                                     {/* 2. Content */}
@@ -141,7 +175,7 @@ export default function PlansSection() {
                                         </div>
 
                                         <ul className="space-y-4 mb-10 w-full text-left pl-4">
-                                            {promo.features.map((feat, i) => (
+                                            {promo.features && promo.features.map((feat, i) => (
                                                 <li key={i} className="flex items-start gap-3 text-zinc-400 text-sm group-hover:text-zinc-200 transition-colors">
                                                     <Check size={14} className="mt-1 text-[var(--accent)] shrink-0" />
                                                     {feat}

@@ -1,14 +1,22 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/shared/lib/supabase/server'
+import { syncSessions } from '@/features/analytics/lib/syncSessions'
 
 export async function GET() {
     const supabase = await createClient()
 
+    // Sync sessions to ensure freshness
+    await syncSessions(supabase)
+
     // Get all conversation sessions
-    const { data: sessions } = await supabase
+    const { data: sessions, error } = await supabase
         .from('conversation_sessions')
         .select('*')
         .order('first_message_at', { ascending: false })
+
+    if (error) {
+        return NextResponse.json({ error: error.message }, { status: 500 })
+    }
 
     if (!sessions || sessions.length === 0) {
         return NextResponse.json({
@@ -37,31 +45,42 @@ export async function GET() {
         })
     }
 
-    // Calculate overview
+    // Calculate metrics
     const totalSessions = sessions.length
     const totalMessages = sessions.reduce((acc, s) => acc + (s.message_count || 0), 0)
-    const classifiedSessions = sessions.filter(s => s.classification)
+
+    const classifiedSessions = sessions.filter(s => s.classification !== null)
     const classifiedCount = classifiedSessions.length
     const unclassifiedCount = totalSessions - classifiedCount
 
-    // Calculate resolution rate
-    const resolvedCount = classifiedSessions.filter(
-        s => s.classification?.flags?.resolved
-    ).length
+    // Resolution Rate
+    const resolvedCount = classifiedSessions.filter(s => s.classification?.flags?.resolved).length
     const resolutionRate = classifiedCount > 0
         ? Math.round((resolvedCount / classifiedCount) * 100)
         : 0
 
-    // Alerts
-    const frustrationCount = classifiedSessions.filter(
-        s => s.classification?.flags?.frustration_detected
-    ).length
-    const escalationNeeded = classifiedSessions.filter(
-        s => s.classification?.flags?.escalation_needed
-    ).length
-    const bugsReported = classifiedSessions.filter(
-        s => s.classification?.flags?.bug_reported
-    ).length
+    // Alerts logic
+    const frustrationCount = classifiedSessions.filter(s => s.classification?.flags?.frustration_detected).length
+    const escalationNeeded = classifiedSessions.filter(s => s.classification?.flags?.escalation_needed).length
+    const bugsReported = classifiedSessions.filter(s => s.classification?.flags?.bug_reported).length
+
+    // Topic aggregation
+    const topicCounts: Record<string, number> = {}
+    classifiedSessions.forEach(s => {
+        const topics = s.classification?.topics || []
+        topics.forEach((t: string) => {
+            topicCounts[t] = (topicCounts[t] || 0) + 1
+        })
+    })
+
+    const topTopics = Object.entries(topicCounts)
+        .map(([topic, count]) => ({
+            topic,
+            count,
+            percentage: Math.round((count / classifiedCount) * 100)
+        }))
+        .sort((a, b) => b.count - a.count)
+        .slice(0, 5)
 
     // Quality distribution
     const qualityDistribution = {
@@ -71,25 +90,7 @@ export async function GET() {
         spam: classifiedSessions.filter(s => s.classification?.quality === 'spam').length,
     }
 
-    // Top topics
-    const topicCounts: Record<string, number> = {}
-    classifiedSessions.forEach(s => {
-        const topics = s.classification?.topics || []
-        topics.forEach((topic: string) => {
-            topicCounts[topic] = (topicCounts[topic] || 0) + 1
-        })
-    })
-
-    const topTopics = Object.entries(topicCounts)
-        .sort((a, b) => b[1] - a[1])
-        .slice(0, 10)
-        .map(([topic, count]) => ({
-            topic,
-            count,
-            percentage: Math.round((count / classifiedCount) * 100),
-        }))
-
-    // Pain points by topic
+    // Pain points calculation
     const painPoints = topTopics.map(({ topic }) => {
         const topicSessions = classifiedSessions.filter(
             s => s.classification?.topics?.includes(topic)
@@ -97,18 +98,18 @@ export async function GET() {
         const frustrationRate = Math.round(
             (topicSessions.filter(s => s.classification?.flags?.frustration_detected).length /
                 topicSessions.length) * 100
-        )
+        ) || 0
         const unresolvedRate = Math.round(
             (topicSessions.filter(s => !s.classification?.flags?.resolved).length /
                 topicSessions.length) * 100
-        )
+        ) || 0
         const highQualityRate = Math.round(
             (topicSessions.filter(s => s.classification?.quality === 'high').length /
                 topicSessions.length) * 100
-        )
+        ) || 0
         const avgMessagesPerSession = Math.round(
             topicSessions.reduce((acc, s) => acc + (s.message_count || 0), 0) /
-            topicSessions.length
+            (topicSessions.length || 1)
         )
 
         return {
@@ -121,9 +122,10 @@ export async function GET() {
         }
     })
 
-    // Content gaps
+    // Content Gaps calculation
     const contentGaps = painPoints.map(pp => {
         const resolutionRate = 100 - pp.unresolvedRate
+        // Gap score: High frustration + Low resolution = High Gap
         const gapScore = Math.round((pp.sessionCount * pp.frustrationRate) / (resolutionRate || 1))
 
         let recommendation: 'urgent' | 'recommended' | 'monitor' | 'ok'
@@ -142,34 +144,34 @@ export async function GET() {
         }
     }).sort((a, b) => b.gapScore - a.gapScore)
 
-    // Intervention queue
+    // Intervention Queue (Priority items)
     const interventionQueue = classifiedSessions
         .filter(s =>
-            s.classification?.flags?.frustration_detected ||
             s.classification?.flags?.escalation_needed ||
-            s.classification?.flags?.bug_reported
+            s.classification?.flags?.frustration_detected ||
+            s.classification?.quality === 'low'
         )
-        .slice(0, 10)
+        .sort((a, b) => new Date(b.last_message_at).getTime() - new Date(a.last_message_at).getTime())
+        .slice(0, 5)
         .map(s => {
-            const hoursAgo = Math.round(
-                (Date.now() - new Date(s.first_message_at).getTime()) / (1000 * 60 * 60)
-            )
-
-            let severity: 'critical' | 'high' | 'medium'
+            let severity: 'critical' | 'high' | 'medium' = 'medium'
             if (s.classification?.flags?.escalation_needed) severity = 'critical'
             else if (s.classification?.flags?.frustration_detected) severity = 'high'
-            else severity = 'medium'
+
+            const hoursAgo = Math.round(
+                (Date.now() - new Date(s.last_message_at).getTime()) / (1000 * 60 * 60)
+            )
 
             return {
                 id: s.id,
                 summary: s.classification?.summary || 'Sin resumen',
                 severity,
                 flags: {
-                    frustration: s.classification?.flags?.frustration_detected || false,
-                    escalation: s.classification?.flags?.escalation_needed || false,
-                    bug: s.classification?.flags?.bug_reported || false,
+                    frustration: s.classification?.flags?.frustration_detected,
+                    escalation: s.classification?.flags?.escalation_needed,
+                    bug: s.classification?.flags?.bug_reported
                 },
-                hoursAgo,
+                hoursAgo
             }
         })
 

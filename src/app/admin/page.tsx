@@ -1,6 +1,8 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 interface Analytics {
     overview: {
@@ -35,6 +37,7 @@ export default function AdminDashboard() {
     const [analytics, setAnalytics] = useState<Analytics | null>(null)
     const [loading, setLoading] = useState(true)
     const [classifying, setClassifying] = useState(false)
+    const router = useRouter()
 
     useEffect(() => {
         fetchAnalytics()
@@ -99,11 +102,13 @@ export default function AdminDashboard() {
                     label="Total Sesiones"
                     value={analytics?.overview.totalSessions || 0}
                     icon="chat"
+                    href="/admin/conversations"
                 />
                 <StatCard
                     label="Total Mensajes"
                     value={analytics?.overview.totalMessages || 0}
                     icon="message"
+                    href="/admin/conversations"
                 />
                 <StatCard
                     label="Tasa Resolución"
@@ -116,12 +121,14 @@ export default function AdminDashboard() {
                                 ? 'yellow'
                                 : 'red'
                     }
+                    href="#"
                 />
                 <StatCard
                     label="Sin Clasificar"
                     value={analytics?.overview.unclassifiedCount || 0}
                     icon="pending"
                     color={(analytics?.overview.unclassifiedCount || 0) > 0 ? 'yellow' : 'green'}
+                    href="/admin/conversations?status=unclassified"
                 />
             </div>
 
@@ -133,14 +140,14 @@ export default function AdminDashboard() {
                     <h3 className="text-red-400 font-medium mb-2">Alertas Activas</h3>
                     <div className="flex gap-6 text-sm">
                         {(analytics?.alerts.escalationNeeded || 0) > 0 && (
-                            <span className="text-red-300">
+                            <Link href="/admin/conversations?urgency=critical" className="text-red-300 hover:text-red-200 underline decoration-1 underline-offset-4">
                                 {analytics?.alerts.escalationNeeded} escalaciones pendientes
-                            </span>
+                            </Link>
                         )}
                         {(analytics?.alerts.frustrationCount || 0) > 0 && (
-                            <span className="text-orange-300">
+                            <Link href="/admin/conversations?urgency=high" className="text-orange-300 hover:text-orange-200 underline decoration-1 underline-offset-4">
                                 {analytics?.alerts.frustrationCount} usuarios frustrados
-                            </span>
+                            </Link>
                         )}
                         {(analytics?.alerts.bugsReported || 0) > 0 && (
                             <span className="text-yellow-300">
@@ -160,12 +167,16 @@ export default function AdminDashboard() {
                     ) : (
                         <div className="space-y-3">
                             {analytics?.topTopics.map((topic) => (
-                                <div key={topic.topic} className="flex items-center justify-between">
-                                    <span className="text-white/80">{topic.topic}</span>
+                                <Link
+                                    key={topic.topic}
+                                    href={`/admin/conversations?topic=${encodeURIComponent(topic.topic)}`}
+                                    className="flex items-center justify-between group cursor-pointer hover:bg-white/5 p-2 rounded -mx-2 transition-colors"
+                                >
+                                    <span className="text-white/80 group-hover:text-white transition-colors">{topic.topic}</span>
                                     <div className="flex items-center gap-3">
                                         <div className="w-32 h-2 bg-white/10 rounded-full overflow-hidden">
                                             <div
-                                                className="h-full bg-white/40 rounded-full"
+                                                className="h-full bg-white/40 rounded-full group-hover:bg-white/60 transition-colors"
                                                 style={{ width: `${topic.percentage}%` }}
                                             />
                                         </div>
@@ -173,7 +184,7 @@ export default function AdminDashboard() {
                                             {topic.count}
                                         </span>
                                     </div>
-                                </div>
+                                </Link>
                             ))}
                         </div>
                     )}
@@ -214,13 +225,14 @@ export default function AdminDashboard() {
                     ) : (
                         <div className="space-y-3">
                             {analytics?.interventionQueue.map((item) => (
-                                <div
+                                <Link
                                     key={item.id}
-                                    className="flex items-center justify-between p-3 bg-white/5 rounded-lg border border-white/10"
+                                    href={`/admin/conversations?id=${item.id}`}
+                                    className="flex items-center justify-between p-3 bg-white/5 rounded-lg border border-white/10 hover:bg-white/10 transition-colors group"
                                 >
                                     <div className="flex items-center gap-3">
                                         <SeverityBadge severity={item.severity} />
-                                        <span className="text-white/80 text-sm">{item.summary}</span>
+                                        <span className="text-white/80 text-sm group-hover:text-white font-medium">{item.summary}</span>
                                     </div>
                                     <div className="flex items-center gap-4">
                                         <div className="flex gap-2">
@@ -241,8 +253,9 @@ export default function AdminDashboard() {
                                             )}
                                         </div>
                                         <span className="text-white/40 text-xs">hace {item.hoursAgo}h</span>
+                                        <span className="text-white/40 text-xs transform group-hover:translate-x-1 transition-transform">→</span>
                                     </div>
-                                </div>
+                                </Link>
                             ))}
                         </div>
                     )}
@@ -257,11 +270,13 @@ function StatCard({
     value,
     icon,
     color = 'white',
+    href
 }: {
     label: string
     value: string | number
     icon: string
     color?: 'white' | 'green' | 'yellow' | 'red'
+    href: string
 }) {
     const colorClasses = {
         white: 'text-white',
@@ -271,10 +286,10 @@ function StatCard({
     }
 
     return (
-        <div className="bg-white/5 rounded-xl border border-white/10 p-4">
+        <Link href={href} className="bg-white/5 rounded-xl border border-white/10 p-4 hover:bg-white/10 transition-colors block">
             <p className="text-white/50 text-sm mb-1">{label}</p>
             <p className={`text-2xl font-bold ${colorClasses[color]}`}>{value}</p>
-        </div>
+        </Link>
     )
 }
 

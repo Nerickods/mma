@@ -79,3 +79,7 @@ export async function PUT(request: NextRequest) {
 
     return NextResponse.json({ success: true })
 }
+
+export async function POST(request: NextRequest) {
+    return PUT(request)
+}
