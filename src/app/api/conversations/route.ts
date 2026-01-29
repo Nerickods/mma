@@ -1,8 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/shared/lib/supabase/server'
+import { syncSessions } from '@/features/analytics/lib/syncSessions'
 
 export async function GET(request: NextRequest) {
     const supabase = await createClient()
+
+    // Sync sessions before fetching to ensure the admin sees latest data
+    await syncSessions(supabase)
 
     const searchParams = request.nextUrl.searchParams
     const page = parseInt(searchParams.get('page') || '1')

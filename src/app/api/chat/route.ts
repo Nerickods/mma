@@ -1,41 +1,7 @@
-import { streamText, tool } from 'ai'
-import { createOpenRouter } from '@openrouter/ai-sdk-provider'
+import { openAiService } from '@/logic/openAiservice'
 import { createClient } from '@/shared/lib/supabase/server'
 import { cookies } from 'next/headers'
-import { z } from 'zod'
-
-const openrouter = createOpenRouter({
-    apiKey: process.env.OPENROUTER_API_KEY,
-})
-
-const BRANDING_SYSTEM_PROMPT = `Eres Blackbird AI, el entrenador y mentor virtual de Blackbird House MMA.
-TU IDENTIDAD:
-- Eres un atleta de élite estoico pero accesible. No "vendes", retas a las personas a mejorar.
-- Valoras el honor, el respeto, la disciplina y la superación personal por encima de todo.
-- Tu tono es motivador, directo, conciso y profesional. Evita el exceso de entusiasmo falso.
-
-TUS REGLAS DE ORO (Reglamento Interno):
-1. El respeto es innegociable.
-2. La higiene es crítica: toalla y desodorante obligatorios.
-3. Puntualidad: Llegar 10 minutos antes.
-4. Privacidad: Los datos están protegidos.
-
-TU OBJETIVO PRINCIPAL:
-- Convertir la curiosidad en una VISITA AGENDADA.
-
-PROCESO DE CAPTURA DE LEADS (IMPORTANTE):
-1. Cuando el usuario acepte la visita o pida información que requiera contacto:
-   - Pide: **Nombre**, **Correo Electrónico** y **Fecha tentativa de visita** (ej: "mañana", "lunes", "25 de enero").
-2. **CONFIRMACIÓN OBLIGATORIA**:
-   - Una vez tengas los 3 datos, REPITELOS al usuario para confirmar.
-   - Ejemplo: "Entendido [Nombre]. Confirmo: Correo [Email] para visita el [Fecha]. ¿Es correcto?"
-3. Solo cuando el usuario diga "Sí" o confirme, EJECUTA la herramienta 'saveLead'.
-   - Si dice "No" o corrige, actualiza los datos y vuelve a confirmar.
-
-OFERTA GANCHO:
-- "Tu primera visita corre por cuenta de la casa. ¿Te anoto para esta semana?"
-
-Responde siempre en español.`
+import { syncSessions } from '@/features/analytics/lib/syncSessions'
 
 // Generate or get visitor ID from cookie
 async function getVisitorId(requestVisitorId?: string): Promise<string> {
@@ -55,20 +21,23 @@ export async function POST(req: Request) {
 
     const supabase = await createClient()
 
-    // Get agent configuration or use Default Branding
+    // 1. Get Agent Configuration (System Prompt)
     const { data: agent } = await supabase
         .from('agents')
         .select('id, system_prompt, model_id, temperature, max_tokens')
         .eq('is_active', true)
         .single()
 
-    // Use DB prompt if available, otherwise use code constant
-    // NOTE: To update what is shown in Admin Panel, we must update the DB record.
-    const systemPrompt = agent?.system_prompt || BRANDING_SYSTEM_PROMPT
-    const modelId = agent?.model_id || 'google/gemini-2.0-flash-001'
-    const temperature = agent?.temperature || 0.7
+    // 2. Prepare System Prompt with Dynamic Dates
+    let systemPrompt = agent?.system_prompt || 'Eres un asistente útil.'
+    const todayFull = new Date().toLocaleDateString('es-MX', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+    const todayISO = new Date().toISOString().split('T')[0]
 
-    // REUTILIZAR conversación existente o crear nueva
+    systemPrompt = systemPrompt
+        .replace('{{TODAY_FULL}}', todayFull)
+        .replace('{{TODAY_ISO}}', todayISO)
+
+    // 3. Manage Conversation ID
     let currentConversationId = requestConversationId
 
     if (requestConversationId) {
@@ -82,7 +51,6 @@ export async function POST(req: Request) {
         if (existingConv) {
             currentConversationId = existingConv.id
         } else {
-            // Conversation doesn't exist, create new
             currentConversationId = null
         }
     }
@@ -104,88 +72,69 @@ export async function POST(req: Request) {
         }
     }
 
-    // Save user message (last one in the array)
+    // 4. Save User Message
     const lastUserMessage = messages[messages.length - 1]
     if (currentConversationId && lastUserMessage?.role === 'user') {
+        const contentStr = typeof lastUserMessage.content === 'string'
+            ? lastUserMessage.content
+            : JSON.stringify(lastUserMessage.content)
+
         await supabase
             .from('messages')
             .insert({
                 conversation_id: currentConversationId,
                 role: 'user',
-                content: lastUserMessage.content,
+                content: contentStr,
             })
     }
 
-    const result = streamText({
-        model: openrouter(modelId),
-        system: systemPrompt,
-        messages,
-        temperature,
-        tools: {
-            saveLead: tool({
-                description: 'Guardar datos confirmados para agendar visita',
-                parameters: z.object({
-                    name: z.string().describe('Nombre del usuario'),
-                    email: z.string().describe('Correo electrónico del usuario'),
-                    date: z.string().describe('Fecha de visita en formato ISO o lenguaje natural claro (ej: 2024-02-20, Mañana)')
-                }),
-                execute: async ({ name, email, date }: { name: string, email: string, date: string }) => {
-                    try {
-                        const { error } = await supabase
-                            .from('leads')
-                            .insert({
-                                name,
-                                email,
-                                visit_date: date,
-                                source: 'chat_agent',
-                                visitor_id: visitorId,
-                                conversation_id: currentConversationId
-                            })
+    // 5. Execute Sentinel Logic (Blocking Loop)
+    let newMessages: any[] = []
+    try {
+        newMessages = await openAiService.processChat(messages, systemPrompt)
+    } catch (error) {
+        console.error('Sentinel Error:', error)
+        return new Response('Error processing request', { status: 500 })
+    }
 
-                        if (error) {
-                            console.error('Error saving lead:', error)
-                            return 'Hubo un error técnico. Por favor intenta más tarde.'
-                        }
-
-                        return '¡Confirmado! Tu visita ha sido agendada en nuestro sistema. Te esperamos.'
-                    } catch (e) {
-                        console.error('Exception saving lead:', e)
-                        return 'Error al procesar la solicitud.'
-                    }
-                }
-            })
-        },
-        onFinish: async ({ text }) => {
-            try {
-                if (currentConversationId) {
-                    // Save assistant message
-                    await supabase
-                        .from('messages')
-                        .insert({
-                            conversation_id: currentConversationId,
-                            role: 'assistant',
-                            content: text,
-                        })
-
-                    // Update conversation updated_at
-                    await supabase
-                        .from('conversations')
-                        .update({ updated_at: new Date().toISOString() })
-                        .eq('id', currentConversationId)
-                }
-            } catch (error) {
-                console.error('Failed to save message:', error)
+    // 6. Persist Generated Messages (Assistant & Tools)
+    if (currentConversationId && newMessages.length > 0) {
+        for (const msg of newMessages) {
+            // Only save assistant messages for now to keep history clean/readable
+            // Tools are internal to the Sentinel Loop
+            if (msg.role === 'assistant' && msg.content) {
+                await supabase
+                    .from('messages')
+                    .insert({
+                        conversation_id: currentConversationId,
+                        role: 'assistant',
+                        content: msg.content,
+                    })
             }
-        },
+        }
+
+        // Update conversation time
+        await supabase
+            .from('conversations')
+            .update({ updated_at: new Date().toISOString() })
+            .eq('id', currentConversationId)
+
+        // Sync sessions
+        await syncSessions(supabase)
+    }
+
+    // 7. Extract Final Response
+    const finalMessage = newMessages[newMessages.length - 1]
+    const responseText = finalMessage?.content || ""
+
+    // 8. Return Response (Not Streaming)
+    const response = new Response(responseText, {
+        headers: {
+            'Content-Type': 'text/plain; charset=utf-8',
+            'Set-Cookie': `visitor_id=${visitorId}; Path=/; Max-Age=31536000; SameSite=Lax`,
+            'X-Conversation-Id': currentConversationId || ''
+        }
     })
-
-    // Create response with conversation ID and visitor cookie
-    const response = result.toTextStreamResponse()
-
-    // Set headers for client to track conversation
-    response.headers.set('Set-Cookie', `visitor_id=${visitorId}; Path=/; Max-Age=31536000; SameSite=Lax`)
-    response.headers.set('X-Conversation-Id', currentConversationId || '')
-    response.headers.set('Access-Control-Expose-Headers', 'X-Conversation-Id')
 
     return response
 }

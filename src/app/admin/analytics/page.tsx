@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { StatCard } from '../components/StatCard'
+import { QualityBadge } from '../components/Badges'
 
 interface Analytics {
     overview: {
@@ -40,13 +42,6 @@ interface Analytics {
         gapScore: number
         recommendation: 'urgent' | 'recommended' | 'monitor' | 'ok'
     }>
-    interventionQueue: Array<{
-        id: string
-        summary: string
-        severity: 'critical' | 'high' | 'medium'
-        flags: { frustration: boolean; escalation: boolean; bug: boolean }
-        hoursAgo: number
-    }>
 }
 
 export default function AnalyticsPage() {
@@ -74,15 +69,18 @@ export default function AnalyticsPage() {
 
     if (loading) {
         return (
-            <div className="flex items-center justify-center h-screen">
-                <div className="w-8 h-8 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+            <div className="flex items-center justify-center h-[calc(100vh-8rem)]">
+                <div className="relative w-16 h-16">
+                    <div className="absolute inset-0 rounded-full border-4 border-black/5 dark:border-white/10" />
+                    <div className="absolute inset-0 rounded-full border-4 border-amber-500 border-t-transparent animate-spin" />
+                </div>
             </div>
         )
     }
 
     if (!analytics) {
         return (
-            <div className="p-8 text-white/60">Error al cargar analíticas</div>
+            <div className="p-8 text-black/40 dark:text-white/40 text-center">Error al cargar analíticas</div>
         )
     }
 
@@ -93,87 +91,97 @@ export default function AnalyticsPage() {
         analytics.qualityDistribution.spam
 
     return (
-        <div className="p-8">
-            <div className="mb-8">
-                <h1 className="text-2xl font-bold text-white">Analíticas Detalladas</h1>
-                <p className="text-white/50 mt-1">Métricas profundas del comportamiento del agente</p>
+        <div className="p-8 animate-in fade-in zoom-in duration-500">
+            <div className="mb-10 border-b border-black/5 dark:border-white/5 pb-8">
+                <h1 className="text-4xl font-bold text-black dark:text-white tracking-tight mb-2">Analíticas Deep Dive</h1>
+                <p className="text-black/50 dark:text-white/50 text-lg">Métricas profundas del comportamiento del agente</p>
             </div>
 
-            {/* Overview Cards */}
-            <div className="grid grid-cols-5 gap-4 mb-8">
-                <StatCard label="Sesiones" value={analytics.overview.totalSessions} href="/admin/conversations" />
-                <StatCard label="Mensajes" value={analytics.overview.totalMessages} href="/admin/conversations" />
-                <StatCard label="Clasificados" value={analytics.overview.classifiedCount} href="/admin/conversations?status=classified" />
+            {/* Top Level KPIs */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-12">
+                <StatCard label="Sesiones Totales" value={analytics.overview.totalSessions} icon="chat" href="/admin/conversations" />
+                <StatCard label="Mensajes Totales" value={analytics.overview.totalMessages} icon="message" href="/admin/conversations" />
+                <StatCard label="Clasificados" value={analytics.overview.classifiedCount} icon="check" href="/admin/conversations?status=classified" />
 
-                <div className="bg-white/5 rounded-xl border border-white/10 p-4">
-                    <p className="text-white/50 text-xs uppercase tracking-wide">Tasa Resolución</p>
-                    <p className={`text-2xl font-bold mt-1 ${analytics.overview.resolutionRate >= 80 ? 'text-green-400' : 'text-yellow-400'}`}>
+                <div className="bg-white/60 dark:bg-white/5 backdrop-blur-xl rounded-2xl border border-black/5 dark:border-white/10 p-6 flex flex-col justify-center relative overflow-hidden group">
+                    <div className="absolute right-0 top-0 w-24 h-24 bg-green-500/10 rounded-full blur-2xl -mr-12 -mt-12 transition-opacity group-hover:opacity-100 opacity-50" />
+                    <p className="text-black/40 dark:text-white/40 text-xs uppercase tracking-wider font-bold mb-2">Tasa Resolución</p>
+                    <p className={`text-3xl font-bold ${analytics.overview.resolutionRate >= 80 ? 'text-green-600 dark:text-green-400' : 'text-amber-600 dark:text-amber-400'}`}>
                         {analytics.overview.resolutionRate}%
                     </p>
                 </div>
 
                 <Link
                     href="/admin/conversations?status=unclassified"
-                    className="bg-white/5 rounded-xl border border-white/10 p-4 hover:bg-white/10 transition-colors cursor-pointer block"
+                    className="bg-white/60 dark:bg-white/5 backdrop-blur-xl rounded-2xl border border-black/5 dark:border-white/10 p-6 flex flex-col justify-center relative overflow-hidden group hover:border-amber-500/30 transition-all cursor-pointer"
                 >
-                    <p className="text-white/50 text-xs uppercase tracking-wide">Pendientes</p>
-                    <p className={`text-2xl font-bold mt-1 ${analytics.overview.unclassifiedCount > 0 ? 'text-yellow-400' : 'text-green-400'}`}>
+                    <div className="absolute right-0 top-0 w-24 h-24 bg-amber-500/10 rounded-full blur-2xl -mr-12 -mt-12 transition-opacity group-hover:opacity-100 opacity-50" />
+                    <p className="text-black/40 dark:text-white/40 text-xs uppercase tracking-wider font-bold mb-2">Pendientes</p>
+                    <p className={`text-3xl font-bold ${analytics.overview.unclassifiedCount > 0 ? 'text-amber-600 dark:text-amber-400' : 'text-green-600 dark:text-green-400'}`}>
                         {analytics.overview.unclassifiedCount}
                     </p>
                 </Link>
             </div>
 
-            <div className="grid grid-cols-2 gap-8 mb-8">
-                {/* Quality Distribution */}
-                <div className="bg-white/5 rounded-xl border border-white/10 p-6">
-                    <h3 className="text-white font-medium mb-6">Distribución de Calidad</h3>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+                {/* Visual Chart - Quality Quality */}
+                <div className="bg-white/80 dark:bg-white/5 backdrop-blur-xl rounded-3xl border border-black/5 dark:border-white/10 p-8 shadow-lg">
+                    <h3 className="text-xl font-bold text-black dark:text-white mb-8 flex items-center gap-3">
+                        <span className="w-1.5 h-6 bg-amber-500 rounded-full" />
+                        Distribución de Calidad
+                    </h3>
+
                     {totalQuality === 0 ? (
-                        <p className="text-white/40 text-sm">No hay datos todavía</p>
+                        <p className="text-black/40 dark:text-white/40 text-center py-10">No hay datos suficientes</p>
                     ) : (
-                        <>
-                            <div className="flex items-center justify-center mb-6">
-                                <div className="relative w-40 h-40">
-                                    <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
-                                        <circle cx="50" cy="50" r="40" fill="none" stroke="currentColor" strokeWidth="12" className="text-white/10" />
-                                    </svg>
-                                    <div className="absolute inset-0 flex items-center justify-center">
-                                        <span className="text-2xl font-bold text-white">{totalQuality}</span>
-                                    </div>
+                        <div className="flex flex-col md:flex-row items-center gap-12">
+                            <div className="relative w-48 h-48 shrink-0">
+                                <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+                                    <circle cx="50" cy="50" r="40" fill="none" classNamen="text-black/5 dark:text-white/5" strokeWidth="12" />
+                                    <circle cx="50" cy="50" r="40" fill="none" stroke="currentColor" strokeWidth="12" className="text-amber-500 dark:text-red-500" strokeDasharray={`${(analytics.qualityDistribution.high / totalQuality) * 251} 251`} strokeLinecap="round" />
+                                </svg>
+                                <div className="absolute inset-0 flex flex-col items-center justify-center">
+                                    <span className="text-4xl font-bold text-black dark:text-white">{totalQuality}</span>
+                                    <span className="text-xs uppercase tracking-widest text-black/40 dark:text-white/40 font-bold">Sesiones</span>
                                 </div>
                             </div>
-                            <div className="grid grid-cols-2 gap-3">
-                                <QualityRow label="Alta" count={analytics.qualityDistribution.high} color="green" />
-                                <QualityRow label="Media" count={analytics.qualityDistribution.medium} color="yellow" />
-                                <QualityRow label="Baja" count={analytics.qualityDistribution.low} color="orange" />
-                                <QualityRow label="Spam" count={analytics.qualityDistribution.spam} color="red" />
+                            <div className="grid grid-cols-2 gap-4 w-full">
+                                <QualityBadge label="Alta" count={analytics.qualityDistribution.high} color="green" />
+                                <QualityBadge label="Media" count={analytics.qualityDistribution.medium} color="yellow" />
+                                <QualityBadge label="Baja" count={analytics.qualityDistribution.low} color="orange" />
+                                <QualityBadge label="Spam" count={analytics.qualityDistribution.spam} color="red" />
                             </div>
-                        </>
+                        </div>
                     )}
                 </div>
 
-                {/* Topics Chart */}
-                <div className="bg-white/5 rounded-xl border border-white/10 p-6">
-                    <h3 className="text-white font-medium mb-6">Distribución de Topics</h3>
+                {/* Topics Progress */}
+                <div className="bg-white/80 dark:bg-white/5 backdrop-blur-xl rounded-3xl border border-black/5 dark:border-white/10 p-8 shadow-lg">
+                    <h3 className="text-xl font-bold text-black dark:text-white mb-8 flex items-center gap-3">
+                        <span className="w-1.5 h-6 bg-red-600 rounded-full" />
+                        Trending Topics
+                    </h3>
+
                     {analytics.topTopics.length === 0 ? (
-                        <p className="text-white/40 text-sm">No hay datos todavía</p>
+                        <p className="text-black/40 dark:text-white/40 text-center py-10">No hay datos suficientes</p>
                     ) : (
-                        <div className="space-y-4">
-                            {analytics.topTopics.map((topic, i) => (
+                        <div className="space-y-6">
+                            {analytics.topTopics.slice(0, 5).map((topic, i) => (
                                 <Link
                                     key={topic.topic}
                                     href={`/admin/conversations?topic=${encodeURIComponent(topic.topic)}`}
                                     className="block group cursor-pointer"
                                 >
-                                    <div className="flex justify-between text-sm mb-1 group-hover:text-white transition-colors">
-                                        <span className="text-white/80">{topic.topic}</span>
-                                        <span className="text-white/50">{topic.count} ({topic.percentage}%)</span>
+                                    <div className="flex justify-between text-sm mb-2 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors font-medium">
+                                        <span className="text-black/80 dark:text-white/80">{topic.topic}</span>
+                                        <span className="text-black/40 dark:text-white/40 font-mono">{topic.count} ({topic.percentage}%)</span>
                                     </div>
-                                    <div className="h-3 bg-white/10 rounded-full overflow-hidden">
+                                    <div className="h-2.5 bg-black/5 dark:bg-white/10 rounded-full overflow-hidden">
                                         <div
-                                            className="h-full rounded-full transition-all duration-500 group-hover:opacity-80"
+                                            className="h-full rounded-full bg-gradient-to-r from-amber-400 to-red-600 transition-all duration-1000 ease-out group-hover:scale-x-105 origin-left"
                                             style={{
                                                 width: `${topic.percentage}%`,
-                                                backgroundColor: `hsl(${220 - i * 30}, 70%, 60%)`,
+                                                transitionDelay: `${i * 100}ms`
                                             }}
                                         />
                                     </div>
@@ -185,34 +193,49 @@ export default function AnalyticsPage() {
             </div>
 
             {/* Pain Points Table */}
-            <div className="bg-white/5 rounded-xl border border-white/10 p-6 mb-8">
-                <h3 className="text-white font-medium mb-4">Pain Points por Topic</h3>
+            <div className="bg-white/80 dark:bg-white/5 backdrop-blur-xl rounded-3xl border border-black/5 dark:border-white/10 p-8 shadow-lg overflow-hidden">
+                <h3 className="text-xl font-bold text-black dark:text-white mb-8">Puntos de Fricción (Pain Points)</h3>
+
                 {analytics.painPoints.length === 0 ? (
-                    <p className="text-white/40 text-sm">No hay datos todavía</p>
+                    <p className="text-black/40 dark:text-white/40 text-center">No hay datos de fricción detectados</p>
                 ) : (
                     <div className="overflow-x-auto">
                         <table className="w-full">
                             <thead>
-                                <tr className="text-left text-white/50 text-xs uppercase tracking-wide border-b border-white/10">
-                                    <th className="pb-3 pr-4">Topic</th>
-                                    <th className="pb-3 pr-4">Sesiones</th>
-                                    <th className="pb-3 pr-4">Frustración</th>
-                                    <th className="pb-3 pr-4">Sin Resolver</th>
-                                    <th className="pb-3">Msgs/Sesión</th>
+                                <tr className="text-left text-black/40 dark:text-white/40 text-xs uppercase tracking-wider border-b border-black/5 dark:border-white/5">
+                                    <th className="pb-4 pr-6 pl-2 font-bold">Topic</th>
+                                    <th className="pb-4 pr-6 font-bold">Volumen</th>
+                                    <th className="pb-4 pr-6 font-bold text-red-500/80">Frustración</th>
+                                    <th className="pb-4 pr-6 font-bold text-amber-500/80">Sin Resolver</th>
+                                    <th className="pb-4 font-bold">Avg. Msgs</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody className="divide-y divide-black/5 dark:divide-white/5">
                                 {analytics.painPoints.map((pp) => (
                                     <tr
                                         key={pp.topic}
-                                        className="border-b border-white/5 hover:bg-white/5 cursor-pointer transition-colors"
+                                        className="hover:bg-black/5 dark:hover:bg-white/5 cursor-pointer transition-colors group"
                                         onClick={() => router.push(`/admin/conversations?topic=${encodeURIComponent(pp.topic)}`)}
                                     >
-                                        <td className="py-3 pr-4 text-white/80">{pp.topic}</td>
-                                        <td className="py-3 pr-4 text-white/60">{pp.sessionCount}</td>
-                                        <td className="py-3 pr-4"><span className={pp.frustrationRate >= 25 ? 'text-red-400' : 'text-green-400'}>{pp.frustrationRate}%</span></td>
-                                        <td className="py-3 pr-4"><span className={pp.unresolvedRate >= 25 ? 'text-yellow-400' : 'text-green-400'}>{pp.unresolvedRate}%</span></td>
-                                        <td className="py-3 text-white/60">{pp.avgMessagesPerSession}</td>
+                                        <td className="py-4 pr-6 pl-2 font-medium text-black/80 dark:text-white/80 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">{pp.topic}</td>
+                                        <td className="py-4 pr-6 text-black/60 dark:text-white/60 font-mono">{pp.sessionCount}</td>
+                                        <td className="py-4 pr-6">
+                                            <div className="flex items-center gap-2">
+                                                <div className={`w-16 h-1.5 rounded-full bg-black/5 dark:bg-white/5 overflow-hidden`}>
+                                                    <div style={{ width: `${pp.frustrationRate}%` }} className={`h-full rounded-full ${pp.frustrationRate > 25 ? 'bg-red-500' : 'bg-green-500'}`} />
+                                                </div>
+                                                <span className={`text-xs font-bold ${pp.frustrationRate >= 25 ? 'text-red-500' : 'text-green-500'}`}>{pp.frustrationRate}%</span>
+                                            </div>
+                                        </td>
+                                        <td className="py-4 pr-6">
+                                            <div className="flex items-center gap-2">
+                                                <div className={`w-16 h-1.5 rounded-full bg-black/5 dark:bg-white/5 overflow-hidden`}>
+                                                    <div style={{ width: `${pp.unresolvedRate}%` }} className={`h-full rounded-full ${pp.unresolvedRate > 25 ? 'bg-amber-500' : 'bg-green-500'}`} />
+                                                </div>
+                                                <span className={`text-xs font-bold ${pp.unresolvedRate >= 25 ? 'text-amber-500' : 'text-green-500'}`}>{pp.unresolvedRate}%</span>
+                                            </div>
+                                        </td>
+                                        <td className="py-4 text-black/60 dark:text-white/60 font-mono">{pp.avgMessagesPerSession}</td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -220,32 +243,6 @@ export default function AnalyticsPage() {
                     </div>
                 )}
             </div>
-
-
-        </div>
-    )
-}
-
-function StatCard({ label, value, href }: { label: string, value: number, href: string }) {
-    return (
-        <Link href={href} className="bg-white/5 rounded-xl border border-white/10 p-4 hover:bg-white/10 transition-colors cursor-pointer block">
-            <p className="text-white/50 text-xs uppercase tracking-wide">{label}</p>
-            <p className="text-2xl font-bold text-white mt-1">{value}</p>
-        </Link>
-    )
-}
-
-function QualityRow({ label, count, color }: { label: string, count: number, color: string }) {
-    const colors = {
-        green: 'bg-green-400',
-        yellow: 'bg-yellow-400',
-        orange: 'bg-orange-400',
-        red: 'bg-red-400'
-    }
-    return (
-        <div className="flex items-center gap-2">
-            <span className={`w-3 h-3 rounded-full ${colors[color as keyof typeof colors]}`} />
-            <span className="text-white/70 text-sm">{label} ({count})</span>
         </div>
     )
 }

@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { StatCard } from './components/StatCard'
+import { QualityBadge, SeverityBadge } from './components/Badges'
 
 interface Analytics {
     overview: {
@@ -74,57 +76,86 @@ export default function AdminDashboard() {
 
     if (loading) {
         return (
-            <div className="flex items-center justify-center h-screen">
-                <div className="w-8 h-8 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+            <div className="flex items-center justify-center h-[calc(100vh-4rem)]">
+                <div className="flex flex-col items-center gap-4">
+                    <div className="relative w-16 h-16">
+                        <div className="absolute inset-0 rounded-full border-4 border-black/5 dark:border-white/10" />
+                        <div className="absolute inset-0 rounded-full border-4 border-amber-500 border-t-transparent animate-spin" />
+                    </div>
+                    <p className="text-sm font-medium text-black/40 dark:text-white/40 animate-pulse">Cargando Blackbird AI...</p>
+                </div>
             </div>
         )
     }
 
     return (
-        <div className="p-8">
-            <div className="flex items-center justify-between mb-8">
+        <div className="p-8 space-y-8 animate-in fade-in zoom-in duration-500">
+            {/* Header */}
+            <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-2xl font-bold text-white">Dashboard</h1>
-                    <p className="text-white/50 mt-1">Vista general del agente conversacional</p>
+                    <h1 className="text-4xl font-bold text-black dark:text-white tracking-tight mb-2">
+                        Panel de Control
+                    </h1>
+                    <p className="text-black/50 dark:text-white/50 font-light">
+                        Visión global del rendimiento del agente
+                    </p>
                 </div>
+
                 <button
                     onClick={runClassification}
                     disabled={classifying}
-                    className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg border border-white/20 transition-all disabled:opacity-50"
+                    className="
+                        relative overflow-hidden group
+                        px-8 py-3 rounded-2xl
+                        bg-black text-white dark:bg-white dark:text-black
+                        disabled:opacity-50 disabled:cursor-not-allowed
+                        transition-all duration-300 hover:scale-105 active:scale-95
+                        shadow-xl shadow-black/10 dark:shadow-white/10
+                    "
                 >
-                    {classifying ? 'Clasificando...' : 'Clasificar Conversaciones'}
+                    <div className="absolute inset-0 bg-gradient-to-r from-amber-400 to-red-600 opacity-0 group-hover:opacity-10 dark:group-hover:opacity-20 transition-opacity" />
+                    <span className="relative z-10 flex items-center gap-3 font-semibold text-sm">
+                        {classifying ? (
+                            <>
+                                <svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                                Procesando Neural...
+                            </>
+                        ) : (
+                            <>
+                                <svg className="w-5 h-5 text-amber-500 dark:text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>
+                                Analizar Conversaciones
+                            </>
+                        )}
+                    </span>
                 </button>
             </div>
 
-            {/* Stats Cards */}
-            <div className="grid grid-cols-4 gap-4 mb-8">
+            {/* KPI Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                 <StatCard
-                    label="Total Sesiones"
+                    label="Sesiones Totales"
                     value={analytics?.overview.totalSessions || 0}
                     icon="chat"
                     href="/admin/conversations"
                 />
                 <StatCard
-                    label="Total Mensajes"
+                    label="Mensajes Procesados"
                     value={analytics?.overview.totalMessages || 0}
                     icon="message"
                     href="/admin/conversations"
                 />
                 <StatCard
-                    label="Tasa Resolución"
+                    label="Tasa de Resolución"
                     value={`${analytics?.overview.resolutionRate || 0}%`}
                     icon="check"
                     color={
-                        (analytics?.overview.resolutionRate || 0) >= 80
-                            ? 'green'
-                            : (analytics?.overview.resolutionRate || 0) >= 50
-                                ? 'yellow'
-                                : 'red'
+                        (analytics?.overview.resolutionRate || 0) >= 80 ? 'green' :
+                            (analytics?.overview.resolutionRate || 0) >= 50 ? 'yellow' : 'red'
                     }
                     href="#"
                 />
                 <StatCard
-                    label="Sin Clasificar"
+                    label="Pendientes"
                     value={analytics?.overview.unclassifiedCount || 0}
                     icon="pending"
                     color={(analytics?.overview.unclassifiedCount || 0) > 0 ? 'yellow' : 'green'}
@@ -132,201 +163,125 @@ export default function AdminDashboard() {
                 />
             </div>
 
-            {/* Alerts */}
-            {(analytics?.alerts.escalationNeeded || 0) > 0 ||
-                (analytics?.alerts.frustrationCount || 0) > 0 ||
-                (analytics?.alerts.bugsReported || 0) > 0 ? (
-                <div className="mb-8 p-4 bg-red-500/10 border border-red-500/30 rounded-xl">
-                    <h3 className="text-red-400 font-medium mb-2">Alertas Activas</h3>
-                    <div className="flex gap-6 text-sm">
-                        {(analytics?.alerts.escalationNeeded || 0) > 0 && (
-                            <Link href="/admin/conversations?urgency=critical" className="text-red-300 hover:text-red-200 underline decoration-1 underline-offset-4">
-                                {analytics?.alerts.escalationNeeded} escalaciones pendientes
-                            </Link>
-                        )}
-                        {(analytics?.alerts.frustrationCount || 0) > 0 && (
-                            <Link href="/admin/conversations?urgency=high" className="text-orange-300 hover:text-orange-200 underline decoration-1 underline-offset-4">
-                                {analytics?.alerts.frustrationCount} usuarios frustrados
-                            </Link>
-                        )}
-                        {(analytics?.alerts.bugsReported || 0) > 0 && (
-                            <span className="text-yellow-300">
-                                {analytics?.alerts.bugsReported} bugs reportados
-                            </span>
+            {/* Smart Alerts */}
+            {((analytics?.alerts.escalationNeeded || 0) > 0 || (analytics?.alerts.frustrationCount || 0) > 0 || (analytics?.alerts.bugsReported || 0) > 0) && (
+                <div className="p-1 rounded-2xl bg-gradient-to-r from-red-500/20 via-orange-500/20 to-amber-500/20 animate-pulse-slow">
+                    <div className="bg-white/90 dark:bg-black/90 backdrop-blur-xl rounded-xl p-4 flex items-center justify-between border border-red-500/10">
+                        <div className="flex items-center gap-3">
+                            <div className="p-2 bg-red-500/10 rounded-lg text-red-500">
+                                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                            </div>
+                            <div>
+                                <h3 className="font-bold text-red-600 dark:text-red-400">Atención Requerida</h3>
+                                <p className="text-xs text-black/60 dark:text-white/60">Se han detectado eventos críticos en las últimas 24 horas</p>
+                            </div>
+                        </div>
+                        <div className="flex gap-4">
+                            {(analytics?.alerts.escalationNeeded || 0) > 0 && (
+                                <Link href="/admin/conversations?urgency=critical" className="px-4 py-2 rounded-lg bg-red-500/10 text-red-600 dark:text-red-400 text-sm font-medium hover:bg-red-500/20 transition-colors">
+                                    {analytics?.alerts.escalationNeeded} Escalaciones
+                                </Link>
+                            )}
+                            {(analytics?.alerts.frustrationCount || 0) > 0 && (
+                                <Link href="/admin/conversations?urgency=high" className="px-4 py-2 rounded-lg bg-orange-500/10 text-orange-600 dark:text-orange-400 text-sm font-medium hover:bg-orange-500/20 transition-colors">
+                                    {analytics?.alerts.frustrationCount} Frustraciones
+                                </Link>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                {/* Intervention Queue */}
+                <div className="lg:col-span-2 space-y-6">
+                    <h3 className="text-xl font-bold flex items-center gap-3">
+                        <span className="w-1 h-6 bg-red-500 rounded-full" />
+                        Cola de Intervención
+                    </h3>
+
+                    <div className="bg-white/60 dark:bg-white/5 backdrop-blur-xl rounded-2xl border border-black/5 dark:border-white/10 overflow-hidden shadow-lg">
+                        {analytics?.interventionQueue.length === 0 ? (
+                            <div className="p-12 text-center flex flex-col items-center">
+                                <div className="w-16 h-16 bg-green-500/10 rounded-full flex items-center justify-center mb-4">
+                                    <svg className="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+                                </div>
+                                <h4 className="text-lg font-bold text-black dark:text-white">Todo despejado</h4>
+                                <p className="text-black/50 dark:text-white/50 text-sm">No hay intervenciones pendientes en este momento.</p>
+                            </div>
+                        ) : (
+                            <div className="divide-y divide-black/5 dark:divide-white/5">
+                                {analytics?.interventionQueue.map((item) => (
+                                    <Link
+                                        key={item.id}
+                                        href={`/admin/conversations?id=${item.id}`}
+                                        className="flex items-center justify-between p-6 hover:bg-black/5 dark:hover:bg-white/5 transition-colors group"
+                                    >
+                                        <div className="flex items-center gap-4">
+                                            <SeverityBadge severity={item.severity} />
+                                            <div>
+                                                <p className="font-medium text-black dark:text-white group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
+                                                    {item.summary}
+                                                </p>
+                                                <p className="text-xs text-black/50 dark:text-white/50 mt-1">
+                                                    Hace {item.hoursAgo} horas
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center gap-2">
+                                            {item.flags.frustration && <span className="w-2 h-2 rounded-full bg-orange-500" title="Frustration" />}
+                                            {item.flags.escalation && <span className="w-2 h-2 rounded-full bg-red-500" title="Escalation" />}
+                                            {item.flags.bug && <span className="w-2 h-2 rounded-full bg-yellow-500" title="Bug" />}
+                                            <svg className="w-5 h-5 text-black/20 dark:text-white/20 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+                                        </div>
+                                    </Link>
+                                ))}
+                            </div>
                         )}
                     </div>
                 </div>
-            ) : null}
 
-            <div className="grid grid-cols-2 gap-8">
-                {/* Top Topics */}
-                <div className="bg-white/5 rounded-xl border border-white/10 p-6">
-                    <h3 className="text-white font-medium mb-4">Top Topics</h3>
-                    {analytics?.topTopics.length === 0 ? (
-                        <p className="text-white/40 text-sm">No hay datos todavía</p>
-                    ) : (
-                        <div className="space-y-3">
-                            {analytics?.topTopics.map((topic) => (
-                                <Link
-                                    key={topic.topic}
-                                    href={`/admin/conversations?topic=${encodeURIComponent(topic.topic)}`}
-                                    className="flex items-center justify-between group cursor-pointer hover:bg-white/5 p-2 rounded -mx-2 transition-colors"
-                                >
-                                    <span className="text-white/80 group-hover:text-white transition-colors">{topic.topic}</span>
-                                    <div className="flex items-center gap-3">
-                                        <div className="w-32 h-2 bg-white/10 rounded-full overflow-hidden">
+                {/* Right Column: Topics & Quality */}
+                <div className="space-y-8">
+                    {/* Quality */}
+                    <div className="bg-white/60 dark:bg-white/5 backdrop-blur-xl rounded-2xl border border-black/5 dark:border-white/10 p-6 shadow-lg">
+                        <h3 className="text-sm font-bold uppercase tracking-wider text-black/40 dark:text-white/40 mb-4 bg-gradient-to-r from-transparent to-transparent">Calidad de Conversación</h3>
+                        <div className="grid grid-cols-2 gap-3">
+                            <QualityBadge label="Alta" count={analytics?.qualityDistribution.high || 0} color="green" />
+                            <QualityBadge label="Media" count={analytics?.qualityDistribution.medium || 0} color="yellow" />
+                            <QualityBadge label="Baja" count={analytics?.qualityDistribution.low || 0} color="orange" />
+                            <QualityBadge label="Spam" count={analytics?.qualityDistribution.spam || 0} color="red" />
+                        </div>
+                    </div>
+
+                    {/* Topics */}
+                    <div className="bg-white/60 dark:bg-white/5 backdrop-blur-xl rounded-2xl border border-black/5 dark:border-white/10 p-6 shadow-lg">
+                        <h3 className="text-sm font-bold uppercase tracking-wider text-black/40 dark:text-white/40 mb-4">Top Topics</h3>
+                        <div className="space-y-4">
+                            {analytics?.topTopics.length === 0 ? (
+                                <p className="text-sm text-black/40 dark:text-white/40 italic">No hay datos suficientes</p>
+                            ) : (
+                                analytics?.topTopics.map((topic, i) => (
+                                    <div key={topic.topic} className="group cursor-default">
+                                        <div className="flex justify-between text-sm mb-1">
+                                            <span className="font-medium text-black/70 dark:text-white/70 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
+                                                {topic.topic}
+                                            </span>
+                                            <span className="font-mono text-black/30 dark:text-white/30">{topic.count}</span>
+                                        </div>
+                                        <div className="w-full h-1.5 bg-black/5 dark:bg-white/5 rounded-full overflow-hidden">
                                             <div
-                                                className="h-full bg-white/40 rounded-full group-hover:bg-white/60 transition-colors"
-                                                style={{ width: `${topic.percentage}%` }}
+                                                className="h-full bg-gradient-to-r from-amber-400 to-red-500 rounded-full transition-all duration-1000 ease-out"
+                                                style={{ width: `${topic.percentage}%`, transitionDelay: `${i * 100}ms` }}
                                             />
                                         </div>
-                                        <span className="text-white/50 text-sm w-12 text-right">
-                                            {topic.count}
-                                        </span>
                                     </div>
-                                </Link>
-                            ))}
+                                ))
+                            )}
                         </div>
-                    )}
-                </div>
-
-                {/* Quality Distribution */}
-                <div className="bg-white/5 rounded-xl border border-white/10 p-6">
-                    <h3 className="text-white font-medium mb-4">Distribución de Calidad</h3>
-                    <div className="grid grid-cols-2 gap-4">
-                        <QualityBadge
-                            label="Alta"
-                            count={analytics?.qualityDistribution.high || 0}
-                            color="green"
-                        />
-                        <QualityBadge
-                            label="Media"
-                            count={analytics?.qualityDistribution.medium || 0}
-                            color="yellow"
-                        />
-                        <QualityBadge
-                            label="Baja"
-                            count={analytics?.qualityDistribution.low || 0}
-                            color="orange"
-                        />
-                        <QualityBadge
-                            label="Spam"
-                            count={analytics?.qualityDistribution.spam || 0}
-                            color="red"
-                        />
                     </div>
-                </div>
-
-                {/* Intervention Queue */}
-                <div className="col-span-2 bg-white/5 rounded-xl border border-white/10 p-6">
-                    <h3 className="text-white font-medium mb-4">Cola de Intervención</h3>
-                    {analytics?.interventionQueue.length === 0 ? (
-                        <p className="text-white/40 text-sm">No hay conversaciones que requieran intervención</p>
-                    ) : (
-                        <div className="space-y-3">
-                            {analytics?.interventionQueue.map((item) => (
-                                <Link
-                                    key={item.id}
-                                    href={`/admin/conversations?id=${item.id}`}
-                                    className="flex items-center justify-between p-3 bg-white/5 rounded-lg border border-white/10 hover:bg-white/10 transition-colors group"
-                                >
-                                    <div className="flex items-center gap-3">
-                                        <SeverityBadge severity={item.severity} />
-                                        <span className="text-white/80 text-sm group-hover:text-white font-medium">{item.summary}</span>
-                                    </div>
-                                    <div className="flex items-center gap-4">
-                                        <div className="flex gap-2">
-                                            {item.flags.frustration && (
-                                                <span className="text-xs px-2 py-1 bg-orange-500/20 text-orange-300 rounded">
-                                                    Frustración
-                                                </span>
-                                            )}
-                                            {item.flags.escalation && (
-                                                <span className="text-xs px-2 py-1 bg-red-500/20 text-red-300 rounded">
-                                                    Escalación
-                                                </span>
-                                            )}
-                                            {item.flags.bug && (
-                                                <span className="text-xs px-2 py-1 bg-yellow-500/20 text-yellow-300 rounded">
-                                                    Bug
-                                                </span>
-                                            )}
-                                        </div>
-                                        <span className="text-white/40 text-xs">hace {item.hoursAgo}h</span>
-                                        <span className="text-white/40 text-xs transform group-hover:translate-x-1 transition-transform">→</span>
-                                    </div>
-                                </Link>
-                            ))}
-                        </div>
-                    )}
                 </div>
             </div>
         </div>
-    )
-}
-
-function StatCard({
-    label,
-    value,
-    icon,
-    color = 'white',
-    href
-}: {
-    label: string
-    value: string | number
-    icon: string
-    color?: 'white' | 'green' | 'yellow' | 'red'
-    href: string
-}) {
-    const colorClasses = {
-        white: 'text-white',
-        green: 'text-green-400',
-        yellow: 'text-yellow-400',
-        red: 'text-red-400',
-    }
-
-    return (
-        <Link href={href} className="bg-white/5 rounded-xl border border-white/10 p-4 hover:bg-white/10 transition-colors block">
-            <p className="text-white/50 text-sm mb-1">{label}</p>
-            <p className={`text-2xl font-bold ${colorClasses[color]}`}>{value}</p>
-        </Link>
-    )
-}
-
-function QualityBadge({
-    label,
-    count,
-    color,
-}: {
-    label: string
-    count: number
-    color: 'green' | 'yellow' | 'orange' | 'red'
-}) {
-    const colorClasses = {
-        green: 'bg-green-500/20 text-green-300 border-green-500/30',
-        yellow: 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30',
-        orange: 'bg-orange-500/20 text-orange-300 border-orange-500/30',
-        red: 'bg-red-500/20 text-red-300 border-red-500/30',
-    }
-
-    return (
-        <div className={`p-4 rounded-lg border ${colorClasses[color]}`}>
-            <p className="text-lg font-bold">{count}</p>
-            <p className="text-sm opacity-80">{label}</p>
-        </div>
-    )
-}
-
-function SeverityBadge({ severity }: { severity: 'critical' | 'high' | 'medium' }) {
-    const classes = {
-        critical: 'bg-red-500 text-white',
-        high: 'bg-orange-500 text-white',
-        medium: 'bg-yellow-500 text-black',
-    }
-
-    return (
-        <span className={`text-xs px-2 py-1 rounded font-medium ${classes[severity]}`}>
-            {severity.toUpperCase()}
-        </span>
     )
 }
