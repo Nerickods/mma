@@ -74,7 +74,7 @@ const FilterSection: React.FC<FilterSectionProps> = memo(({
         whileHover={{ backgroundColor: 'rgba(0,0,0,0.05)' }}
       >
         <div className="flex items-center gap-2">
-          <Icon className="w-4 h-4 text-[var(--accent)]" />
+          <Icon className="w-4 h-4 text-[var(--brand-red)]" />
           <span className="font-semibold text-black">{title}</span>
         </div>
         <motion.div
@@ -132,7 +132,7 @@ const DisciplineFilter: React.FC = memo(() => {
             key={discipline}
             onClick={() => toggleDiscipline(discipline)}
             className={`px-3 py-2 rounded-lg text-xs font-medium transition-all duration-200 border ${isSelected
-              ? 'bg-[var(--accent)] text-black border-[var(--accent)]'
+              ? 'bg-[var(--brand-red)] text-black border-[var(--brand-red)]'
               : 'bg-white/70 text-black/70 border-black/20 hover:bg-black/10'
               }`}
             whileHover={{ scale: 1.02 }}
@@ -221,7 +221,7 @@ const RatingFilter: React.FC = memo(() => {
               key={rating}
               onClick={() => setRating(isSelected ? 0 : rating)}
               className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-200 border ${isSelected
-                ? 'bg-[var(--accent)]/20 text-black border-[var(--accent)]'
+                ? 'bg-[var(--brand-red)]/20 text-black border-[var(--brand-red)]'
                 : 'bg-white/70 text-black/70 border-black/20 hover:bg-black/5'
                 }`}
               whileHover={{ scale: 1.01 }}
@@ -232,7 +232,7 @@ const RatingFilter: React.FC = memo(() => {
                   <Star
                     key={star}
                     className={`w-3 h-3 ${star <= rating
-                      ? 'fill-[var(--accent)] text-[var(--accent)]'
+                      ? 'fill-[var(--brand-red)] text-[var(--brand-red)]'
                       : 'fill-gray-300 text-gray-300'
                       }`}
                   />
@@ -286,7 +286,7 @@ const PriceRangeFilter: React.FC = memo(() => {
               key={`${range.min}-${range.max}`}
               onClick={() => setPriceRange([range.min, range.max])}
               className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-all duration-200 border ${isSelected
-                ? 'bg-[var(--accent)]/20 text-black border-[var(--accent)]'
+                ? 'bg-[var(--brand-red)]/20 text-black border-[var(--brand-red)]'
                 : 'bg-white/70 text-black/70 border-black/20 hover:bg-black/5'
                 }`}
               whileHover={{ scale: 1.01 }}
@@ -339,7 +339,7 @@ const LanguageFilter: React.FC = memo(() => {
             key={language}
             onClick={() => toggleLanguage(language)}
             className={`px-3 py-2 rounded-lg text-xs font-medium transition-all duration-200 border flex items-center gap-1 ${isSelected
-              ? 'bg-[var(--accent)] text-black border-[var(--accent)]'
+              ? 'bg-[var(--brand-red)] text-black border-[var(--brand-red)]'
               : 'bg-white/70 text-black/70 border-black/20 hover:bg-black/10'
               }`}
             whileHover={{ scale: 1.02 }}
@@ -384,7 +384,7 @@ const SortOptions: React.FC = memo(() => {
               direction: option.field === 'name' ? 'asc' : 'desc'
             })}
             className={`w-full text-left px-3 py-2 rounded-lg transition-all duration-200 border ${isSelected
-              ? 'bg-[var(--accent)]/20 text-black border-[var(--accent)]'
+              ? 'bg-[var(--brand-red)]/20 text-black border-[var(--brand-red)]'
               : 'bg-white/70 text-black/70 border-black/20 hover:bg-black/5'
               }`}
             whileHover={{ scale: 1.01 }}
@@ -505,7 +505,7 @@ const ActiveFilters: React.FC = memo(() => {
     <motion.div
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="flex flex-wrap items-center gap-2 p-3 bg-[var(--accent)]/10 rounded-lg border border-[var(--accent)]/20"
+      className="flex flex-wrap items-center gap-2 p-3 bg-[var(--brand-red)]/10 rounded-lg border border-[var(--brand-red)]/20"
     >
       <span className="text-sm font-medium text-black mr-2">
         Filtros activos ({activeFiltersCount}):
@@ -520,7 +520,7 @@ const ActiveFilters: React.FC = memo(() => {
             exit={{ opacity: 0, scale: 0.8 }}
             transition={{ delay: index * 0.05 }}
             onClick={() => handleRemoveFilter(filter.key, filter.value)}
-            className="inline-flex items-center gap-1 px-2 py-1 bg-[var(--accent)] text-black rounded-full text-xs font-medium hover:bg-[var(--accent)]/80 transition-colors duration-200"
+            className="inline-flex items-center gap-1 px-2 py-1 bg-[var(--brand-red)] text-black rounded-full text-xs font-medium hover:bg-[var(--brand-red)]/80 transition-colors duration-200"
           >
             {filter.label}
             <X className="w-3 h-3" />
@@ -607,10 +607,10 @@ const TrainerFilters: React.FC<TrainerFiltersProps> = memo(({
             <div className="sticky top-0 z-10 bg-white/80 backdrop-blur-md border-b border-black/10 px-4 py-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <SlidersHorizontal className="w-5 h-5 text-[var(--accent)]" />
+                  <SlidersHorizontal className="w-5 h-5 text-[var(--brand-red)]" />
                   <h2 className="text-lg font-bold text-black">Filtros de Entrenadores</h2>
                   {hasActiveFilters && (
-                    <span className="bg-[var(--accent)] text-black text-xs px-2 py-1 rounded-full font-bold">
+                    <span className="bg-[var(--brand-red)] text-black text-xs px-2 py-1 rounded-full font-bold">
                       {Object.values(filters).filter(f =>
                         Array.isArray(f) ? f.length > 0 : f !== false && f !== 0 && (!Array.isArray(f) ? f : true)
                       ).length}
@@ -677,7 +677,7 @@ const TrainerFilters: React.FC<TrainerFiltersProps> = memo(({
                 </motion.button>
                 <motion.button
                   onClick={onClose}
-                  className="flex-1 px-4 py-2 bg-[var(--accent)] text-black rounded-lg font-bold hover:bg-[var(--accent)]/90 transition-colors duration-200"
+                  className="flex-1 px-4 py-2 bg-[var(--brand-red)] text-black rounded-lg font-bold hover:bg-[var(--brand-red)]/90 transition-colors duration-200"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >

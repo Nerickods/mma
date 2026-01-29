@@ -3,7 +3,10 @@ import type { NextConfig } from 'next';
 const nextConfig: NextConfig = {
   // Next.js 16 Features
   // Next.js 16 Features
-  reactCompiler: true,
+  reactCompiler: false,
+
+  // Transpile framer-motion to fix Turbopack issue
+  transpilePackages: ['framer-motion', 'motion-dom'],
 
   experimental: {
     turbopackFileSystemCacheForDev: true,  // Faster dev restarts
