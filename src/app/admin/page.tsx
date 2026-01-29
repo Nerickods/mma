@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { StatCard } from './components/StatCard'
 import { QualityBadge, SeverityBadge } from './components/Badges'
+import NewRegistrations from '@/features/dashboard/components/NewRegistrations'
 
 interface Analytics {
     overview: {
@@ -13,6 +14,7 @@ interface Analytics {
         classifiedCount: number
         unclassifiedCount: number
         resolutionRate: number
+        newEnrollments?: number
     }
     alerts: {
         frustrationCount: number
@@ -101,34 +103,41 @@ export default function AdminDashboard() {
                     </p>
                 </div>
 
-                <button
-                    onClick={runClassification}
-                    disabled={classifying}
-                    className="
-                        relative overflow-hidden group
-                        px-8 py-3 rounded-2xl
-                        bg-black text-white dark:bg-white dark:text-black
-                        disabled:opacity-50 disabled:cursor-not-allowed
-                        transition-all duration-300 hover:scale-105 active:scale-95
-                        shadow-xl shadow-black/10 dark:shadow-white/10
-                    "
-                >
-                    <div className="absolute inset-0 bg-gradient-to-r from-amber-400 to-red-600 opacity-0 group-hover:opacity-10 dark:group-hover:opacity-20 transition-opacity" />
-                    <span className="relative z-10 flex items-center gap-3 font-semibold text-sm">
-                        {classifying ? (
-                            <>
-                                <svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-                                Procesando Neural...
-                            </>
-                        ) : (
-                            <>
-                                <svg className="w-5 h-5 text-amber-500 dark:text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>
-                                Analizar Conversaciones
-                            </>
-                        )}
-                    </span>
-                </button>
+                <div className="flex gap-4">
+                    <button
+                        onClick={runClassification}
+                        disabled={classifying}
+                        className="
+                            relative overflow-hidden group
+                            px-8 py-3 rounded-2xl
+                            bg-black text-white dark:bg-white dark:text-black
+                            disabled:opacity-50 disabled:cursor-not-allowed
+                            transition-all duration-300 hover:scale-105 active:scale-95
+                            shadow-xl shadow-black/10 dark:shadow-white/10
+                        "
+                    >
+                        <div className="absolute inset-0 bg-gradient-to-r from-amber-400 to-red-600 opacity-0 group-hover:opacity-10 dark:group-hover:opacity-20 transition-opacity" />
+                        <span className="relative z-10 flex items-center gap-3 font-semibold text-sm">
+                            {classifying ? (
+                                <>
+                                    <svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                                    Procesando Neural...
+                                </>
+                            ) : (
+                                <>
+                                    <svg className="w-5 h-5 text-amber-500 dark:text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>
+                                    Analizar Conversaciones
+                                </>
+                            )}
+                        </span>
+                    </button>
+                </div>
             </div>
+
+            {/* Smart Alerts: New Registrations */}
+            {analytics?.overview.newEnrollments ? (
+                <NewRegistrations count={analytics.overview.newEnrollments} />
+            ) : null}
 
             {/* KPI Grid */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">

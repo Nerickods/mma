@@ -175,6 +175,12 @@ export async function GET() {
             }
         })
 
+    // Get new enrollments count
+    const { count: newEnrollments } = await supabase
+        .from('enrollments')
+        .select('*', { count: 'exact', head: true })
+        .eq('status', 'new')
+
     return NextResponse.json({
         overview: {
             totalSessions,
@@ -182,6 +188,7 @@ export async function GET() {
             classifiedCount,
             unclassifiedCount,
             resolutionRate,
+            newEnrollments: newEnrollments || 0,
         },
         alerts: {
             frustrationCount,
