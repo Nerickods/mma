@@ -33,8 +33,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased font-['Poppins'] bg-white dark:bg-black min-h-screen relative overflow-x-hidden transition-colors duration-300`}>
+    <html lang="es" suppressHydrationWarning>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased font-['Poppins'] bg-white dark:bg-black min-h-screen relative overflow-x-hidden transition-colors duration-300`} suppressHydrationWarning>
         <ThemeProvider>
           {/* Global Mesh Gradient Background - Dark Mode */}
           <div className="fixed inset-0 z-[-1] bg-[radial-gradient(circle_at_50%_0%,rgba(60,60,60,0.4),rgba(0,0,0,0)_70%),linear-gradient(180deg,rgba(0,0,0,1)_0%,rgba(20,20,20,1)_100%)] pointer-events-none opacity-0 dark:opacity-100 transition-opacity duration-500" />

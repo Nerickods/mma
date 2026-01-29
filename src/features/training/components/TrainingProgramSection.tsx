@@ -10,14 +10,22 @@ import {
 
 import { disciplines, SCHEDULE_DATA } from '@/shared/constants/training-data';
 
-export default function TrainingProgramSection() {
+import { ClassSchedule } from '../types';
+
+interface TrainingProgramSectionProps {
+    schedule?: ClassSchedule[];
+}
+
+export default function TrainingProgramSection({ schedule }: TrainingProgramSectionProps) {
     const [activeTab, setActiveTab] = useState<string>('mma'); // Default to MMA
 
     const handleReserve = (className: string) => {
         document.getElementById('formulario')?.scrollIntoView({ behavior: 'smooth' });
     };
 
-    const filteredSchedule = SCHEDULE_DATA.filter(item => item.type === activeTab);
+    // Use DB schedule if available, otherwise fallback to static data
+    const activeSchedule = schedule && schedule.length > 0 ? schedule : SCHEDULE_DATA;
+    const filteredSchedule = activeSchedule.filter(item => item.type === activeTab);
     const activeDisciplineInfo = disciplines.find(d => d.id === activeTab);
 
     return (

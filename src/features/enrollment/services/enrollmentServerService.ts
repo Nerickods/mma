@@ -45,6 +45,22 @@ export const enrollmentService = {
         return enrollment as SavedEnrollment;
     },
 
+    async getAllEnrollments(): Promise<SavedEnrollment[]> {
+        const supabase = await createClient();
+
+        const { data, error } = await supabase
+            .from('enrollments')
+            .select('*')
+            .order('created_at', { ascending: false });
+
+        if (error) {
+            console.error('Error fetching enrollments:', error);
+            return [];
+        }
+
+        return data as SavedEnrollment[];
+    },
+
     /**
      * Check if email already exists as enrollment
      */
