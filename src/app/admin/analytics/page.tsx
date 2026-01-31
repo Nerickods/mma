@@ -93,8 +93,8 @@ export default function AnalyticsPage() {
     return (
         <div className="p-8 animate-in fade-in zoom-in duration-500">
             <div className="mb-10 border-b border-black/5 dark:border-white/5 pb-8">
-                <h1 className="text-4xl font-bold text-black dark:text-white tracking-tight mb-2">Analíticas Deep Dive</h1>
-                <p className="text-black/50 dark:text-white/50 text-lg">Métricas profundas del comportamiento del agente</p>
+                <h1 className="text-4xl font-bold text-amber-900 dark:text-white tracking-tight mb-2">Analíticas Deep Dive</h1>
+                <p className="text-amber-900/60 dark:text-white/50 text-lg">Métricas profundas del comportamiento del agente</p>
             </div>
 
             {/* Top Level KPIs */}
@@ -103,21 +103,21 @@ export default function AnalyticsPage() {
                 <StatCard label="Mensajes Totales" value={analytics.overview.totalMessages} icon="message" href="/admin/conversations" />
                 <StatCard label="Clasificados" value={analytics.overview.classifiedCount} icon="check" href="/admin/conversations?status=classified" />
 
-                <div className="bg-white/60 dark:bg-white/5 backdrop-blur-xl rounded-2xl border border-black/5 dark:border-white/10 p-6 flex flex-col justify-center relative overflow-hidden group">
+                <div className="bg-white/60 dark:bg-white/5 backdrop-blur-xl rounded-2xl border border-white/40 dark:border-white/10 p-6 flex flex-col justify-center relative overflow-hidden group shadow-lg shadow-orange-500/5">
                     <div className="absolute right-0 top-0 w-24 h-24 bg-green-500/10 rounded-full blur-2xl -mr-12 -mt-12 transition-opacity group-hover:opacity-100 opacity-50" />
-                    <p className="text-black/40 dark:text-white/40 text-xs uppercase tracking-wider font-bold mb-2">Tasa Resolución</p>
-                    <p className={`text-3xl font-bold ${analytics.overview.resolutionRate >= 80 ? 'text-green-600 dark:text-green-400' : 'text-amber-600 dark:text-amber-400'}`}>
+                    <p className="text-amber-900/40 dark:text-white/40 text-xs uppercase tracking-wider font-bold mb-2">Tasa Resolución</p>
+                    <p className={`text-3xl font-bold ${analytics.overview.resolutionRate >= 80 ? 'text-emerald-600 dark:text-emerald-400' : 'text-amber-600 dark:text-amber-400'}`}>
                         {analytics.overview.resolutionRate}%
                     </p>
                 </div>
 
                 <Link
                     href="/admin/conversations?status=unclassified"
-                    className="bg-white/60 dark:bg-white/5 backdrop-blur-xl rounded-2xl border border-black/5 dark:border-white/10 p-6 flex flex-col justify-center relative overflow-hidden group hover:border-amber-500/30 transition-all cursor-pointer"
+                    className="bg-white/60 dark:bg-white/5 backdrop-blur-xl rounded-2xl border border-white/40 dark:border-white/10 p-6 flex flex-col justify-center relative overflow-hidden group hover:border-amber-500/30 transition-all cursor-pointer shadow-lg shadow-orange-500/5"
                 >
                     <div className="absolute right-0 top-0 w-24 h-24 bg-amber-500/10 rounded-full blur-2xl -mr-12 -mt-12 transition-opacity group-hover:opacity-100 opacity-50" />
-                    <p className="text-black/40 dark:text-white/40 text-xs uppercase tracking-wider font-bold mb-2">Pendientes</p>
-                    <p className={`text-3xl font-bold ${analytics.overview.unclassifiedCount > 0 ? 'text-amber-600 dark:text-amber-400' : 'text-green-600 dark:text-green-400'}`}>
+                    <p className="text-amber-900/40 dark:text-white/40 text-xs uppercase tracking-wider font-bold mb-2">Pendientes</p>
+                    <p className={`text-3xl font-bold ${analytics.overview.unclassifiedCount > 0 ? 'text-amber-600 dark:text-amber-400' : 'text-emerald-600 dark:text-emerald-400'}`}>
                         {analytics.overview.unclassifiedCount}
                     </p>
                 </Link>
@@ -125,24 +125,24 @@ export default function AnalyticsPage() {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
                 {/* Visual Chart - Quality Quality */}
-                <div className="bg-white/80 dark:bg-white/5 backdrop-blur-xl rounded-3xl border border-black/5 dark:border-white/10 p-8 shadow-lg">
-                    <h3 className="text-xl font-bold text-black dark:text-white mb-8 flex items-center gap-3">
+                <div className="bg-white/70 dark:bg-white/5 backdrop-blur-xl rounded-3xl border border-white/40 dark:border-white/10 p-8 shadow-lg shadow-orange-500/5">
+                    <h3 className="text-xl font-bold text-amber-900 dark:text-white mb-8 flex items-center gap-3">
                         <span className="w-1.5 h-6 bg-amber-500 rounded-full" />
                         Distribución de Calidad
                     </h3>
 
                     {totalQuality === 0 ? (
-                        <p className="text-black/40 dark:text-white/40 text-center py-10">No hay datos suficientes</p>
+                        <p className="text-amber-900/40 dark:text-white/40 text-center py-10">No hay datos suficientes</p>
                     ) : (
                         <div className="flex flex-col md:flex-row items-center gap-12">
                             <div className="relative w-48 h-48 shrink-0">
                                 <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
-                                    <circle cx="50" cy="50" r="40" fill="none" classNamen="text-black/5 dark:text-white/5" strokeWidth="12" />
+                                    <circle cx="50" cy="50" r="40" fill="none" className="text-black/5 dark:text-white/5" strokeWidth="12" />
                                     <circle cx="50" cy="50" r="40" fill="none" stroke="currentColor" strokeWidth="12" className="text-amber-500 dark:text-red-500" strokeDasharray={`${(analytics.qualityDistribution.high / totalQuality) * 251} 251`} strokeLinecap="round" />
                                 </svg>
                                 <div className="absolute inset-0 flex flex-col items-center justify-center">
-                                    <span className="text-4xl font-bold text-black dark:text-white">{totalQuality}</span>
-                                    <span className="text-xs uppercase tracking-widest text-black/40 dark:text-white/40 font-bold">Sesiones</span>
+                                    <span className="text-4xl font-bold text-amber-900 dark:text-white">{totalQuality}</span>
+                                    <span className="text-xs uppercase tracking-widest text-amber-900/40 dark:text-white/40 font-bold">Sesiones</span>
                                 </div>
                             </div>
                             <div className="grid grid-cols-2 gap-4 w-full">
@@ -156,14 +156,14 @@ export default function AnalyticsPage() {
                 </div>
 
                 {/* Topics Progress */}
-                <div className="bg-white/80 dark:bg-white/5 backdrop-blur-xl rounded-3xl border border-black/5 dark:border-white/10 p-8 shadow-lg">
-                    <h3 className="text-xl font-bold text-black dark:text-white mb-8 flex items-center gap-3">
+                <div className="bg-white/70 dark:bg-white/5 backdrop-blur-xl rounded-3xl border border-white/40 dark:border-white/10 p-8 shadow-lg shadow-orange-500/5">
+                    <h3 className="text-xl font-bold text-amber-900 dark:text-white mb-8 flex items-center gap-3">
                         <span className="w-1.5 h-6 bg-red-600 rounded-full" />
                         Trending Topics
                     </h3>
 
                     {analytics.topTopics.length === 0 ? (
-                        <p className="text-black/40 dark:text-white/40 text-center py-10">No hay datos suficientes</p>
+                        <p className="text-amber-900/40 dark:text-white/40 text-center py-10">No hay datos suficientes</p>
                     ) : (
                         <div className="space-y-6">
                             {analytics.topTopics.slice(0, 5).map((topic, i) => (
@@ -173,8 +173,8 @@ export default function AnalyticsPage() {
                                     className="block group cursor-pointer"
                                 >
                                     <div className="flex justify-between text-sm mb-2 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors font-medium">
-                                        <span className="text-black/80 dark:text-white/80">{topic.topic}</span>
-                                        <span className="text-black/40 dark:text-white/40 font-mono">{topic.count} ({topic.percentage}%)</span>
+                                        <span className="text-amber-900/80 dark:text-white/80">{topic.topic}</span>
+                                        <span className="text-amber-900/40 dark:text-white/40 font-mono">{topic.count} ({topic.percentage}%)</span>
                                     </div>
                                     <div className="h-2.5 bg-black/5 dark:bg-white/10 rounded-full overflow-hidden">
                                         <div

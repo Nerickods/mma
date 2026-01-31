@@ -65,30 +65,14 @@ export async function syncSessions(supabase: SupabaseClient) {
                 transcript: transcript
             }
 
-            // 3. Manual UPSERT to avoid "ON CONFLICT" errors if unique constraint is missing
+            // 3. Atomic UPSERT using the new UNIQUE constraint on conversation_id
             try {
-                // Check if session exists
-                const { data: existingSession } = await supabase
+                const { error } = await supabase
                     .from('conversation_sessions')
-                    .select('id')
-                    .eq('conversation_id', conv.id)
-                    .single()
-
-                let error
-                if (existingSession) {
-                    // Update
-                    const { error: updateError } = await supabase
-                        .from('conversation_sessions')
-                        .update(sessionData)
-                        .eq('id', existingSession.id)
-                    error = updateError
-                } else {
-                    // Insert
-                    const { error: insertError } = await supabase
-                        .from('conversation_sessions')
-                        .insert(sessionData)
-                    error = insertError
-                }
+                    .upsert(sessionData, {
+                        onConflict: 'conversation_id',
+                        ignoreDuplicates: false // We want to update if it exists
+                    })
 
                 if (!error) {
                     syncedCount++

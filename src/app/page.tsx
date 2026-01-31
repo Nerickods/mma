@@ -6,5 +6,9 @@ export const dynamic = 'force-dynamic';
 export default async function Home() {
     const schedule = await scheduleService.getAllClasses();
 
-    return <LandingPageContent schedule={schedule} />;
+    return (
+        <div className="dark">
+            <LandingPageContent schedule={schedule} />
+        </div>
+    );
 }

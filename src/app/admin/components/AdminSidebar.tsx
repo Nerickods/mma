@@ -13,18 +13,18 @@ interface AdminSidebarProps {
 
 export function AdminSidebar({ user }: AdminSidebarProps) {
     return (
-        <aside className="fixed left-4 top-4 bottom-4 w-72 bg-white/80 dark:bg-black/40 backdrop-blur-xl border border-black/5 dark:border-white/10 rounded-3xl z-50 flex flex-col shadow-2xl shadow-black/5 dark:shadow-black/50 transition-all duration-300">
+        <aside className="fixed left-4 top-4 bottom-4 w-72 bg-white/70 dark:bg-black/40 backdrop-blur-2xl border border-white/40 dark:border-white/10 rounded-3xl z-50 flex flex-col shadow-2xl shadow-orange-500/10 dark:shadow-black/50 transition-all duration-300">
             <div className="p-8 pb-4">
                 <div className="flex items-center gap-3 mb-1">
                     <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-amber-400 to-red-600 flex items-center justify-center shadow-lg shadow-amber-500/20">
                         <span className="font-bold text-white text-xs">BB</span>
                     </div>
-                    <h1 className="text-lg font-bold text-black dark:text-white tracking-wide transition-colors">Blackbird</h1>
+                    <h1 className="text-lg font-bold text-amber-950 dark:text-white tracking-wide transition-colors">Blackbird</h1>
                 </div>
-                <p className="text-xs text-black/40 dark:text-white/40 font-medium pl-11 transition-colors">{user.full_name || user.email || 'Admin User'}</p>
+                <p className="text-xs text-amber-900/70 dark:text-white/40 font-medium pl-11 transition-colors">{user.full_name || user.email || 'Admin User'}</p>
             </div>
 
-            <div className="h-px bg-gradient-to-r from-transparent via-black/10 dark:via-white/10 to-transparent mx-8 mb-6 transition-colors" />
+            <div className="h-px bg-gradient-to-r from-transparent via-amber-900/10 dark:via-white/10 to-transparent mx-8 mb-6 transition-colors" />
 
             <nav className="flex-1 px-4 space-y-1 overflow-y-auto custom-scrollbar">
                 <NavLink href="/admin" icon="home">
@@ -134,13 +134,13 @@ function NavLink({
     return (
         <Link
             href={href}
-            className="flex items-center gap-3 px-4 py-3 rounded-xl text-black/60 dark:text-white/60 hover:text-black dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/10 transition-all group relative overflow-hidden"
+            className="flex items-center gap-3 px-4 py-3 rounded-xl text-amber-900/80 dark:text-white/60 hover:text-amber-950 dark:hover:text-white hover:bg-orange-100/50 dark:hover:bg-white/10 transition-all group relative overflow-hidden"
         >
             {/* Active/Hover Indicator - New Gradient (Amber to Red) */}
-            <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-amber-400 to-red-600 opacity-0 group-hover:opacity-100 transition-opacity rounded-r-full" />
+            <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-amber-500 to-red-600 opacity-0 group-hover:opacity-100 transition-opacity rounded-r-full" />
 
             <svg
-                className="w-5 h-5 transition-transform duration-300 group-hover:scale-110 group-hover:text-amber-600 dark:group-hover:text-amber-400"
+                className="w-5 h-5 transition-transform duration-300 group-hover:scale-110 group-hover:text-orange-600 dark:group-hover:text-amber-400"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"

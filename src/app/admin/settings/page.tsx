@@ -132,11 +132,11 @@ export default function SettingsPage() {
             {/* Header Area */}
             <div className="flex items-end justify-between">
                 <div>
-                    <h1 className="text-4xl font-bold text-black dark:text-white tracking-tight mb-2 flex items-center gap-3">
+                    <h1 className="text-4xl font-bold text-amber-900 dark:text-white tracking-tight mb-2 flex items-center gap-3">
                         <span className="w-2 h-10 bg-gradient-to-b from-amber-400 to-red-600 rounded-full" />
                         Configuración del Agente
                     </h1>
-                    <p className="text-black/50 dark:text-white/50 font-light ml-5">
+                    <p className="text-amber-900/60 dark:text-white/50 font-light ml-5">
                         Define el núcleo, personalidad y comportamiento neuronal del asistente
                     </p>
                 </div>
@@ -158,22 +158,22 @@ export default function SettingsPage() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
                 {/* Left Column: Identity & Personality */}
                 <div className="lg:col-span-12 space-y-8">
-                    <div className="bg-white/60 dark:bg-white/5 backdrop-blur-xl border border-black/5 dark:border-white/10 rounded-3xl p-8 shadow-xl relative overflow-hidden group">
+                    <div className="bg-white/60 dark:bg-white/5 backdrop-blur-xl border border-white/40 dark:border-white/10 rounded-3xl p-8 shadow-xl relative overflow-hidden group shadow-orange-500/5">
                         <div className="absolute top-0 right-0 p-8 opacity-[0.03] group-hover:opacity-[0.07] transition-opacity pointer-events-none transform group-hover:scale-110 duration-700">
-                            <svg className="w-48 h-48 text-black dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                            <svg className="w-48 h-48 text-amber-900 dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                             <div className="space-y-6">
                                 {/* Name Input */}
                                 <div>
-                                    <label className="block text-[10px] uppercase font-bold tracking-widest text-black/40 dark:text-white/40 mb-2 ml-1">Nombre de la Identidad</label>
+                                    <label className="block text-[10px] uppercase font-bold tracking-widest text-amber-900/40 dark:text-white/40 mb-2 ml-1">Nombre de la Identidad</label>
                                     <div className="relative">
                                         <input
                                             type="text"
                                             value={agent.name}
                                             onChange={(e) => setAgent({ ...agent, name: e.target.value })}
-                                            className="w-full px-6 py-4 bg-white/40 dark:bg-black/20 border border-black/5 dark:border-white/5 rounded-2xl text-black dark:text-white placeholder-black/20 dark:placeholder-white/20 focus:outline-none focus:ring-2 focus:ring-amber-500/30 focus:border-amber-500/50 transition-all font-medium text-lg"
+                                            className="w-full px-6 py-4 bg-white/40 dark:bg-black/20 border border-white/40 dark:border-white/5 rounded-2xl text-amber-900 dark:text-white placeholder-amber-900/20 dark:placeholder-white/20 focus:outline-none focus:ring-2 focus:ring-amber-500/30 focus:border-amber-500/50 transition-all font-medium text-lg"
                                             placeholder="Ej: BB Neural v3"
                                         />
                                         <div className="absolute right-4 top-1/2 -translate-y-1/2 w-8 h-8 bg-amber-500/10 rounded-xl flex items-center justify-center">

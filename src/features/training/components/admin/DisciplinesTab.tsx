@@ -8,6 +8,7 @@ import {
 import { disciplines } from '@/shared/constants/training-data';
 import { ClassSchedule } from '../../types';
 import { createClassAction, updateClassAction, deleteClassAction } from '../../actions/scheduleActions';
+import { Portal } from '@/shared/components/Portal';
 
 interface DisciplinesTabProps {
     initialSchedule: ClassSchedule[];
@@ -100,32 +101,32 @@ export default function DisciplinesTab({ initialSchedule }: DisciplinesTabProps)
             {/* Header Area */}
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
-                    <h2 className="text-3xl font-black text-white uppercase tracking-tighter">
-                        Programación <span className="text-[var(--accent)] text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-red-600">Maestra</span>
+                    <h2 className="text-3xl font-black text-orange-700 dark:text-white uppercase tracking-tighter transition-colors">
+                        Programación <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-500 to-red-600">Maestra</span>
                     </h2>
-                    <p className="text-gray-400 text-sm mt-1">
+                    <p className="text-amber-950/80 dark:text-white/50 text-sm mt-1 transition-colors">
                         Gestión completa del calendario. Los cambios se reflejan en tiempo real.
                     </p>
                 </div>
 
                 <button
                     onClick={handleNew}
-                    className="flex items-center gap-2 bg-[var(--accent)] text-black px-6 py-3 rounded-xl font-bold hover:brightness-110 transition-all shadow-lg shadow-orange-500/20"
+                    className="flex items-center gap-2 bg-gradient-to-r from-amber-400 to-red-600 text-white px-6 py-3 rounded-xl font-bold hover:shadow-lg hover:shadow-orange-500/20 hover:scale-105 transition-all"
                 >
                     <FaPlus /> Nueva Clase
                 </button>
             </div>
 
             {/* Controls Bar */}
-            <div className="flex flex-col lg:flex-row gap-4 bg-black/20 p-4 rounded-2xl border border-white/5 backdrop-blur-md">
+            <div className="flex flex-col lg:flex-row gap-4 bg-white/60 dark:bg-black/20 p-4 rounded-2xl border border-white/40 dark:border-white/5 backdrop-blur-xl shadow-lg shadow-orange-500/5 transition-colors">
                 <div className="relative flex-grow max-w-md">
-                    <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" />
+                    <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-amber-900/30 dark:text-white/30 transition-colors" />
                     <input
                         type="text"
                         placeholder="Buscar clase o instructor..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full bg-black/40 border border-white/10 rounded-xl pl-12 pr-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-[var(--accent)] transition-colors"
+                        className="w-full bg-white/40 dark:bg-black/40 border border-white/40 dark:border-white/10 rounded-xl pl-12 pr-4 py-3 text-amber-900 dark:text-white placeholder-amber-900/30 dark:placeholder-white/30 focus:outline-none focus:bg-white dark:focus:bg-white/10 focus:border-amber-500/50 transition-all shadow-sm"
                     />
                 </div>
 
@@ -133,9 +134,9 @@ export default function DisciplinesTab({ initialSchedule }: DisciplinesTabProps)
                     <div className="flex gap-2">
                         <button
                             onClick={() => setActiveTab('all')}
-                            className={`px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all whitespace-nowrap ${activeTab === 'all'
-                                ? 'bg-white text-black'
-                                : 'bg-white/5 text-gray-400 hover:bg-white/10'
+                            className={`px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all whitespace-nowrap border ${activeTab === 'all'
+                                ? 'bg-amber-600 text-white border-amber-600 shadow-lg shadow-amber-600/20'
+                                : 'bg-white/60 dark:bg-white/5 text-amber-900/70 dark:text-white/40 border-transparent hover:bg-white/80 dark:hover:bg-white/10'
                                 }`}
                         >
                             Todas
@@ -144,12 +145,12 @@ export default function DisciplinesTab({ initialSchedule }: DisciplinesTabProps)
                             <button
                                 key={d.id}
                                 onClick={() => setActiveTab(d.id)}
-                                className={`px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all whitespace-nowrap flex items-center gap-2 ${activeTab === d.id
-                                    ? `bg-gradient-to-r ${d.gradient} text-white border border-white/20`
-                                    : 'bg-white/5 text-gray-400 hover:bg-white/10'
+                                className={`px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all whitespace-nowrap flex items-center gap-2 border ${activeTab === d.id
+                                    ? `bg-gradient-to-r ${d.gradient} text-white border-transparent shadow-lg`
+                                    : 'bg-white/40 dark:bg-white/5 text-amber-900/40 dark:text-white/40 border-transparent hover:bg-white/60 dark:hover:bg-white/10'
                                     }`}
                             >
-                                <d.icon className={activeTab === d.id ? "text-white" : ""} />
+                                <d.icon className={activeTab === d.id ? "text-white" : d.accentColor} />
                                 {d.name}
                             </button>
                         ))}
@@ -164,13 +165,13 @@ export default function DisciplinesTab({ initialSchedule }: DisciplinesTabProps)
                         key={day}
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="bg-black/40 border border-white/10 rounded-2xl overflow-hidden backdrop-blur-sm flex flex-col"
+                        className="bg-white/70 dark:bg-black/40 border border-white/40 dark:border-white/10 rounded-2xl overflow-hidden backdrop-blur-xl shadow-lg shadow-orange-500/5 flex flex-col transition-colors"
                     >
-                        <div className="bg-white/5 px-6 py-4 border-b border-white/5 flex justify-between items-center">
-                            <h3 className="text-lg font-black text-white uppercase tracking-wider flex items-center gap-2">
-                                <FaCalendarAlt className="text-[var(--accent)]" /> {day}
+                        <div className="bg-white/60 dark:bg-white/5 px-6 py-4 border-b border-black/5 dark:border-white/5 flex justify-between items-center transition-colors">
+                            <h3 className="text-lg font-black text-orange-800 dark:text-white uppercase tracking-wider flex items-center gap-2 transition-colors">
+                                <FaCalendarAlt className="text-orange-600 dark:text-red-500 transition-colors" /> {day}
                             </h3>
-                            <span className="text-xs font-bold bg-white/10 text-gray-300 px-2 py-1 rounded-md">
+                            <span className="text-xs font-bold bg-amber-100 dark:bg-white/10 text-amber-900 dark:text-gray-300 px-2 py-1 rounded-md transition-colors">
                                 {groupedSchedule[day].length} Clases
                             </span>
                         </div>
@@ -178,47 +179,62 @@ export default function DisciplinesTab({ initialSchedule }: DisciplinesTabProps)
                         <div className="p-4 space-y-3 flex-grow">
                             {groupedSchedule[day].sort((a, b) => a.time.localeCompare(b.time)).map((item) => {
                                 const disciplineInfo = disciplines.find(d => d.id === item.type);
+                                const lightModeColors: Record<string, { bg: string, text: string, border: string }> = {
+                                    'mma': { bg: 'bg-yellow-100', text: 'text-yellow-700', border: 'group-hover:border-yellow-200' },
+                                    'boxing': { bg: 'bg-red-100', text: 'text-red-700', border: 'group-hover:border-red-200' },
+                                    'muay-thai': { bg: 'bg-orange-100', text: 'text-orange-700', border: 'group-hover:border-orange-200' },
+                                    'bjj': { bg: 'bg-blue-100', text: 'text-blue-700', border: 'group-hover:border-blue-200' },
+                                    'kickboxing': { bg: 'bg-purple-100', text: 'text-purple-700', border: 'group-hover:border-purple-200' },
+                                    'acondicionamiento': { bg: 'bg-green-100', text: 'text-green-700', border: 'group-hover:border-green-200' },
+                                };
+
+                                const style = lightModeColors[item.type] || { bg: 'bg-gray-100', text: 'text-gray-700', border: 'border-gray-200' };
+
                                 return (
                                     <div
                                         key={item.id}
-                                        className="group relative bg-white/5 hover:bg-white/10 border border-white/5 rounded-xl p-3 transition-all duration-300"
+                                        className={`group relative bg-white dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl p-4 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 ${style.border}`}
                                     >
-                                        <div className="absolute top-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                            <button onClick={() => handleEdit(item)} className="p-1.5 bg-blue-500/20 text-blue-400 rounded-lg hover:bg-blue-500/40">
+                                        <div className="absolute top-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity z-10">
+                                            <button onClick={() => handleEdit(item)} className="p-2 bg-white shadow-sm text-blue-600 dark:bg-blue-500/10 dark:text-blue-400 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-500/20 transition-colors">
                                                 <FaEdit size={12} />
                                             </button>
-                                            <button onClick={() => handleDelete(item.id)} className="p-1.5 bg-red-500/20 text-red-400 rounded-lg hover:bg-red-500/40">
+                                            <button onClick={() => handleDelete(item.id)} className="p-2 bg-white shadow-sm text-red-600 dark:bg-red-500/10 dark:text-red-400 rounded-lg hover:bg-red-50 dark:hover:bg-red-500/20 transition-colors">
                                                 <FaTrash size={12} />
                                             </button>
                                         </div>
 
-                                        <div className="flex justify-between items-start mb-2 pr-16">
-                                            <div className="flex items-center gap-3">
-                                                <div className={`p-2 rounded-lg bg-gradient-to-br ${disciplineInfo?.gradient || 'from-gray-800 to-black'}`}>
-                                                    {disciplineInfo?.icon ? <disciplineInfo.icon className="text-white" /> : <FaDumbbell />}
+                                        <div className="flex justify-between items-start mb-3 pr-16">
+                                            <div className="flex items-center gap-4">
+                                                {/* Adaptive Icon Container */}
+                                                <div className={`p-3 rounded-xl shadow-sm dark:shadow-none transition-colors ${style.bg} dark:bg-gradient-to-br dark:${disciplineInfo?.gradient || 'from-gray-800 to-black'}`}>
+                                                    {disciplineInfo?.icon ? (
+                                                        <disciplineInfo.icon className={`${style.text} dark:${disciplineInfo.accentColor || "text-white"} text-lg`} />
+                                                    ) : <FaDumbbell className="text-gray-500" />}
                                                 </div>
+
                                                 <div>
-                                                    <h4 className="text-sm font-bold text-white">
+                                                    <h4 className={`text-base font-bold transition-colors ${style.text} dark:text-white`}>
                                                         {item.discipline}
                                                     </h4>
-                                                    <p className="text-[10px] text-gray-400 uppercase tracking-widest">{item.level}</p>
+                                                    <p className="text-[10px] uppercase tracking-widest font-semibold text-gray-400 dark:text-gray-500">{item.level}</p>
                                                 </div>
                                             </div>
                                             <div className="text-right">
-                                                <span className="text-lg font-black text-white block leading-none">{item.time}</span>
-                                                <span className="text-[10px] text-gray-500">{item.duration}</span>
+                                                <span className="text-lg font-black text-slate-800 dark:text-white block leading-none">{item.time}</span>
+                                                <span className="text-[10px] text-slate-400 dark:text-gray-500 font-medium">{item.duration}</span>
                                             </div>
                                         </div>
 
-                                        <div className="flex items-center justify-between pt-2 border-t border-white/5 mt-2">
+                                        <div className="flex items-center justify-between pt-3 border-t border-gray-50 dark:border-white/5 mt-1">
                                             <div className="flex items-center gap-2">
-                                                <div className="w-5 h-5 rounded-full bg-gray-700 flex items-center justify-center overflow-hidden">
-                                                    <FaUser size={10} className="text-gray-400" />
+                                                <div className="w-6 h-6 rounded-full bg-slate-100 dark:bg-gray-700 flex items-center justify-center overflow-hidden border border-white dark:border-transparent shadow-sm">
+                                                    <FaUser size={10} className="text-slate-400 dark:text-gray-400" />
                                                 </div>
-                                                <span className="text-xs text-gray-300 font-medium">Instr. {item.instructor}</span>
+                                                <span className="text-xs text-slate-600 dark:text-gray-300 font-semibold">{item.instructor}</span>
                                             </div>
-                                            <div className="text-[10px] text-gray-500">
-                                                Cupo: {item.spots}
+                                            <div className="text-[10px] font-bold px-2 py-1 rounded-md bg-slate-50 dark:bg-white/5 text-slate-500 dark:text-gray-500">
+                                                {item.spots} Cupos
                                             </div>
                                         </div>
                                     </div>
@@ -230,117 +246,119 @@ export default function DisciplinesTab({ initialSchedule }: DisciplinesTabProps)
             </div>
 
             {/* Edit/Create Modal */}
-            <AnimatePresence>
-                {isModalOpen && editingClass && (
-                    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-                        <motion.div
-                            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-                            className="absolute inset-0 bg-black/80 backdrop-blur-sm"
-                            onClick={() => setIsModalOpen(false)}
-                        />
-                        <motion.div
-                            initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }}
-                            className="bg-[#111] border border-white/10 rounded-2xl p-6 w-full max-w-lg relative z-10 shadow-2xl"
-                        >
-                            <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
-                                {editingClass.id ? <FaEdit className="text-[var(--accent)]" /> : <FaPlus className="text-[var(--accent)]" />}
-                                {editingClass.id ? 'Editar Clase' : 'Nueva Clase'}
-                            </h3>
+            <Portal>
+                <AnimatePresence>
+                    {isModalOpen && editingClass && (
+                        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+                            <motion.div
+                                initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                                className="absolute inset-0 bg-white/90 dark:bg-black/80 backdrop-blur-md"
+                                onClick={() => setIsModalOpen(false)}
+                            />
+                            <motion.div
+                                initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }}
+                                className="bg-white dark:bg-[#111] border border-black/5 dark:border-white/10 rounded-2xl p-6 w-full max-w-lg relative z-10 shadow-2xl transition-colors"
+                            >
+                                <h3 className="text-xl font-bold text-amber-900 dark:text-white mb-6 flex items-center gap-2 transition-colors">
+                                    {editingClass.id ? <FaEdit className="text-amber-500" /> : <FaPlus className="text-amber-500" />}
+                                    {editingClass.id ? 'Editar Clase' : 'Nueva Clase'}
+                                </h3>
 
-                            <form onSubmit={handleSave} className="space-y-4">
-                                <div className="grid grid-cols-2 gap-4">
+                                <form onSubmit={handleSave} className="space-y-4">
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div>
+                                            <label className="text-xs text-amber-900/70 dark:text-gray-400 uppercase font-bold block mb-1">Día</label>
+                                            <select
+                                                className="w-full bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10 rounded-lg p-3 text-amber-900 dark:text-white focus:border-amber-500 outline-none transition-colors"
+                                                value={editingClass.day}
+                                                onChange={e => setEditingClass({ ...editingClass, day: e.target.value })}
+                                            >
+                                                {daysOrder.map(d => <option key={d} value={d} className="bg-white dark:bg-black text-black dark:text-white">{d}</option>)}
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label className="text-xs text-amber-900/70 dark:text-gray-400 uppercase font-bold block mb-1">Hora</label>
+                                            <input
+                                                type="time"
+                                                className="w-full bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10 rounded-lg p-3 text-amber-900 dark:text-white focus:border-amber-500 outline-none transition-colors"
+                                                value={editingClass.time}
+                                                onChange={e => setEditingClass({ ...editingClass, time: e.target.value })}
+                                            />
+                                        </div>
+                                    </div>
+
                                     <div>
-                                        <label className="text-xs text-gray-400 uppercase font-bold block mb-1">Día</label>
+                                        <label className="text-xs text-amber-900/70 dark:text-gray-400 uppercase font-bold block mb-1">Disciplina Principal</label>
                                         <select
-                                            className="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-white focus:border-[var(--accent)] outline-none"
-                                            value={editingClass.day}
-                                            onChange={e => setEditingClass({ ...editingClass, day: e.target.value })}
+                                            className="w-full bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10 rounded-lg p-3 text-amber-900 dark:text-white focus:border-amber-500 outline-none transition-colors"
+                                            value={editingClass.type}
+                                            onChange={e => {
+                                                const disc = disciplines.find(d => d.id === e.target.value);
+                                                setEditingClass({
+                                                    ...editingClass,
+                                                    type: e.target.value,
+                                                    discipline: disc ? disc.name : editingClass.discipline // Auto-fill name
+                                                })
+                                            }}
                                         >
-                                            {daysOrder.map(d => <option key={d} value={d} className="bg-black">{d}</option>)}
+                                            {disciplines.map(d => <option key={d.id} value={d.id} className="bg-white dark:bg-black text-black dark:text-white">{d.name}</option>)}
                                         </select>
                                     </div>
+
                                     <div>
-                                        <label className="text-xs text-gray-400 uppercase font-bold block mb-1">Hora</label>
-                                        <input
-                                            type="time"
-                                            className="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-white focus:border-[var(--accent)] outline-none"
-                                            value={editingClass.time}
-                                            onChange={e => setEditingClass({ ...editingClass, time: e.target.value })}
-                                        />
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <label className="text-xs text-gray-400 uppercase font-bold block mb-1">Disciplina Principal</label>
-                                    <select
-                                        className="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-white focus:border-[var(--accent)] outline-none"
-                                        value={editingClass.type}
-                                        onChange={e => {
-                                            const disc = disciplines.find(d => d.id === e.target.value);
-                                            setEditingClass({
-                                                ...editingClass,
-                                                type: e.target.value,
-                                                discipline: disc ? disc.name : editingClass.discipline // Auto-fill name
-                                            })
-                                        }}
-                                    >
-                                        {disciplines.map(d => <option key={d.id} value={d.id} className="bg-black">{d.name}</option>)}
-                                    </select>
-                                </div>
-
-                                <div>
-                                    <label className="text-xs text-gray-400 uppercase font-bold block mb-1">Nombre Display (e.g. Sparring MMA)</label>
-                                    <input
-                                        type="text"
-                                        className="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-white focus:border-[var(--accent)] outline-none"
-                                        value={editingClass.discipline}
-                                        onChange={e => setEditingClass({ ...editingClass, discipline: e.target.value })}
-                                        placeholder="Nombre específico de la clase"
-                                    />
-                                </div>
-
-                                <div className="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <label className="text-xs text-gray-400 uppercase font-bold block mb-1">Instructor</label>
+                                        <label className="text-xs text-amber-900/70 dark:text-gray-400 uppercase font-bold block mb-1">Nombre Display (e.g. Sparring MMA)</label>
                                         <input
                                             type="text"
-                                            className="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-white focus:border-[var(--accent)] outline-none"
-                                            value={editingClass.instructor}
-                                            onChange={e => setEditingClass({ ...editingClass, instructor: e.target.value })}
+                                            className="w-full bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10 rounded-lg p-3 text-amber-900 dark:text-white focus:border-amber-500 outline-none transition-colors"
+                                            value={editingClass.discipline}
+                                            onChange={e => setEditingClass({ ...editingClass, discipline: e.target.value })}
+                                            placeholder="Nombre específico de la clase"
                                         />
                                     </div>
-                                    <div>
-                                        <label className="text-xs text-gray-400 uppercase font-bold block mb-1">Nivel</label>
-                                        <input
-                                            type="text"
-                                            className="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-white focus:border-[var(--accent)] outline-none"
-                                            value={editingClass.level}
-                                            onChange={e => setEditingClass({ ...editingClass, level: e.target.value })}
-                                        />
-                                    </div>
-                                </div>
 
-                                <div className="flex justify-end gap-3 mt-6 pt-4 border-t border-white/10">
-                                    <button
-                                        type="button"
-                                        onClick={() => setIsModalOpen(false)}
-                                        className="px-4 py-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition-colors font-bold text-sm"
-                                    >
-                                        Cancelar
-                                    </button>
-                                    <button
-                                        type="submit"
-                                        disabled={isSaving}
-                                        className="px-6 py-2 rounded-lg bg-[var(--accent)] text-black font-bold flex items-center gap-2 hover:brightness-110 transition-all disabled:opacity-50"
-                                    >
-                                        {isSaving ? 'Guardando...' : <><FaSave /> Guardar</>}
-                                    </button>
-                                </div>
-                            </form>
-                        </motion.div>
-                    </div>
-                )}
-            </AnimatePresence>
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div>
+                                            <label className="text-xs text-amber-900/70 dark:text-gray-400 uppercase font-bold block mb-1">Instructor</label>
+                                            <input
+                                                type="text"
+                                                className="w-full bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10 rounded-lg p-3 text-amber-900 dark:text-white focus:border-amber-500 outline-none transition-colors"
+                                                value={editingClass.instructor}
+                                                onChange={e => setEditingClass({ ...editingClass, instructor: e.target.value })}
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="text-xs text-amber-900/70 dark:text-gray-400 uppercase font-bold block mb-1">Nivel</label>
+                                            <input
+                                                type="text"
+                                                className="w-full bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10 rounded-lg p-3 text-amber-900 dark:text-white focus:border-amber-500 outline-none transition-colors"
+                                                value={editingClass.level}
+                                                onChange={e => setEditingClass({ ...editingClass, level: e.target.value })}
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div className="flex justify-end gap-3 mt-6 pt-4 border-t border-black/5 dark:border-white/10">
+                                        <button
+                                            type="button"
+                                            onClick={() => setIsModalOpen(false)}
+                                            className="px-4 py-2 rounded-lg text-amber-900/40 dark:text-gray-400 hover:text-amber-900 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 transition-colors font-bold text-sm"
+                                        >
+                                            Cancelar
+                                        </button>
+                                        <button
+                                            type="submit"
+                                            disabled={isSaving}
+                                            className="px-6 py-2 rounded-lg bg-gradient-to-r from-amber-400 to-red-600 text-white font-bold flex items-center gap-2 hover:shadow-lg hover:shadow-orange-500/20 transition-all disabled:opacity-50"
+                                        >
+                                            {isSaving ? 'Guardando...' : <><FaSave /> Guardar</>}
+                                        </button>
+                                    </div>
+                                </form>
+                            </motion.div>
+                        </div>
+                    )}
+                </AnimatePresence>
+            </Portal>
         </div>
     );
 }

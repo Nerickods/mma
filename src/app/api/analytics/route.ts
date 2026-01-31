@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server'
 import { createClient } from '@/shared/lib/supabase/server'
 import { syncSessions } from '@/features/analytics/lib/syncSessions'
 
+export const dynamic = 'force-dynamic'
+
 export async function GET() {
     const supabase = await createClient()
 
@@ -9,7 +11,7 @@ export async function GET() {
     await syncSessions(supabase)
 
     // Get all conversation sessions
-    const { data: sessions, error } = await supabase
+    const { data: allSessions, error } = await supabase
         .from('conversation_sessions')
         .select('*')
         .order('first_message_at', { ascending: false })
@@ -17,6 +19,10 @@ export async function GET() {
     if (error) {
         return NextResponse.json({ error: error.message }, { status: 500 })
     }
+
+    // Filter out sessions that have been marked as read in the dashboard
+    // We assume 'read' flag in classification.flags means admin processed it enough to hide the alert
+    const sessions = allSessions?.filter(s => !s.classification?.flags?.read) || []
 
     if (!sessions || sessions.length === 0) {
         return NextResponse.json({

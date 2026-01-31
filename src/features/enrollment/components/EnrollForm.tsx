@@ -137,7 +137,7 @@ export default function EnrollForm() {
                         <CheckCircle className="w-5 h-5 text-green-500 shrink-0 mt-0.5" />
                         <div className="text-sm text-green-200">
                             <p className="font-semibold text-green-400">¡Te esperamos!</p>
-                            <p>Hemos reservado tu lugar. Revisa tu correo para más detalles.</p>
+                            <p>no olvides mencionar por que medio llenaste tu registro.</p>
                         </div>
                     </motion.div>
                 )}

@@ -12,6 +12,10 @@ export interface SavedEnrollment extends EnrollmentData {
     status: string;
     source: string;
     created_at: string;
+    preferred_schedule?: string | null;
+    metadata?: Record<string, unknown>;
+    contacted_by?: string | null;
+    contacted_at?: string | null;
 }
 
 export const enrollmentService = {
@@ -122,5 +126,36 @@ export const enrollmentService = {
         }
 
         return !!data;
+    },
+
+    /**
+     * Mark an enrollment as contacted
+     * @param id Enrollment ID
+     * @param contactedBy Name of the person who made contact
+     * @returns Updated enrollment record
+     */
+    async markAsContacted(id: string, contactedBy: string): Promise<SavedEnrollment> {
+        // Use admin client to bypass RLS for this admin operation
+        const { createAdminClient } = await import('@/shared/lib/supabase/admin');
+        const supabase = createAdminClient();
+
+        const { data: enrollment, error } = await supabase
+            .from('enrollments')
+            .update({
+                status: 'contacted',
+                contacted_by: contactedBy,
+                contacted_at: new Date().toISOString()
+            })
+            .eq('id', id)
+            .select()
+            .single();
+
+        if (error) {
+            console.error('❌ Error marking enrollment as contacted:', error);
+            throw error;
+        }
+
+        console.log(`✅ Enrollment ${id} marked as contacted by ${contactedBy}`);
+        return enrollment as SavedEnrollment;
     }
 };

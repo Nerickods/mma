@@ -1,23 +1,33 @@
 import { redirect } from 'next/navigation'
+import { cache } from 'react'
 import { createClient } from '@/shared/lib/supabase/server'
 import { AdminSidebar } from './components/AdminSidebar'
 
-async function getAdminUser() {
-    const supabase = await createClient()
-    const { data: { user } } = await supabase.auth.getUser()
+// Memoize getAdminUser for the entire request tree
+// This prevents duplicate auth checks within the same navigation
+// Memoize getAdminUser for the entire request tree
+// This prevents duplicate auth checks within the same navigation
+const getAdminUser = cache(async () => {
+    try {
+        const supabase = await createClient()
+        const { data: { user }, error } = await supabase.auth.getUser()
 
-    if (!user) return null
+        if (error || !user) return null
 
-    const { data: profile } = await supabase
-        .from('profiles')
-        .select('role, email, full_name')
-        .eq('id', user.id)
-        .single()
+        const { data: profile } = await supabase
+            .from('profiles')
+            .select('role, email, full_name')
+            .eq('id', user.id)
+            .single()
 
-    if (profile?.role !== 'admin') return null
+        if (profile?.role !== 'admin') return null
 
-    return { ...user, ...profile }
-}
+        return { ...user, ...profile }
+    } catch (e) {
+        console.error('Admin Layout Auth Error:', e)
+        return null
+    }
+})
 
 export default async function AdminLayout({
     children,
@@ -39,11 +49,11 @@ export default async function AdminLayout({
                 <div className="absolute bottom-[-10%] left-[20%] w-[50%] h-[50%] bg-red-950/30 rounded-full blur-[128px] animate-float-bg" style={{ animationDelay: '2s' }} />
             </div>
 
-            {/* Base Aurora Background - Light (New Branding: Amber/Red soft) */}
+            {/* Base Aurora Background - Light (Vibrant Orange Upgrade) */}
             <div className="fixed inset-0 z-0 opacity-100 dark:opacity-0 transition-opacity duration-500">
-                <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-amber-200/20 rounded-full blur-[128px] animate-float-bg" />
-                <div className="absolute top-[20%] right-[-10%] w-[30%] h-[30%] bg-red-200/20 rounded-full blur-[128px] animate-pulse-slow" />
-                <div className="absolute bottom-[-10%] left-[20%] w-[50%] h-[50%] bg-orange-100/30 rounded-full blur-[128px] animate-float-bg" style={{ animationDelay: '2s' }} />
+                <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] bg-orange-600/20 rounded-full blur-[140px] animate-float-bg" />
+                <div className="absolute top-[30%] right-[-10%] w-[50%] h-[50%] bg-amber-500/20 rounded-full blur-[140px] animate-pulse-slow" />
+                <div className="absolute bottom-[-10%] left-[20%] w-[50%] h-[50%] bg-red-600/15 rounded-full blur-[140px] animate-float-bg" style={{ animationDelay: '2s' }} />
             </div>
 
             {/* Sidebar */}
@@ -51,7 +61,7 @@ export default async function AdminLayout({
 
             {/* Main content Area */}
             <main className="pl-80 pr-4 py-4 min-h-screen relative z-10">
-                <div className="min-h-[calc(100vh-2rem)] bg-white/50 dark:bg-black/40 backdrop-blur-md rounded-3xl border border-white/20 dark:border-white/5 overflow-hidden shadow-2xl transition-all duration-300">
+                <div className="min-h-[calc(100vh-2rem)] bg-white/80 dark:bg-black/40 backdrop-blur-xl rounded-3xl border border-white/40 dark:border-white/5 overflow-hidden shadow-2xl transition-all duration-300">
                     {children}
                 </div>
             </main>

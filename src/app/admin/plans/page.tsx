@@ -97,10 +97,10 @@ export default function AdminPlansPage() {
         <div className="p-8 max-w-7xl mx-auto space-y-12 animate-in fade-in zoom-in duration-500">
             <div className="flex justify-between items-end border-b border-black/5 dark:border-white/5 pb-8">
                 <div>
-                    <h1 className="text-4xl font-bold text-black dark:text-white tracking-tight mb-2 transition-colors">
+                    <h1 className="text-4xl font-black text-orange-700 dark:text-white tracking-tight mb-2 transition-colors">
                         Planes & Membresías
                     </h1>
-                    <p className="text-black/50 dark:text-white/50 text-lg transition-colors">
+                    <p className="text-amber-950/80 dark:text-white/50 text-lg transition-colors">
                         Gestiona la oferta comercial y estructura de precios.
                     </p>
                 </div>
@@ -117,7 +117,7 @@ export default function AdminPlansPage() {
                     return (
                         <div
                             key={plan.id}
-                            className="bg-white/80 dark:bg-white/5 backdrop-blur-xl p-8 rounded-3xl border border-black/5 dark:border-white/10 shadow-2xl relative overflow-hidden group transition-all duration-300 hover:border-amber-500/20 dark:hover:border-red-500/20"
+                            className="bg-white/70 dark:bg-white/5 backdrop-blur-xl p-8 rounded-3xl border border-white/40 dark:border-white/10 shadow-2xl relative overflow-hidden group transition-all duration-300 hover:border-amber-500/20 dark:hover:border-red-500/20 shadow-orange-500/5"
                             style={{ animationDelay: `${index * 100}ms` }}
                         >
                             {/* Popular/Highlight Gradients */}
@@ -129,26 +129,26 @@ export default function AdminPlansPage() {
                             <div className="flex flex-col md:flex-row justify-between items-start mb-8 border-b border-black/5 dark:border-white/5 pb-6 relative z-10 transition-colors gap-6">
                                 <div>
                                     <div className="flex items-center gap-4 mb-2">
-                                        <h3 className="text-2xl font-bold text-black dark:text-white transition-colors">
+                                        <h3 className="text-2xl font-bold text-amber-950 dark:text-white transition-colors">
                                             {plan.name}
                                         </h3>
-                                        <span className="text-xs font-semibold uppercase tracking-wider text-black/40 dark:text-white/40 px-3 py-1 rounded-full bg-black/5 dark:bg-white/10 border border-black/5 dark:border-white/5 transition-colors">
+                                        <span className="text-xs font-semibold uppercase tracking-wider text-amber-900/70 dark:text-white/40 px-3 py-1 rounded-full bg-white/60 dark:bg-white/10 border border-white/20 dark:border-white/5 transition-colors">
                                             {plan.period}
                                         </span>
                                     </div>
-                                    <p className="text-xs text-black/30 dark:text-white/30 font-mono flex items-center gap-2 transition-colors">
+                                    <p className="text-xs text-amber-900/30 dark:text-white/30 font-mono flex items-center gap-2 transition-colors">
                                         <span className={`w-2 h-2 rounded-full ${getValue(plan, 'isActive') ? 'bg-green-500 shadow-lg shadow-green-500/50' : 'bg-red-500'}`} />
                                         ID: {plan.key}
                                     </p>
                                 </div>
                                 <div className="flex items-center gap-4">
-                                    <div className="flex items-center gap-3 bg-black/5 dark:bg-black/20 px-4 py-2 rounded-xl border border-black/5 dark:border-white/5 transition-colors">
-                                        <label className="text-xs text-black/40 dark:text-white/40 uppercase tracking-wider font-bold transition-colors">Orden</label>
+                                    <div className="flex items-center gap-3 bg-white/60 dark:bg-black/20 px-4 py-2 rounded-xl border border-white/40 dark:border-white/5 transition-colors">
+                                        <label className="text-xs text-amber-900/70 dark:text-white/40 uppercase tracking-wider font-bold transition-colors">Orden</label>
                                         <input
                                             type="number"
                                             value={Number(getValue(plan, 'displayOrder'))}
                                             onChange={(e) => handleChange(plan.id, 'displayOrder', Number(e.target.value))}
-                                            className="bg-transparent w-12 text-center text-sm font-bold text-black dark:text-white focus:outline-none transition-colors"
+                                            className="bg-transparent w-12 text-center text-sm font-bold text-amber-900 dark:text-white focus:outline-none transition-colors"
                                         />
                                     </div>
                                     <button
@@ -174,39 +174,39 @@ export default function AdminPlansPage() {
                                 <div className="lg:col-span-4 space-y-6">
                                     {/* Name */}
                                     <div className="space-y-2">
-                                        <label className="text-xs font-bold uppercase tracking-wider text-black/40 dark:text-white/40 ml-1">Nombre Público</label>
+                                        <label className="text-xs font-bold uppercase tracking-wider text-amber-900/70 dark:text-white/40 ml-1">Nombre Público</label>
                                         <input
                                             type="text"
                                             value={String(getValue(plan, 'name'))}
                                             onChange={(e) => handleChange(plan.id, 'name', e.target.value)}
-                                            className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl px-4 py-3 text-black dark:text-white focus:bg-white dark:focus:bg-white/10 focus:border-amber-500/50 dark:focus:border-red-500/50 focus:outline-none transition-all placeholder-black/20 dark:placeholder-white/20 focus:shadow-lg focus:shadow-amber-500/5 dark:focus:shadow-red-500/5"
+                                            className="w-full bg-white/40 dark:bg-black/20 border border-white/40 dark:border-white/10 rounded-xl px-4 py-3 text-amber-900 dark:text-white focus:bg-white dark:focus:bg-white/10 focus:border-amber-500/50 dark:focus:border-red-500/50 focus:outline-none transition-all placeholder-amber-900/20 dark:placeholder-white/20 focus:shadow-lg focus:shadow-amber-500/5 dark:focus:shadow-red-500/5"
                                         />
                                     </div>
 
                                     {/* Price */}
                                     <div className="space-y-2">
-                                        <label className="text-xs font-bold uppercase tracking-wider text-black/40 dark:text-white/40 ml-1">Precio Mensual</label>
+                                        <label className="text-xs font-bold uppercase tracking-wider text-amber-900/70 dark:text-white/40 ml-1">Precio Mensual</label>
                                         <div className="relative group/price">
-                                            <span className="absolute left-4 top-3.5 text-black/40 dark:text-white/40 font-serif italic transition-colors">$</span>
+                                            <span className="absolute left-4 top-3.5 text-amber-900/60 dark:text-white/40 font-serif italic transition-colors">$</span>
                                             <input
                                                 type="number"
                                                 value={Number(getValue(plan, 'price'))}
                                                 onChange={(e) => handleChange(plan.id, 'price', Number(e.target.value))}
-                                                className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl pl-8 pr-16 py-3 text-black dark:text-white text-xl font-bold focus:bg-white dark:focus:bg-white/10 focus:border-amber-500/50 dark:focus:border-red-500/50 focus:outline-none transition-all focus:shadow-lg focus:shadow-amber-500/5 dark:focus:shadow-red-500/5"
+                                                className="w-full bg-white/40 dark:bg-black/20 border border-white/40 dark:border-white/10 rounded-xl pl-8 pr-16 py-3 text-amber-900 dark:text-white text-xl font-bold focus:bg-white dark:focus:bg-white/10 focus:border-amber-500/50 dark:focus:border-red-500/50 focus:outline-none transition-all focus:shadow-lg focus:shadow-amber-500/5 dark:focus:shadow-red-500/5"
                                             />
-                                            <div className="absolute right-4 top-4 text-xs font-bold text-black/20 dark:text-white/20 transition-colors">MXN</div>
+                                            <div className="absolute right-4 top-4 text-xs font-bold text-amber-900/20 dark:text-white/20 transition-colors">MXN</div>
                                         </div>
                                     </div>
 
                                     {/* Highlight Text */}
                                     <div className="space-y-2">
-                                        <label className="text-xs font-bold uppercase tracking-wider text-black/40 dark:text-white/40 ml-1">Badge de Ahorro</label>
+                                        <label className="text-xs font-bold uppercase tracking-wider text-amber-900/70 dark:text-white/40 ml-1">Badge de Ahorro</label>
                                         <input
                                             type="text"
                                             value={String(getValue(plan, 'savings') || '')}
                                             onChange={(e) => handleChange(plan.id, 'savings', e.target.value)}
                                             placeholder="Ej: Ahorra $200"
-                                            className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl px-4 py-3 text-black dark:text-white focus:bg-white dark:focus:bg-white/10 focus:border-amber-500/50 dark:focus:border-red-500/50 focus:outline-none transition-all placeholder-black/20 dark:placeholder-white/20"
+                                            className="w-full bg-white/40 dark:bg-black/20 border border-white/40 dark:border-white/10 rounded-xl px-4 py-3 text-amber-900 dark:text-white focus:bg-white dark:focus:bg-white/10 focus:border-amber-500/50 dark:focus:border-red-500/50 focus:outline-none transition-all placeholder-amber-900/20 dark:placeholder-white/20"
                                         />
                                     </div>
 
@@ -214,12 +214,12 @@ export default function AdminPlansPage() {
                                     <div className="grid grid-cols-2 gap-3 pt-2">
                                         <label className={`flex flex-col items-center justify-center p-4 rounded-xl border cursor-pointer transition-all duration-300 ${getValue(plan, 'isActive')
                                             ? 'bg-emerald-500/5 border-emerald-500/30'
-                                            : 'bg-black/5 dark:bg-white/5 border-transparent hover:bg-black/10 dark:hover:bg-white/10'
+                                            : 'bg-white/20 dark:bg-white/5 border-transparent hover:bg-white/40 dark:hover:bg-white/10'
                                             }`}>
-                                            <div className={`w-8 h-8 rounded-full flex items-center justify-center mb-2 transition-colors ${getValue(plan, 'isActive') ? 'bg-emerald-500 text-white' : 'bg-black/10 dark:bg-white/10 text-black/20 dark:text-white/20'}`}>
+                                            <div className={`w-8 h-8 rounded-full flex items-center justify-center mb-2 transition-colors ${getValue(plan, 'isActive') ? 'bg-emerald-500 text-white' : 'bg-amber-900/10 dark:bg-white/10 text-amber-900/40 dark:text-white/20'}`}>
                                                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" /></svg>
                                             </div>
-                                            <span className={`text-xs font-bold uppercase tracking-wider ${getValue(plan, 'isActive') ? 'text-emerald-600 dark:text-emerald-400' : 'text-black/40 dark:text-white/40'}`}>Activo</span>
+                                            <span className={`text-xs font-bold uppercase tracking-wider ${getValue(plan, 'isActive') ? 'text-emerald-700 dark:text-emerald-400' : 'text-amber-900/60 dark:text-white/40'}`}>Activo</span>
                                             <input
                                                 type="checkbox"
                                                 checked={Boolean(getValue(plan, 'isActive'))}
@@ -230,12 +230,12 @@ export default function AdminPlansPage() {
 
                                         <label className={`flex flex-col items-center justify-center p-4 rounded-xl border cursor-pointer transition-all duration-300 ${getValue(plan, 'isPopular')
                                             ? 'bg-amber-500/5 border-amber-500/30'
-                                            : 'bg-black/5 dark:bg-white/5 border-transparent hover:bg-black/10 dark:hover:bg-white/10'
+                                            : 'bg-white/20 dark:bg-white/5 border-transparent hover:bg-white/40 dark:hover:bg-white/10'
                                             }`}>
-                                            <div className={`w-8 h-8 rounded-full flex items-center justify-center mb-2 transition-colors ${getValue(plan, 'isPopular') ? 'bg-amber-500 text-white' : 'bg-black/10 dark:bg-white/10 text-black/20 dark:text-white/20'}`}>
+                                            <div className={`w-8 h-8 rounded-full flex items-center justify-center mb-2 transition-colors ${getValue(plan, 'isPopular') ? 'bg-amber-500 text-white' : 'bg-amber-900/10 dark:bg-white/10 text-amber-900/20 dark:text-white/20'}`}>
                                                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" /></svg>
                                             </div>
-                                            <span className={`text-xs font-bold uppercase tracking-wider ${getValue(plan, 'isPopular') ? 'text-amber-600 dark:text-amber-400' : 'text-black/40 dark:text-white/40'}`}>Popular</span>
+                                            <span className={`text-xs font-bold uppercase tracking-wider ${getValue(plan, 'isPopular') ? 'text-amber-600 dark:text-amber-400' : 'text-amber-900/40 dark:text-white/40'}`}>Popular</span>
                                             <input
                                                 type="checkbox"
                                                 checked={Boolean(getValue(plan, 'isPopular'))}
@@ -246,10 +246,10 @@ export default function AdminPlansPage() {
 
                                         <label className={`col-span-2 flex items-center justify-between p-4 rounded-xl border cursor-pointer transition-all duration-300 ${getValue(plan, 'highlight')
                                             ? 'bg-red-500/5 border-red-500/30'
-                                            : 'bg-black/5 dark:bg-white/5 border-transparent hover:bg-black/10 dark:hover:bg-white/10'
+                                            : 'bg-white/40 dark:bg-white/5 border-transparent hover:bg-white/60 dark:hover:bg-white/10'
                                             }`}>
-                                            <span className={`text-sm font-bold ${getValue(plan, 'highlight') ? 'text-red-600 dark:text-red-400' : 'text-black/40 dark:text-white/40'}`}>Highlight Effect</span>
-                                            <div className={`w-6 h-6 rounded-full flex items-center justify-center transition-colors ${getValue(plan, 'highlight') ? 'bg-red-500 text-white' : 'bg-black/10 dark:bg-white/10 text-black/20 dark:text-white/20'}`}>
+                                            <span className={`text-sm font-bold ${getValue(plan, 'highlight') ? 'text-red-700 dark:text-red-400' : 'text-amber-900/60 dark:text-white/40'}`}>Highlight Effect</span>
+                                            <div className={`w-6 h-6 rounded-full flex items-center justify-center transition-colors ${getValue(plan, 'highlight') ? 'bg-red-500 text-white' : 'bg-amber-900/10 dark:bg-white/10 text-amber-900/40 dark:text-white/20'}`}>
                                                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" /></svg>
                                             </div>
                                             <input
@@ -266,22 +266,22 @@ export default function AdminPlansPage() {
                                 <div className="lg:col-span-8 space-y-6">
                                     {/* Description */}
                                     <div className="space-y-2">
-                                        <label className="text-xs font-bold uppercase tracking-wider text-black/40 dark:text-white/40 ml-1">Descripción Interna</label>
+                                        <label className="text-xs font-bold uppercase tracking-wider text-amber-900/70 dark:text-white/40 ml-1">Descripción Interna</label>
                                         <textarea
                                             value={String(getValue(plan, 'description'))}
                                             onChange={(e) => handleChange(plan.id, 'description', e.target.value)}
                                             rows={2}
-                                            className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl px-4 py-3 text-black dark:text-white focus:bg-white dark:focus:bg-white/10 focus:border-amber-500/50 dark:focus:border-red-500/50 focus:outline-none transition-all resize-none placeholder-black/20 dark:placeholder-white/20"
+                                            className="w-full bg-white/40 dark:bg-black/20 border border-white/40 dark:border-white/10 rounded-xl px-4 py-3 text-amber-900 dark:text-white focus:bg-white dark:focus:bg-white/10 focus:border-amber-500/50 dark:focus:border-red-500/50 focus:outline-none transition-all resize-none placeholder-amber-900/20 dark:placeholder-white/20"
                                         />
                                     </div>
 
                                     {/* Features Editor */}
                                     <div className="space-y-3">
-                                        <label className="flex justify-between items-center text-xs font-bold uppercase tracking-wider text-black/40 dark:text-white/40 ml-1">
+                                        <label className="flex justify-between items-center text-xs font-bold uppercase tracking-wider text-amber-900/70 dark:text-white/40 ml-1">
                                             <span>Features & Beneficios</span>
-                                            <span className="bg-black/5 dark:bg-white/10 px-2 py-0.5 rounded text-[10px]">{currentFeatures.length} items</span>
+                                            <span className="bg-white/50 dark:bg-white/10 px-2 py-0.5 rounded text-[10px]">{currentFeatures.length} items</span>
                                         </label>
-                                        <div className="bg-white/60 dark:bg-black/20 border border-black/5 dark:border-white/5 rounded-2xl p-6 space-y-4 shadow-inner">
+                                        <div className="bg-white/60 dark:bg-black/20 border border-white/40 dark:border-white/5 rounded-2xl p-6 space-y-4 shadow-inner">
                                             {currentFeatures.map((feature, idx) => (
                                                 <div key={idx} className="flex gap-4 group/feature items-center">
                                                     <div className="flex-1 relative">
@@ -296,7 +296,7 @@ export default function AdminPlansPage() {
                                                                 newFeatures[idx] = e.target.value;
                                                                 handleFeaturesChange(plan.id, newFeatures);
                                                             }}
-                                                            className="w-full bg-white dark:bg-white/5 border border-black/5 dark:border-white/10 rounded-xl pl-8 pr-4 py-3 text-sm text-black dark:text-white placeholder-black/20 dark:placeholder-white/20 focus:border-amber-500/50 dark:focus:border-red-500/50 focus:ring-1 focus:ring-amber-500/10 dark:focus:ring-red-500/10 focus:outline-none transition-all"
+                                                            className="w-full bg-white dark:bg-white/5 border border-white/40 dark:border-white/10 rounded-xl pl-8 pr-4 py-3 text-sm text-amber-900 dark:text-white placeholder-amber-900/20 dark:placeholder-white/20 focus:border-amber-500/50 dark:focus:border-red-500/50 focus:ring-1 focus:ring-amber-500/10 dark:focus:ring-red-500/10 focus:outline-none transition-all"
                                                         />
                                                     </div>
                                                     <button
@@ -313,7 +313,7 @@ export default function AdminPlansPage() {
                                             ))}
                                             <button
                                                 onClick={() => handleFeaturesChange(plan.id, [...currentFeatures, "Nuevo beneficio"])}
-                                                className="w-full py-4 border-2 border-dashed border-black/5 dark:border-white/10 rounded-xl text-xs font-bold text-black/30 dark:text-white/30 hover:text-amber-600 dark:hover:text-red-400 hover:border-amber-500/30 dark:hover:border-red-500/30 hover:bg-amber-500/5 dark:hover:bg-red-500/5 transition-all uppercase tracking-wider flex items-center justify-center gap-2 group/add"
+                                                className="w-full py-4 border-2 border-dashed border-amber-900/10 dark:border-white/10 rounded-xl text-xs font-bold text-amber-900/30 dark:text-white/30 hover:text-amber-600 dark:hover:text-red-400 hover:border-amber-500/30 dark:hover:border-red-500/30 hover:bg-amber-500/5 dark:hover:bg-red-500/5 transition-all uppercase tracking-wider flex items-center justify-center gap-2 group/add"
                                             >
                                                 <span className="w-5 h-5 rounded-full border-2 border-current flex items-center justify-center text-sm mb-0.5">+</span>
                                                 Agregar Nuevo Beneficio

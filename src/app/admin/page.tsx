@@ -95,10 +95,10 @@ export default function AdminDashboard() {
             {/* Header */}
             <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-4xl font-bold text-black dark:text-white tracking-tight mb-2">
+                    <h1 className="text-4xl font-black text-orange-700 dark:text-white tracking-tight mb-2">
                         Panel de Control
                     </h1>
-                    <p className="text-black/50 dark:text-white/50 font-light">
+                    <p className="text-amber-950/80 dark:text-white/50 font-medium">
                         Visión global del rendimiento del agente
                     </p>
                 </div>
@@ -185,7 +185,7 @@ export default function AdminDashboard() {
                                 <p className="text-xs text-black/60 dark:text-white/60">Se han detectado eventos críticos en las últimas 24 horas</p>
                             </div>
                         </div>
-                        <div className="flex gap-4">
+                        <div className="flex gap-4 items-center">
                             {(analytics?.alerts.escalationNeeded || 0) > 0 && (
                                 <Link href="/admin/conversations?urgency=critical" className="px-4 py-2 rounded-lg bg-red-500/10 text-red-600 dark:text-red-400 text-sm font-medium hover:bg-red-500/20 transition-colors">
                                     {analytics?.alerts.escalationNeeded} Escalaciones
@@ -196,6 +196,20 @@ export default function AdminDashboard() {
                                     {analytics?.alerts.frustrationCount} Frustraciones
                                 </Link>
                             )}
+                            <button
+                                onClick={async () => {
+                                    if (confirm('¿Marcar todas las alertas actuales como leídas?')) {
+                                        try {
+                                            await fetch('/api/alerts/mark-read', { method: 'POST' });
+                                            fetchAnalytics();
+                                        } catch (e) { console.error(e); }
+                                    }
+                                }}
+                                className="ml-2 p-2 hover:bg-black/5 dark:hover:bg-white/10 rounded-full transition-colors text-black/40 dark:text-white/40 hover:text-red-500"
+                                title="Marcar todo como leído"
+                            >
+                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -204,35 +218,35 @@ export default function AdminDashboard() {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 {/* Intervention Queue */}
                 <div className="lg:col-span-2 space-y-6">
-                    <h3 className="text-xl font-bold flex items-center gap-3">
-                        <span className="w-1 h-6 bg-red-500 rounded-full" />
+                    <h3 className="text-xl font-bold text-orange-800 dark:text-white flex items-center gap-3">
+                        <span className="w-1 h-6 bg-red-600 rounded-full" />
                         Cola de Intervención
                     </h3>
 
-                    <div className="bg-white/60 dark:bg-white/5 backdrop-blur-xl rounded-2xl border border-black/5 dark:border-white/10 overflow-hidden shadow-lg">
+                    <div className="bg-white/40 dark:bg-white/5 backdrop-blur-xl rounded-2xl border border-white/40 dark:border-white/10 overflow-hidden shadow-lg shadow-orange-500/5">
                         {analytics?.interventionQueue.length === 0 ? (
                             <div className="p-12 text-center flex flex-col items-center">
                                 <div className="w-16 h-16 bg-green-500/10 rounded-full flex items-center justify-center mb-4">
-                                    <svg className="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+                                    <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
                                 </div>
-                                <h4 className="text-lg font-bold text-black dark:text-white">Todo despejado</h4>
-                                <p className="text-black/50 dark:text-white/50 text-sm">No hay intervenciones pendientes en este momento.</p>
+                                <h4 className="text-lg font-bold text-amber-900 dark:text-white">Todo despejado</h4>
+                                <p className="text-amber-950/70 dark:text-white/50 text-sm">No hay intervenciones pendientes en este momento.</p>
                             </div>
                         ) : (
-                            <div className="divide-y divide-black/5 dark:divide-white/5">
+                            <div className="divide-y divide-white/20 dark:divide-white/5">
                                 {analytics?.interventionQueue.map((item) => (
                                     <Link
                                         key={item.id}
                                         href={`/admin/conversations?id=${item.id}`}
-                                        className="flex items-center justify-between p-6 hover:bg-black/5 dark:hover:bg-white/5 transition-colors group"
+                                        className="flex items-center justify-between p-6 hover:bg-white/60 dark:hover:bg-white/5 transition-colors group"
                                     >
                                         <div className="flex items-center gap-4">
                                             <SeverityBadge severity={item.severity} />
                                             <div>
-                                                <p className="font-medium text-black dark:text-white group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
+                                                <p className="font-medium text-amber-900 dark:text-white group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
                                                     {item.summary}
                                                 </p>
-                                                <p className="text-xs text-black/50 dark:text-white/50 mt-1">
+                                                <p className="text-xs text-amber-900/50 dark:text-white/50 mt-1">
                                                     Hace {item.hoursAgo} horas
                                                 </p>
                                             </div>
@@ -241,7 +255,7 @@ export default function AdminDashboard() {
                                             {item.flags.frustration && <span className="w-2 h-2 rounded-full bg-orange-500" title="Frustration" />}
                                             {item.flags.escalation && <span className="w-2 h-2 rounded-full bg-red-500" title="Escalation" />}
                                             {item.flags.bug && <span className="w-2 h-2 rounded-full bg-yellow-500" title="Bug" />}
-                                            <svg className="w-5 h-5 text-black/20 dark:text-white/20 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+                                            <svg className="w-5 h-5 text-amber-900/20 dark:text-white/20 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
                                         </div>
                                     </Link>
                                 ))}
@@ -265,7 +279,7 @@ export default function AdminDashboard() {
 
                     {/* Topics */}
                     <div className="bg-white/60 dark:bg-white/5 backdrop-blur-xl rounded-2xl border border-black/5 dark:border-white/10 p-6 shadow-lg">
-                        <h3 className="text-sm font-bold uppercase tracking-wider text-black/40 dark:text-white/40 mb-4">Top Topics</h3>
+                        <h3 className="text-sm font-bold uppercase tracking-wider text-amber-900/70 dark:text-white/40 mb-4">Top Topics</h3>
                         <div className="space-y-4">
                             {analytics?.topTopics.length === 0 ? (
                                 <p className="text-sm text-black/40 dark:text-white/40 italic">No hay datos suficientes</p>
@@ -273,10 +287,10 @@ export default function AdminDashboard() {
                                 analytics?.topTopics.map((topic, i) => (
                                     <div key={topic.topic} className="group cursor-default">
                                         <div className="flex justify-between text-sm mb-1">
-                                            <span className="font-medium text-black/70 dark:text-white/70 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
+                                            <span className="font-medium text-amber-950/90 dark:text-white/70 group-hover:text-orange-700 dark:group-hover:text-amber-400 transition-colors">
                                                 {topic.topic}
                                             </span>
-                                            <span className="font-mono text-black/30 dark:text-white/30">{topic.count}</span>
+                                            <span className="font-mono text-amber-900/50 dark:text-white/30">{topic.count}</span>
                                         </div>
                                         <div className="w-full h-1.5 bg-black/5 dark:bg-white/5 rounded-full overflow-hidden">
                                             <div
