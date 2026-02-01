@@ -9,14 +9,16 @@ export async function POST() {
             .from('enrollments')
             .update({ status: 'reviewed' })
             .eq('status', 'new')
-            .select('*', { count: 'exact' })
+            .select('*')
 
         if (error) throw error
+
+        const updatedCount = data?.length || 0
 
         return NextResponse.json({
             success: true,
             message: 'All new enrollments marked as reviewed',
-            count
+            count: updatedCount
         })
     } catch (error: any) {
         console.error('Error marking enrollments as read:', error)

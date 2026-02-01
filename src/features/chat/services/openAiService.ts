@@ -1,5 +1,5 @@
 import OpenAI from 'openai';
-import { enrollmentService } from '../../enrollment/services/enrollmentService';
+import { enrollmentService } from '../../enrollment/services/enrollmentServerService';
 import { ChatCompletionTool } from 'openai/resources/chat/completions';
 
 // OpenRouter Configuration (OpenAI-compatible API)
