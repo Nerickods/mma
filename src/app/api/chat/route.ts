@@ -131,7 +131,7 @@ export async function POST(req: Request) {
     const response = new Response(responseText, {
         headers: {
             'Content-Type': 'text/plain; charset=utf-8',
-            'Set-Cookie': `visitor_id=${visitorId}; Path=/; Max-Age=31536000; SameSite=Lax`,
+            'Set-Cookie': `visitor_id=${visitorId}; Path=/; Max-Age=31536000; SameSite=Lax; Secure; HttpOnly`,
             'X-Conversation-Id': currentConversationId || ''
         }
     })
