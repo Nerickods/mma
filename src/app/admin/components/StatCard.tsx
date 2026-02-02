@@ -34,20 +34,20 @@ export function StatCard({
     return (
         <Link
             href={href}
-            className="relative overflow-hidden bg-white/60 dark:bg-white/5 backdrop-blur-lg rounded-2xl border border-black/5 dark:border-white/10 p-6 hover:bg-white/80 dark:hover:bg-white/10 transition-all duration-300 group hover:scale-[1.02] hover:shadow-xl hover:shadow-amber-500/10 dark:hover:shadow-red-500/10 hover:border-amber-500/20 dark:hover:border-red-500/20"
+            className="relative overflow-hidden bg-white/60 dark:bg-white/5 backdrop-blur-lg rounded-xl md:rounded-2xl border border-black/5 dark:border-white/10 p-3 md:p-6 hover:bg-white/80 dark:hover:bg-white/10 transition-all duration-300 group hover:scale-[1.02] hover:shadow-xl hover:shadow-amber-500/10 dark:hover:shadow-red-500/10 hover:border-amber-500/20 dark:hover:border-red-500/20"
         >
-            <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity transform group-hover:scale-110 duration-500">
-                <svg className="w-16 h-16 text-black dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="absolute top-0 right-0 p-2 md:p-4 opacity-5 group-hover:opacity-10 transition-opacity transform group-hover:scale-110 duration-500">
+                <svg className="w-10 h-10 md:w-16 md:h-16 text-black dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     {icons[icon] || icons.chat}
                 </svg>
             </div>
 
             <div className="relative z-10">
-                <p className="text-black/50 dark:text-white/40 text-xs font-semibold uppercase tracking-wider mb-2 flex items-center gap-2">
-                    <span className={`w-1.5 h-1.5 rounded-full bg-current ${color === 'white' ? 'text-black/20 dark:text-white/20' : `text-${color}-500`}`} />
-                    {label}
+                <p className="text-black/50 dark:text-white/40 text-[10px] md:text-xs font-semibold uppercase tracking-wider mb-1 md:mb-2 flex items-center gap-1.5 md:gap-2 line-clamp-1">
+                    <span className={`w-1 h-1 md:w-1.5 md:h-1.5 rounded-full bg-current shrink-0 ${color === 'white' ? 'text-black/20 dark:text-white/20' : `text-${color}-500`}`} />
+                    <span className="truncate">{label}</span>
                 </p>
-                <p className={`text-4xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r ${colorClasses[color]}`}>
+                <p className={`text-2xl md:text-4xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r ${colorClasses[color]}`}>
                     {value}
                 </p>
             </div>

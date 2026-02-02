@@ -152,73 +152,57 @@ export default function ConversationsPage() {
     }
 
     return (
-        <div className="p-8 h-[calc(100vh-2rem)] flex flex-col space-y-6 animate-in fade-in zoom-in duration-500">
+        <div className="p-4 md:p-8 h-[calc(100vh-6rem)] md:h-[calc(100vh-2rem)] flex flex-col space-y-4 md:space-y-6 animate-in fade-in zoom-in duration-500">
             {/* Header Area */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 shrink-0">
-                <div>
-                    <h1 className="text-3xl font-bold text-amber-900 dark:text-white tracking-tight flex items-center gap-3">
-                        historial
-                        de
-                        conversaciones
-                        <span className="text-sm font-normal text-amber-900/60 dark:text-white/40 px-3 py-1 bg-white/50 dark:bg-white/10 rounded-full border border-white/40 dark:border-white/5 shadow-sm">
-                            {pagination?.total || 0} Sesiones
+            <div className="flex flex-col gap-3 shrink-0">
+                <div className="flex items-center justify-between">
+                    <h1 className="text-xl md:text-3xl font-bold text-amber-900 dark:text-white tracking-tight flex items-center gap-2 md:gap-3">
+                        <span className="hidden md:inline">Historial de</span> Conversaciones
+                        <span className="text-xs md:text-sm font-normal text-amber-900/60 dark:text-white/40 px-2 md:px-3 py-0.5 md:py-1 bg-white/50 dark:bg-white/10 rounded-full border border-white/40 dark:border-white/5 shadow-sm">
+                            {pagination?.total || 0}
                         </span>
                     </h1>
                 </div>
 
-                {/* Filters */}
-                <div className="flex gap-3 overflow-x-auto pb-2 md:pb-0 scrollbar-hide">
-                    <div className="relative group min-w-[150px]">
-                        <select
-                            value={filterTopic || 'all'}
-                            onChange={(e) => updateFilter('topic', e.target.value === 'all' ? null : e.target.value)}
-                            className="w-full appearance-none bg-white/80 dark:bg-black/20 border border-black/10 dark:border-white/10 text-black dark:text-white rounded-xl px-4 py-2.5 pr-10 text-sm font-medium focus:bg-white dark:focus:bg-white/10 focus:outline-none transition-all cursor-pointer hover:border-amber-500/50 dark:hover:border-red-500/50"
-                        >
-                            <option value="all" className="bg-white dark:bg-zinc-900">Todos los Temas</option>
-                            {AVAILABLE_TOPICS.map(t => (
-                                <option key={t} value={t} className="bg-white dark:bg-zinc-900">{t.charAt(0).toUpperCase() + t.slice(1)}</option>
-                            ))}
-                        </select>
-                        <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none opacity-50">
-                            <svg className="w-4 h-4 text-black dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
-                        </div>
-                    </div>
+                {/* Filters - Horizontal scroll on mobile */}
+                <div className="flex gap-2 md:gap-3 overflow-x-auto pb-2 scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0">
+                    <select
+                        value={filterTopic || 'all'}
+                        onChange={(e) => updateFilter('topic', e.target.value === 'all' ? null : e.target.value)}
+                        className="shrink-0 appearance-none bg-white/80 dark:bg-black/20 border border-black/10 dark:border-white/10 text-black dark:text-white rounded-lg md:rounded-xl px-3 md:px-4 py-2 md:py-2.5 text-xs md:text-sm font-medium focus:outline-none transition-all cursor-pointer"
+                    >
+                        <option value="all">Temas</option>
+                        {AVAILABLE_TOPICS.map(t => (
+                            <option key={t} value={t}>{t}</option>
+                        ))}
+                    </select>
 
-                    <div className="relative group min-w-[150px]">
-                        <select
-                            value={filterStatus || 'all'}
-                            onChange={(e) => updateFilter('status', e.target.value === 'all' ? null : e.target.value)}
-                            className="w-full appearance-none bg-white/80 dark:bg-black/20 border border-black/10 dark:border-white/10 text-black dark:text-white rounded-xl px-4 py-2.5 pr-10 text-sm font-medium focus:bg-white dark:focus:bg-white/10 focus:outline-none transition-all cursor-pointer hover:border-amber-500/50 dark:hover:border-red-500/50"
-                        >
-                            <option value="all" className="bg-white dark:bg-zinc-900">Todos los estados</option>
-                            <option value="classified" className="bg-white dark:bg-zinc-900">Clasificados</option>
-                            <option value="unclassified" className="bg-white dark:bg-zinc-900">Sin clasificar</option>
-                        </select>
-                        <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none opacity-50">
-                            <svg className="w-4 h-4 text-black dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
-                        </div>
-                    </div>
+                    <select
+                        value={filterStatus || 'all'}
+                        onChange={(e) => updateFilter('status', e.target.value === 'all' ? null : e.target.value)}
+                        className="shrink-0 appearance-none bg-white/80 dark:bg-black/20 border border-black/10 dark:border-white/10 text-black dark:text-white rounded-lg md:rounded-xl px-3 md:px-4 py-2 md:py-2.5 text-xs md:text-sm font-medium focus:outline-none transition-all cursor-pointer"
+                    >
+                        <option value="all">Estados</option>
+                        <option value="classified">Clasificados</option>
+                        <option value="unclassified">Sin clasificar</option>
+                    </select>
 
-                    <div className="relative group min-w-[150px]">
-                        <select
-                            value={filterUrgency || 'all'}
-                            onChange={(e) => updateFilter('urgency', e.target.value === 'all' ? null : e.target.value)}
-                            className="w-full appearance-none bg-white/80 dark:bg-black/20 border border-black/10 dark:border-white/10 text-black dark:text-white rounded-xl px-4 py-2.5 pr-10 text-sm font-medium focus:bg-white dark:focus:bg-white/10 focus:outline-none transition-all cursor-pointer hover:border-amber-500/50 dark:hover:border-red-500/50"
-                        >
-                            <option value="all" className="bg-white dark:bg-zinc-900">Cualquier prioridad</option>
-                            <option value="critical" className="bg-white dark:bg-zinc-900">Crítica (Escalación)</option>
-                            <option value="high" className="bg-white dark:bg-zinc-900">Alta (Frustración)</option>
-                        </select>
-                        <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none opacity-50">
-                            <svg className="w-4 h-4 text-black dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
-                        </div>
-                    </div>
+                    <select
+                        value={filterUrgency || 'all'}
+                        onChange={(e) => updateFilter('urgency', e.target.value === 'all' ? null : e.target.value)}
+                        className="shrink-0 appearance-none bg-white/80 dark:bg-black/20 border border-black/10 dark:border-white/10 text-black dark:text-white rounded-lg md:rounded-xl px-3 md:px-4 py-2 md:py-2.5 text-xs md:text-sm font-medium focus:outline-none transition-all cursor-pointer"
+                    >
+                        <option value="all">Prioridad</option>
+                        <option value="critical">Crítica</option>
+                        <option value="high">Alta</option>
+                    </select>
                 </div>
             </div>
 
-            <div className="flex flex-col lg:flex-row gap-6 flex-1 overflow-hidden">
-                {/* LIST View */}
-                <div className="w-full lg:w-[400px] flex flex-col bg-white/70 dark:bg-black/20 backdrop-blur-2xl border border-white/40 dark:border-white/10 rounded-3xl overflow-hidden shrink-0 shadow-2xl shadow-orange-500/10 dark:shadow-black/50 transition-all duration-300">
+            {/* Mobile: Full width list, Desktop: Split view */}
+            <div className="flex flex-col lg:flex-row gap-4 md:gap-6 flex-1 overflow-hidden">
+                {/* LIST View - Full width on mobile when no selection, or hidden when detail is shown */}
+                <div className={`${selectedSession ? 'hidden lg:flex' : 'flex'} w-full lg:w-[380px] flex-col bg-white/70 dark:bg-black/20 backdrop-blur-2xl border border-white/40 dark:border-white/10 rounded-2xl md:rounded-3xl overflow-hidden shrink-0 shadow-xl shadow-orange-500/10 dark:shadow-black/50 transition-all duration-300`}>
                     <div className="flex-1 overflow-y-auto p-3 space-y-2 custom-scrollbar">
                         {loading ? (
                             <div className="flex items-center justify-center py-20">
@@ -331,31 +315,39 @@ export default function ConversationsPage() {
                     )}
                 </div>
 
-                {/* DETAIL View */}
-                <div className="flex-1 bg-white/70 dark:bg-white/5 backdrop-blur-3xl border border-white/40 dark:border-white/10 rounded-3xl overflow-hidden flex flex-col shadow-2xl shadow-orange-500/10 dark:shadow-black/20 relative transition-all duration-300">
+                {/* DETAIL View - Full screen on mobile when selected */}
+                <div className={`${selectedSession ? 'flex' : 'hidden lg:flex'} flex-1 bg-white/70 dark:bg-white/5 backdrop-blur-3xl border border-white/40 dark:border-white/10 rounded-2xl md:rounded-3xl overflow-hidden flex-col shadow-xl shadow-orange-500/10 dark:shadow-black/20 relative transition-all duration-300`}>
                     {/* Background Aurora */}
-                    <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-b from-amber-500/10 to-red-600/10 rounded-full blur-[120px] -mr-32 -mt-32 pointer-events-none" />
+                    <div className="absolute top-0 right-0 w-[400px] md:w-[600px] h-[400px] md:h-[600px] bg-gradient-to-b from-amber-500/10 to-red-600/10 rounded-full blur-[120px] -mr-32 -mt-32 pointer-events-none" />
 
                     {selectedSession ? (
                         <>
                             {/* Header Detalle */}
-                            <div className="p-6 border-b border-white/20 dark:border-white/5 bg-white/50 dark:bg-white/[0.02] relative z-10 backdrop-blur-md">
-                                <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4 mb-6">
-                                    <div className="flex items-center gap-4">
-                                        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-500 to-red-600 dark:from-white dark:to-zinc-300 flex items-center justify-center shadow-lg text-white dark:text-black font-bold text-lg">
+                            <div className="p-4 md:p-6 border-b border-white/20 dark:border-white/5 bg-white/50 dark:bg-white/[0.02] relative z-10 backdrop-blur-md">
+                                {/* Mobile Back Button */}
+                                <button
+                                    onClick={() => setSelectedSession(null)}
+                                    className="lg:hidden flex items-center gap-2 text-amber-900/60 dark:text-white/60 text-sm font-medium mb-3 hover:text-amber-900 dark:hover:text-white transition-colors"
+                                >
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+                                    Volver a la lista
+                                </button>
+                                <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-3 md:gap-4 mb-4 md:mb-6">
+                                    <div className="flex items-center gap-3 md:gap-4">
+                                        <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl md:rounded-2xl bg-gradient-to-br from-amber-500 to-red-600 dark:from-white dark:to-zinc-300 flex items-center justify-center shadow-lg text-white dark:text-black font-bold text-base md:text-lg">
                                             {(selectedSession.conversation?.visitor_id || 'AN').slice(0, 2).toUpperCase()}
                                         </div>
                                         <div>
-                                            <h2 className="text-xl font-bold text-amber-900 dark:text-white flex items-center gap-2">
-                                                {selectedSession.conversation?.visitor_id || 'Visitante Anónimo'}
+                                            <h2 className="text-lg md:text-xl font-bold text-amber-900 dark:text-white flex items-center gap-2 flex-wrap">
+                                                <span className="truncate max-w-[150px] md:max-w-none">{selectedSession.conversation?.visitor_id || 'Visitante Anónimo'}</span>
                                                 {selectedSession.classification?.flags?.resolved && (
-                                                    <span className="px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 text-[10px] font-bold uppercase border border-blue-500/20">
-                                                        Resuelto por {selectedSession.classification?.flags?.resolved_by || 'Admin'}
+                                                    <span className="px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 text-[10px] font-bold uppercase border border-blue-500/20 shrink-0">
+                                                        Resuelto
                                                     </span>
                                                 )}
                                             </h2>
-                                            <p className="text-xs text-amber-900/40 dark:text-white/40 font-medium">
-                                                ID: <span className="font-mono">{selectedSession.id}</span>
+                                            <p className="text-[10px] md:text-xs text-amber-900/40 dark:text-white/40 font-medium truncate">
+                                                ID: <span className="font-mono">{selectedSession.id.slice(0, 8)}...</span>
                                             </p>
                                         </div>
                                     </div>

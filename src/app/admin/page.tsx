@@ -91,25 +91,25 @@ export default function AdminDashboard() {
     }
 
     return (
-        <div className="p-8 space-y-8 animate-in fade-in zoom-in duration-500">
-            {/* Header */}
-            <div className="flex items-center justify-between">
+        <div className="p-4 md:p-8 space-y-6 md:space-y-8 animate-in fade-in zoom-in duration-500">
+            {/* Header - Compact on mobile */}
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                 <div>
-                    <h1 className="text-4xl font-black text-orange-700 dark:text-white tracking-tight mb-2">
+                    <h1 className="text-2xl md:text-4xl font-black text-orange-700 dark:text-white tracking-tight mb-1 md:mb-2">
                         Panel de Control
                     </h1>
-                    <p className="text-amber-950/80 dark:text-white/50 font-medium">
+                    <p className="text-sm md:text-base text-amber-950/80 dark:text-white/50 font-medium">
                         Visión global del rendimiento del agente
                     </p>
                 </div>
 
-                <div className="flex gap-4">
+                <div className="flex gap-2 md:gap-4">
                     <button
                         onClick={runClassification}
                         disabled={classifying}
                         className="
-                            relative overflow-hidden group
-                            px-8 py-3 rounded-2xl
+                            relative overflow-hidden group flex-1 md:flex-none
+                            px-4 md:px-8 py-2.5 md:py-3 rounded-xl md:rounded-2xl
                             bg-black text-white dark:bg-white dark:text-black
                             disabled:opacity-50 disabled:cursor-not-allowed
                             transition-all duration-300 hover:scale-105 active:scale-95
@@ -117,16 +117,18 @@ export default function AdminDashboard() {
                         "
                     >
                         <div className="absolute inset-0 bg-gradient-to-r from-amber-400 to-red-600 opacity-0 group-hover:opacity-10 dark:group-hover:opacity-20 transition-opacity" />
-                        <span className="relative z-10 flex items-center gap-3 font-semibold text-sm">
+                        <span className="relative z-10 flex items-center justify-center gap-2 md:gap-3 font-semibold text-xs md:text-sm">
                             {classifying ? (
                                 <>
                                     <svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-                                    Procesando Neural...
+                                    <span className="hidden md:inline">Procesando Neural...</span>
+                                    <span className="md:hidden">Procesando...</span>
                                 </>
                             ) : (
                                 <>
-                                    <svg className="w-5 h-5 text-amber-500 dark:text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>
-                                    Analizar Conversaciones
+                                    <svg className="w-4 h-4 md:w-5 md:h-5 text-amber-500 dark:text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>
+                                    <span className="hidden md:inline">Analizar Conversaciones</span>
+                                    <span className="md:hidden">Analizar</span>
                                 </>
                             )}
                         </span>
@@ -139,8 +141,8 @@ export default function AdminDashboard() {
                 <NewRegistrations count={analytics.overview.newEnrollments} />
             ) : null}
 
-            {/* KPI Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+            {/* KPI Grid - 2 columns on mobile, 4 on desktop */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6">
                 <StatCard
                     label="Sesiones Totales"
                     value={analytics?.overview.totalSessions || 0}
@@ -215,7 +217,7 @@ export default function AdminDashboard() {
                 </div>
             )}
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-8">
                 {/* Intervention Queue */}
                 <div className="lg:col-span-2 space-y-6">
                     <h3 className="text-xl font-bold text-orange-800 dark:text-white flex items-center gap-3">

@@ -1,8 +1,11 @@
 'use client'
 
+import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { ThemeToggle } from './ThemeToggle'
 import { signout } from '@/actions/auth'
+import { Menu, X } from 'lucide-react'
 
 interface AdminSidebarProps {
     user: {
@@ -12,85 +15,143 @@ interface AdminSidebarProps {
 }
 
 export function AdminSidebar({ user }: AdminSidebarProps) {
+    const [isOpen, setIsOpen] = useState(false)
+    const pathname = usePathname()
+
+    // Close sidebar on route change (mobile)
+    useEffect(() => {
+        setIsOpen(false)
+    }, [pathname])
+
+    // Lock body scroll when mobile menu is open
+    useEffect(() => {
+        if (isOpen) {
+            document.body.style.overflow = 'hidden'
+        } else {
+            document.body.style.overflow = 'unset'
+        }
+        return () => {
+            document.body.style.overflow = 'unset'
+        }
+    }, [isOpen])
+
     return (
-        <aside className="fixed left-4 top-4 bottom-4 w-72 bg-white/70 dark:bg-black/40 backdrop-blur-2xl border border-white/40 dark:border-white/10 rounded-3xl z-50 flex flex-col shadow-2xl shadow-orange-500/10 dark:shadow-black/50 transition-all duration-300">
-            <div className="p-8 pb-4">
-                <div className="flex items-center gap-3 mb-1">
-                    <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-amber-400 to-red-600 flex items-center justify-center shadow-lg shadow-amber-500/20">
-                        <span className="font-bold text-white text-xs">BB</span>
-                    </div>
-                    <h1 className="text-lg font-bold text-amber-950 dark:text-white tracking-wide transition-colors">Blackbird</h1>
-                </div>
-                <p className="text-xs text-amber-900/70 dark:text-white/40 font-medium pl-11 transition-colors">{user.full_name || user.email || 'Admin User'}</p>
-            </div>
+        <>
+            {/* Mobile Toggle Button - Always visible on mobile when sidebar closed */}
+            <button
+                onClick={() => setIsOpen(true)}
+                className={`md:hidden fixed top-4 left-4 z-40 p-3 rounded-2xl bg-gradient-to-br from-amber-500 to-red-600 text-white shadow-lg shadow-amber-500/30 active:scale-95 transition-all duration-200 ${isOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
+                aria-label="Abrir menú"
+            >
+                <Menu className="w-5 h-5" />
+            </button>
 
-            <div className="h-px bg-gradient-to-r from-transparent via-amber-900/10 dark:via-white/10 to-transparent mx-8 mb-6 transition-colors" />
+            {/* Mobile Backdrop */}
+            <div
+                className={`fixed inset-0 z-40 bg-black/60 backdrop-blur-sm transition-opacity duration-300 md:hidden ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
+                    }`}
+                onClick={() => setIsOpen(false)}
+            />
 
-            <nav className="flex-1 px-4 space-y-1 overflow-y-auto custom-scrollbar">
-                <NavLink href="/admin" icon="home">
-                    Dashboard
-                </NavLink>
-                <NavLink href="/admin/disciplines" icon="dumbbell">
-                    Disciplinas
-                </NavLink>
-                <NavLink href="/admin/enrollments" icon="users">
-                    Inscripciones
-                </NavLink>
-                <NavLink href="/admin/plans" icon="list">
-                    Planes M.
-                </NavLink>
-                <NavLink href="/admin/promotions" icon="tag">
-                    Promociones
-                </NavLink>
-                <NavLink href="/admin/conversations" icon="chat">
-                    Conversaciones
-                </NavLink>
-                <NavLink href="/admin/analytics" icon="chart">
-                    Analíticas
-                </NavLink>
-                <NavLink href="/admin/settings" icon="settings">
-                    Configuración
-                </NavLink>
-            </nav>
-
-            <div className="px-8 pb-4">
-                <div className="flex items-center justify-between">
-                    <span className="text-[10px] text-black/40 dark:text-white/40 font-medium uppercase tracking-wider">Modo</span>
-                    <ThemeToggle />
-                </div>
-            </div>
-
-            <div className="p-4 mx-4 mb-4 mt-2 rounded-2xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/5 space-y-3 relative overflow-hidden group transition-colors">
-                {/* Glow effect on hover */}
-                <div className="absolute inset-0 bg-gradient-to-r from-amber-500/10 to-red-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-                <Link
-                    href="/"
-                    className="flex items-center gap-3 text-black/60 dark:text-white/60 hover:text-black dark:hover:text-white text-xs font-medium transition-colors relative z-10"
+            {/* Sidebar Container - Hidden off-screen on mobile by default */}
+            <aside
+                className={`
+                    fixed inset-y-0 left-0 z-50 flex flex-col
+                    w-72 max-w-[85vw]
+                    bg-white/95 dark:bg-black/95 md:bg-white/70 md:dark:bg-black/40
+                    backdrop-blur-2xl border-r md:border border-white/40 dark:border-white/10
+                    md:rounded-3xl shadow-2xl shadow-orange-500/20 dark:shadow-black/50
+                    transform transition-transform duration-300 ease-out
+                    md:top-4 md:bottom-4 md:left-4
+                    ${isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
+                `}
+            >
+                {/* Mobile Close Button */}
+                <button
+                    onClick={() => setIsOpen(false)}
+                    className="md:hidden absolute top-4 right-4 p-2 text-black/40 dark:text-white/40 hover:text-black dark:hover:text-white transition-colors"
                 >
-                    <div className="p-1.5 rounded-md bg-black/5 dark:bg-white/5 text-black/40 dark:text-white/40 group-hover:text-black dark:group-hover:text-white transition-colors">
-                        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                        </svg>
-                    </div>
-                    Volver al Sitio
-                </Link>
+                    <X className="w-5 h-5" />
+                </button>
 
-                <form action={signout} className="relative z-10">
-                    <button
-                        type="submit"
-                        className="flex items-center gap-3 text-red-500/70 hover:text-red-500 dark:text-red-400/70 dark:hover:text-red-300 text-xs font-medium transition-colors w-full"
+                <div className="p-8 pb-4">
+                    <div className="flex items-center gap-3 mb-1">
+                        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-amber-400 to-red-600 flex items-center justify-center shadow-lg shadow-amber-500/20 shrink-0">
+                            <span className="font-bold text-white text-xs">BB</span>
+                        </div>
+                        <h1 className="text-lg font-bold text-amber-950 dark:text-white tracking-wide transition-colors truncate">Blackbird</h1>
+                    </div>
+                    <p className="text-xs text-amber-900/70 dark:text-white/40 font-medium pl-11 transition-colors truncate">{user.full_name || user.email || 'Admin User'}</p>
+                </div>
+
+                <div className="h-px bg-gradient-to-r from-transparent via-amber-900/10 dark:via-white/10 to-transparent mx-8 mb-6 transition-colors shrink-0" />
+
+                <nav className="flex-1 px-4 space-y-1 overflow-y-auto custom-scrollbar overscroll-contain">
+                    <NavLink href="/admin" icon="home">
+                        Dashboard
+                    </NavLink>
+                    <NavLink href="/admin/disciplines" icon="dumbbell">
+                        Disciplinas
+                    </NavLink>
+                    <NavLink href="/admin/enrollments" icon="users">
+                        Inscripciones
+                    </NavLink>
+                    <NavLink href="/admin/plans" icon="list">
+                        Planes M.
+                    </NavLink>
+                    <NavLink href="/admin/promotions" icon="tag">
+                        Promociones
+                    </NavLink>
+                    <NavLink href="/admin/conversations" icon="chat">
+                        Conversaciones
+                    </NavLink>
+                    <NavLink href="/admin/analytics" icon="chart">
+                        Analíticas
+                    </NavLink>
+                    <NavLink href="/admin/settings" icon="settings">
+                        Configuración
+                    </NavLink>
+                </nav>
+
+                <div className="px-8 pb-4 shrink-0">
+                    <div className="flex items-center justify-between">
+                        <span className="text-[10px] text-black/40 dark:text-white/40 font-medium uppercase tracking-wider">Modo</span>
+                        <ThemeToggle />
+                    </div>
+                </div>
+
+                <div className="p-4 mx-4 mb-4 mt-2 rounded-2xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/5 space-y-3 relative overflow-hidden group transition-colors shrink-0">
+                    {/* Glow effect on hover */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-amber-500/10 to-red-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                    <Link
+                        href="/"
+                        className="flex items-center gap-3 text-black/60 dark:text-white/60 hover:text-black dark:hover:text-white text-xs font-medium transition-colors relative z-10"
                     >
-                        <div className="p-1.5 rounded-md bg-red-500/10 text-red-500/60 transition-colors">
+                        <div className="p-1.5 rounded-md bg-black/5 dark:bg-white/5 text-black/40 dark:text-white/40 group-hover:text-black dark:group-hover:text-white transition-colors">
                             <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                             </svg>
                         </div>
-                        Cerrar Sesión
-                    </button>
-                </form>
-            </div>
-        </aside>
+                        Volver al Sitio
+                    </Link>
+
+                    <form action={signout} className="relative z-10">
+                        <button
+                            type="submit"
+                            className="flex items-center gap-3 text-red-500/70 hover:text-red-500 dark:text-red-400/70 dark:hover:text-red-300 text-xs font-medium transition-colors w-full"
+                        >
+                            <div className="p-1.5 rounded-md bg-red-500/10 text-red-500/60 transition-colors">
+                                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                                </svg>
+                            </div>
+                            Cerrar Sesión
+                        </button>
+                    </form>
+                </div>
+            </aside>
+        </>
     )
 }
 
