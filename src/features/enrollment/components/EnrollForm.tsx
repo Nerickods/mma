@@ -19,6 +19,8 @@ export default function EnrollForm() {
     const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
     const [errorMessage, setErrorMessage] = useState<string>('');
 
+    const [token, setToken] = useState<string>('');
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData(prev => ({
@@ -39,6 +41,7 @@ export default function EnrollForm() {
 
             if (response.success) {
                 setStatus('success');
+                setToken(response.token || '');
                 setEnrolled(true);
                 setFormData({
                     name: '',
@@ -132,13 +135,23 @@ export default function EnrollForm() {
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0 }}
-                        className="mt-4 p-3 bg-green-500/10 border border-green-500/20 rounded-lg flex items-start gap-3"
+                        className="mt-4 p-4 bg-green-500/10 border border-green-500/20 rounded-lg"
                     >
-                        <CheckCircle className="w-5 h-5 text-green-500 shrink-0 mt-0.5" />
-                        <div className="text-sm text-green-200">
-                            <p className="font-semibold text-green-400">¡Te esperamos!</p>
-                            <p>no olvides mencionar por que medio llenaste tu registro.</p>
+                        <div className="flex items-start gap-3 mb-3">
+                            <CheckCircle className="w-5 h-5 text-green-500 shrink-0 mt-0.5" />
+                            <div className="text-sm text-green-200">
+                                <p className="font-semibold text-green-400">¡Te esperamos!</p>
+                                <p>Tu registro ha sido confirmado.</p>
+                            </div>
                         </div>
+
+                        {token && (
+                            <div className="bg-black/30 p-3 rounded border border-white/10 text-center">
+                                <p className="text-xs text-white/60 mb-1 uppercase tracking-wider">Tu Código de Acceso</p>
+                                <p className="text-2xl font-mono font-bold text-[var(--accent)] tracking-widest bg-white/5 py-2 rounded select-all">{token}</p>
+                                <p className="text-[10px] text-white/40 mt-1">Presenta este código en recepción</p>
+                            </div>
+                        )}
                     </motion.div>
                 )}
 

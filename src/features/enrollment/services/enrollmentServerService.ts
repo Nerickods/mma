@@ -16,6 +16,7 @@ export interface SavedEnrollment extends EnrollmentData {
     metadata?: Record<string, unknown>;
     contacted_by?: string | null;
     contacted_at?: string | null;
+    redemption_token?: string | null;
 }
 
 export const enrollmentService = {
@@ -35,7 +36,9 @@ export const enrollmentService = {
                 preferred_schedule: data.visit_date || null,
                 metadata: { conversation_id: data.conversation_id },
                 source: 'chat_agent',
-                status: 'new'
+                status: 'new',
+                redemption_token: Math.random().toString(36).substring(2, 8).toUpperCase(),
+                token_status: 'pending'
             }])
             .select()
             .single();
@@ -63,7 +66,9 @@ export const enrollmentService = {
                 preferred_schedule: data.visit_date || null,
                 metadata: { conversation_id: data.conversation_id },
                 source: data.source || 'landing_form',
-                status: 'new'
+                status: 'new',
+                redemption_token: Math.random().toString(36).substring(2, 8).toUpperCase(),
+                token_status: 'pending'
             }])
             .select()
             .single();

@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { ThemeToggle } from './ThemeToggle'
 import { signout } from '@/actions/auth'
-import { Menu, X } from 'lucide-react'
+import { Menu, X, Ticket } from 'lucide-react'
 
 interface AdminSidebarProps {
     user: {
@@ -108,6 +108,9 @@ export function AdminSidebar({ user }: AdminSidebarProps) {
                     <NavLink href="/admin/analytics" icon="chart">
                         Analíticas
                     </NavLink>
+                    <NavLink href="/admin/redemption" icon="ticket">
+                        Validar Citas
+                    </NavLink>
                     <NavLink href="/admin/settings" icon="settings">
                         Configuración
                     </NavLink>
@@ -161,7 +164,7 @@ function NavLink({
     children,
 }: {
     href: string
-    icon: 'home' | 'chat' | 'chart' | 'settings' | 'list' | 'tag' | 'dumbbell' | 'users'
+    icon: 'home' | 'chat' | 'chart' | 'settings' | 'list' | 'tag' | 'dumbbell' | 'users' | 'ticket'
     children: React.ReactNode
 }) {
     const icons = {
@@ -188,6 +191,9 @@ function NavLink({
         ),
         users: (
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+        ),
+        ticket: (
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 5v2a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h8a2 2 0 012 2zm0 14v-2a2 2 0 01-2-2H5a2 2 0 01-2 2v2a2 2 0 012 2h8a2 2 0 012-2zm-2-8a2 2 0 00-2 2v2a2 2 0 002 2 2 2 0 002-2v-2a2 2 0 00-2-2zm7-7v20M20 7v2a2 2 0 100 4v2a2 2 0 100 4v2" />
         ),
     }
 

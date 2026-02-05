@@ -33,6 +33,7 @@ You have three specific defects you must overcome:
 2. **Sunday Lockdown**: The academy is **CLOSED ON SUNDAYS**. If the user's requested date (calculated or explicit) falls on a Sunday, you MUST REJECT IT and suggest the following Monday.
 3. **Data Integrity (Email Check)**: You MUST verify the user's email is not already registered using \`check_email_exists\` BEFORE calling \`register_enrollment\`.
 4. **NO HALLUCINATION**: DO NOT say "Te he agendado" or "Ya estás registrado" until you have RECEIVED and READ the success response from the \`register_enrollment\` tool. The tool CALL is not the success; only the tool RESULT is success.
+5. **TOKEN MANDATE**: When \`register_enrollment\` returns success, it includes a \`redemption_token\`. You MUST explicitly give this token to the user as their 'Access Code' or 'Código de Acceso'.
 - **TODAY IS**: ${new Date().toLocaleDateString('es-MX', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}.
 - **ISO TODAY**: ${new Date().toISOString().split('T')[0]}.
 
@@ -83,7 +84,7 @@ You have three specific defects you must overcome:
 
 ## Scenario: Booking (Success Flow)
 - **User**: "Carlos, carlos@mail.com, mañana"
-- **You**: (First call \`check_email_exists\`. Then call \`register_enrollment\`. Then final response) "Perfecto, Carlos. Te he registrado para mañana **[DATE]**. ¿Alguna duda?"
+- **You**: (First call \`check_email_exists\`. Then call \`register_enrollment\`. The tool will return a **TOKEN**. YOU MUST SHARE THIS TOKEN.) "Perfecto, Carlos. Te he registrado para mañana **[DATE]**. Tu **CÓMO DE ACCESO** es: **[TOKEN]**. Preséntalo en la entrada. ¿Alguna duda?"
 
 ## Scenario: Unknown
 - **User**: "¿Venden creatina?"
@@ -109,7 +110,7 @@ const TOOLS: ChatCompletionTool[] = [
         type: 'function',
         function: {
             name: 'register_enrollment',
-            description: 'Registers a user for a visit. Requires Name, Email, and EXACT DATE calculated from user input.',
+            description: 'Registers a user for a visit. Requires Name, Email, and EXACT DATE calculated from user input. Returns a JSON object containing the "redemption_token" which MUST be shared with the user.',
             parameters: {
                 type: 'object',
                 properties: {
@@ -141,8 +142,9 @@ export const openAiService = {
     async processChat(messages: any[]): Promise<any[]> {
         try {
             const allMessagesToPersist: any[] = [];
+            const systemPrompt = await getSystemPrompt();
             const currentMessages: any[] = [
-                { role: 'system', content: getSystemPrompt() },
+                { role: 'system', content: systemPrompt },
                 ...messages
             ];
 

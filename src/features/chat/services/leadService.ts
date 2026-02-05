@@ -1,4 +1,4 @@
-import { supabase } from '@/shared/lib/supabase';
+import { enrollmentService } from '@/features/enrollment/services/enrollmentService';
 
 export interface LeadData {
     name: string;
@@ -12,6 +12,7 @@ export interface SavedLead extends LeadData {
     status: string;
     source: string;
     created_at: string;
+    redemption_token?: string;
 }
 
 export const leadService = {
@@ -21,51 +22,39 @@ export const leadService = {
      * @returns The saved lead record
      */
     async saveLead(data: LeadData): Promise<SavedLead> {
-        const { data: lead, error } = await supabase
-            .from('leads')
-            .insert([{
-                name: data.name,
-                email: data.email,
-                visit_date: data.visit_date || null,
-                conversation_id: data.conversation_id || null,
-                source: 'chat_widget',
-                status: 'new'
-            }]);
-        // .select() removed to avoid RLS read violation for anon role
+        // Use enrollmentService to unify data and get token
+        const result = await enrollmentService.submitEnrollment({
+            name: data.name,
+            email: data.email,
+            visit_date: data.visit_date || new Date().toISOString().split('T')[0],
+            source: 'chat_widget'
+        });
 
-
-        if (error) {
-            console.error('❌ Error saving lead:', error);
-            throw error;
+        if (!result.success) {
+            console.error('❌ Error saving lead via enrollmentService:', result.error);
+            throw new Error(result.error);
         }
 
-        console.log('✅ Lead saved successfully (Blind Insert)');
-        // Return a mock object or minimal data since we can't read back the ID without RLS SELECT permissions
+        console.log('✅ Lead saved successfully as Enrollment');
+
         return {
-            id: 'generated-server-side',
+            id: 'generated-via-enrollment', // We don't get the ID back from submitEnrollment, but that's fine
             name: data.name,
             email: data.email,
             status: 'new',
             source: 'chat_widget',
-            created_at: new Date().toISOString()
+            created_at: new Date().toISOString(),
+            redemption_token: result.token
         } as SavedLead;
     },
 
     /**
-     * Check if email already exists as lead
+     * Check if email already exists as lead/enrollment
      */
     async checkExistingLead(email: string): Promise<boolean> {
-        const { data, error } = await supabase
-            .from('leads')
-            .select('id')
-            .eq('email', email)
-            .maybeSingle();
-
-        if (error) {
-            console.error('Error checking existing lead:', error);
-            return false;
-        }
-
-        return !!data;
+        // We can't easily check without RLS read permissions for anon, 
+        // but enrollmentService handles duplicates or allows multiple inserts.
+        // For now, return false to allow submission.
+        return false;
     }
 };

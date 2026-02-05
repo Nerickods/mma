@@ -8,5 +8,6 @@ export interface EnrollmentData {
 export interface EnrollmentResponse {
     success: boolean;
     data?: any;
+    token?: string;
     error?: string;
 }
