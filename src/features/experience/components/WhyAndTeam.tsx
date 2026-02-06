@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { DoorOpen, Hammer, BrainCircuit, Crown, Instagram, Facebook, ChevronRight } from 'lucide-react';
 import { cn, glass } from '@/shared/lib/utils';
+import { useScrollAnchor } from '@/shared/hooks/use-scroll-anchor';
 
 // --- DATA: THE EVOLUTION JOURNEY (PAIN-TO-POWER ALIGNED) ---
 const journeyStages = [
@@ -76,7 +77,7 @@ const coaches = [
     }
 ];
 
-export default function WhyAndTeam() {
+function WhyAndTeam() {
     const [expandedStage, setExpandedStage] = useState<string | null>('stage-1');
     const [isCoachesExpanded, setIsCoachesExpanded] = useState(false);
 
@@ -88,17 +89,17 @@ export default function WhyAndTeam() {
         <section id="experiencia" className="py-16 md:py-32 bg-black relative overflow-hidden">
             {/* Background Gradient */}
             <div className="absolute inset-0 z-0">
-                <img
-                    src="/assets/backgrounds/initiate.png"
-                    alt="Path of the Initiate"
-                    className="w-full h-full object-cover opacity-40 md:opacity-70"
-                />
-                {/* Global Dark Overlay for Contrast (Mobile Only) */}
-                <div className="absolute inset-0 bg-black/50 md:hidden" />
+                <picture>
+                    <source srcSet="/assets/mobile/initiate_mobile.png" media="(max-width: 768px)" />
+                    <img
+                        src="/assets/backgrounds/initiate.png"
+                        alt="Path of the Initiate"
+                        className="w-full h-full object-cover opacity-80 md:opacity-70"
+                    />
+                </picture>
 
-                {/* Smart Gradient: Tunnel effect (Vignette) */}
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_10%,black_90%)] md:bg-[radial-gradient(circle_at_center,transparent_20%,black_100%)]" />
-                <div className="absolute inset-0 bg-gradient-to-b from-black via-black/20 to-black md:via-transparent" />
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_20%,black_90%)] md:bg-[radial-gradient(circle_at_center,transparent_20%,black_100%)]" />
+                <div className="absolute inset-0 bg-gradient-to-b from-black via-black/5 to-black md:via-transparent" />
             </div>
 
             <div className="container mx-auto px-6 relative z-10">
@@ -126,99 +127,17 @@ export default function WhyAndTeam() {
 
                     {/* Timeline Stages (Stacked) */}
                     <div className="flex flex-col gap-6">
-                        {journeyStages.map((stage, index) => {
-                            const isExpanded = expandedStage === stage.id;
-                            return (
-                                <motion.div
-                                    key={stage.id}
-                                    initial={{ opacity: 0, x: -20 }}
-                                    whileInView={{ opacity: 1, x: 0 }}
-                                    transition={{ delay: index * 0.1 }}
-                                    viewport={{ once: true }}
-                                    onClick={() => toggleStage(stage.id)}
-                                    className={cn(
-                                        "relative rounded-xl border transition-all duration-500 cursor-pointer overflow-hidden backdrop-blur-md",
-                                        isExpanded
-                                            ? "bg-white/10 border-[var(--accent)] shadow-[0_0_40px_-10px_rgba(255,215,0,0.1)]"
-                                            : "bg-white/5 border-white/5 hover:border-[var(--accent)]/30 hover:bg-white/10"
-                                    )}
-                                >
-                                    {/* Collapsed/Header View */}
-                                    <div className="p-6 md:p-8 flex items-center gap-6">
-                                        <div className={cn(
-                                            "p-4 rounded-xl transition-colors duration-300 shrink-0",
-                                            isExpanded ? 'bg-[var(--accent)] text-black' : 'bg-black/50 text-[var(--accent)] border border-[var(--accent)]/30'
-                                        )}>
-                                            <stage.icon size={28} />
-                                        </div>
-
-                                        <div className="flex-1">
-                                            <div className="flex justify-between items-center">
-                                                <div>
-                                                    <span className="text-xs font-bold tracking-widest text-[var(--accent)] block mb-1">
-                                                        {stage.period}
-                                                    </span>
-                                                    <h4 className={cn(
-                                                        "font-bold text-xl uppercase",
-                                                        isExpanded ? 'text-white' : 'text-gray-400'
-                                                    )}>
-                                                        {stage.title}
-                                                    </h4>
-                                                </div>
-                                                <div className={cn(
-                                                    "p-2 rounded-full transition-all duration-300",
-                                                    isExpanded ? 'bg-[var(--accent)]/10 text-[var(--accent)] rotate-90' : 'text-gray-500'
-                                                )}>
-                                                    <ChevronRight size={20} />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {/* Expanded Content */}
-                                    <AnimatePresence>
-                                        {isExpanded && (
-                                            <motion.div
-                                                initial={{ height: 0, opacity: 0 }}
-                                                animate={{ height: "auto", opacity: 1 }}
-                                                exit={{ height: 0, opacity: 0 }}
-                                                transition={{ duration: 0.3, ease: "easeInOut" }}
-                                                className="overflow-hidden"
-                                            >
-                                                <div className="px-6 md:px-8 pb-8 pt-0 border-t border-white/5 mx-6 md:mx-8">
-                                                    <div className="mt-6 flex flex-col gap-6">
-                                                        {/* Narrative Copy */}
-                                                        <p className="text-gray-300 text-base leading-relaxed">
-                                                            {stage.copy}
-                                                        </p>
-
-                                                        {/* Methodology Block */}
-                                                        <div className="bg-white/5 p-6 rounded-lg border-l-2 border-[var(--accent)] bg-gradient-to-r from-[var(--accent)]/5 to-transparent">
-                                                            <p className="text-gray-400 text-sm leading-relaxed italic">
-                                                                <span className="text-white font-bold not-italic mr-2">Cómo lo logramos:</span>
-                                                                {stage.methodology}
-                                                            </p>
-                                                        </div>
-
-                                                        {/* Tags */}
-                                                        <div className="flex flex-wrap gap-2">
-                                                            {stage.tags.map(tag => (
-                                                                <span key={tag} className="text-[10px] font-bold uppercase bg-white/5 text-gray-500 border border-white/5 px-2 py-1 rounded tracking-wider">
-                                                                    #{tag}
-                                                                </span>
-                                                            ))}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </motion.div>
-                                        )}
-                                    </AnimatePresence>
-                                </motion.div>
-                            );
-                        })}
+                        {journeyStages.map((stage, index) => (
+                            <JourneyStageItem
+                                key={stage.id}
+                                stage={stage}
+                                index={index}
+                                isExpanded={expandedStage === stage.id}
+                                onToggle={() => toggleStage(stage.id)}
+                            />
+                        ))}
                     </div>
                 </div>
-
 
                 {/* --- SECTION 2: THE SQUAD (TRAINERS) --- */}
                 <div className="max-w-6xl mx-auto">
@@ -315,3 +234,104 @@ export default function WhyAndTeam() {
         </section>
     );
 }
+
+interface JourneyStageItemProps {
+    stage: any;
+    index: number;
+    isExpanded: boolean;
+    onToggle: () => void;
+}
+
+function JourneyStageItem({ stage, index, isExpanded, onToggle }: JourneyStageItemProps) {
+    const anchorRef = useScrollAnchor(isExpanded, 120);
+
+    return (
+        <motion.div
+            ref={anchorRef}
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ delay: index * 0.1 }}
+            viewport={{ once: true }}
+            onClick={onToggle}
+            className={cn(
+                "relative rounded-xl border transition-all duration-500 cursor-pointer overflow-hidden backdrop-blur-xl",
+                isExpanded
+                    ? "bg-black/80 border-[var(--accent)] shadow-[0_0_50px_-10px_rgba(255,215,0,0.2)]"
+                    : "bg-black/40 border-white/5 hover:border-[var(--accent)]/30 hover:bg-black/60"
+            )}
+        >
+            {/* Collapsed/Header View */}
+            <div className="p-6 md:p-8 flex items-center gap-6">
+                <div className={cn(
+                    "p-4 rounded-xl transition-colors duration-300 shrink-0",
+                    isExpanded ? 'bg-[var(--accent)] text-black' : 'bg-black/50 text-[var(--accent)] border border-[var(--accent)]/30'
+                )}>
+                    <stage.icon size={28} />
+                </div>
+
+                <div className="flex-1">
+                    <div className="flex justify-between items-center">
+                        <div>
+                            <span className="text-xs font-bold tracking-widest text-[var(--accent)] block mb-1">
+                                {stage.period}
+                            </span>
+                            <h4 className={cn(
+                                "font-bold text-xl uppercase",
+                                isExpanded ? 'text-white' : 'text-gray-400'
+                            )}>
+                                {stage.title}
+                            </h4>
+                        </div>
+                        <div className={cn(
+                            "p-2 rounded-full transition-all duration-300",
+                            isExpanded ? 'bg-[var(--accent)]/20 text-[var(--accent)] rotate-90' : 'text-gray-500'
+                        )}>
+                            <ChevronRight size={20} />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Expanded Content */}
+            <AnimatePresence>
+                {isExpanded && (
+                    <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3, ease: "easeInOut" }}
+                        className="overflow-hidden"
+                    >
+                        <div className="px-6 md:px-8 pb-8 pt-0 border-t border-white/10 mx-6 md:mx-8">
+                            <div className="mt-6 flex flex-col gap-6">
+                                {/* Narrative Copy */}
+                                <p className="text-white text-base leading-relaxed font-medium">
+                                    {stage.copy}
+                                </p>
+
+                                {/* Methodology Block */}
+                                <div className="bg-white/5 p-6 rounded-lg border-l-2 border-[var(--accent)] bg-gradient-to-r from-[var(--accent)]/10 to-transparent">
+                                    <p className="text-gray-200 text-sm leading-relaxed italic">
+                                        <span className="text-[var(--accent)] font-bold not-italic mr-2">Cómo lo logramos:</span>
+                                        {stage.methodology}
+                                    </p>
+                                </div>
+
+                                {/* Tags */}
+                                <div className="flex flex-wrap gap-2">
+                                    {stage.tags.map((tag: string) => (
+                                        <span key={tag} className="text-[10px] font-bold uppercase bg-[var(--accent)]/10 text-[var(--accent)] border border-[var(--accent)]/20 px-2 py-1 rounded tracking-wider">
+                                            #{tag}
+                                        </span>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </motion.div>
+    );
+}
+
+export default WhyAndTeam;

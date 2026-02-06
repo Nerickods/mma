@@ -54,11 +54,14 @@ export default function EssenceSection() {
                     transition={{ duration: 10, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
                     className="absolute inset-0"
                 >
-                    <img
-                        src="/assets/backgrounds/evolution.png"
-                        alt="Background"
-                        className="w-full h-full object-cover opacity-70"
-                    />
+                    <picture>
+                        <source srcSet="/assets/mobile/evolution_mobile.png" media="(max-width: 768px)" />
+                        <img
+                            src="/assets/backgrounds/evolution.png"
+                            alt="MMA Evolution Background"
+                            className="w-full h-full object-cover opacity-70"
+                        />
+                    </picture>
                 </motion.div>
                 {/* Smart Gradient: Vignette for focus + Bottom fade */}
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,black_90%)]" />

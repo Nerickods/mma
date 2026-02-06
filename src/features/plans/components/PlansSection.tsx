@@ -4,13 +4,14 @@ import PlanCard from './PlanCard';
 import { motion } from 'framer-motion';
 import { cn } from '@/shared/utils/cn';
 import { Check } from 'lucide-react';
+import { useScrollAnchor } from '@/shared/hooks/use-scroll-anchor';
 import UiverseButton from '@/shared/components/UiverseButton';
 import { GlassCard } from '@/shared/components/ui/GlassCard';
 import { plansService } from '../services/plansService';
 import { Plan, Promotion, SectionConfig } from '../types/plan';
 import { PLANS as STATIC_PLANS, PROMOTIONS_2026 as STATIC_PROMOS } from '../data/plans'; // Fallback
 
-export default function PlansSection() {
+function PlansSection() {
     const [plans, setPlans] = useState<Plan[]>([]);
     const [promotions, setPromotions] = useState<Promotion[]>([]);
     const [headerConfig, setHeaderConfig] = useState<SectionConfig | null>(null);
@@ -54,25 +55,31 @@ export default function PlansSection() {
     const mainTitle = headerConfig?.subtitle || '2026: Tu Año. Tu Legado.';
     const description = headerConfig?.description || 'Promociones válidas por tiempo limitado.';
 
+    const plansAnchorRef = useScrollAnchor(isPlansExpanded, 100);
+    const promosAnchorRef = useScrollAnchor(isPromosExpanded, 100);
+
     return (
         <section id="planes" className="py-16 md:py-32 bg-black relative overflow-hidden min-h-[100dvh] flex flex-col items-center justify-start">
             {/* Background Image Layer */}
             <div className="absolute inset-0 z-0">
-                <div
-                    className="absolute inset-0 bg-fixed"
-                    style={{
-                        backgroundImage: 'url("/images/plans-bg-octagon.jpg")',
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center 80%',
-                    }}
-                />
-                {/* Layered Gradients for Legibility and Transition */}
-                <div className="absolute inset-0 bg-gradient-to-b from-black via-black/60 to-black z-10" />
-                <div className="absolute inset-0 bg-black/40 z-10 backdrop-contrast-[1.1]" />
+                <div className="absolute inset-0 bg-fixed overflow-hidden">
+                    <picture>
+                        <source srcSet="/assets/mobile/greatness_mobile.png" media="(max-width: 768px)" />
+                        <img
+                            src="/images/plans-bg-octagon.jpg"
+                            alt="Greatness Path"
+                            className="w-full h-full object-cover opacity-60 md:opacity-80"
+                            style={{ objectPosition: 'center 80%' }}
+                        />
+                    </picture>
+                </div>
+                {/* Layered Gradients for Legibility and Transition - Reduced intensity for visibility */}
+                <div className="absolute inset-0 bg-gradient-to-b from-black via-black/20 to-black z-10" />
+                <div className="absolute inset-0 bg-black/20 z-10 backdrop-contrast-[1.1]" />
             </div>
 
             <div className="container mx-auto px-6 relative z-20">
-                <div className="text-center max-w-3xl mx-auto mb-16">
+                <div ref={plansAnchorRef} className="text-center max-w-3xl mx-auto mb-16">
                     <motion.span
                         initial={{ opacity: 0, y: 10 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -154,6 +161,7 @@ export default function PlansSection() {
 
                         {/* Section Header */}
                         <motion.div
+                            ref={promosAnchorRef}
                             initial={{ opacity: 0 }}
                             whileInView={{ opacity: 1 }}
                             viewport={{ once: true }}
@@ -302,3 +310,5 @@ export default function PlansSection() {
         </section>
     );
 }
+
+export default PlansSection;

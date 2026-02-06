@@ -8,17 +8,20 @@ export default function MissionSection() {
         <section id="mision" className="relative min-h-[80dvh] flex items-center justify-center py-16 md:py-24 overflow-hidden">
             {/* Background Image - Team/Gym Atmosphere */}
             <div className="absolute inset-0 z-0">
-                <img
-                    src="/assets/mission-bg-team.jpg"
-                    alt="Blackbird House Team"
-                    className="w-full h-full object-cover object-center scale-105"
-                />
-                {/* Refined Overlay Logic: Balanced Visibility & Legibility */}
-                {/* Base darkening layer */}
-                <div className="absolute inset-0 bg-black/40"></div>
-                {/* Center-focused gradient for text legibility */}
-                <div className="absolute inset-0 bg-gradient-to-b from-black via-black/20 to-black"></div>
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_transparent_0%,_rgba(0,0,0,0.8)_100%)]"></div>
+                <picture>
+                    <source srcSet="/assets/mobile/mission_mobile.jpg" media="(max-width: 768px)" />
+                    <img
+                        src="/assets/mission-bg-team.jpg"
+                        alt="Blackbird House Team"
+                        className="w-full h-full object-cover object-center scale-105"
+                    />
+                </picture>
+                {/* Suavizado de capas para máxima visibilidad de la foto real */}
+                {/* Capa base más clara */}
+                <div className="absolute inset-0 bg-black/30"></div>
+                {/* Degradados mucho más sutiles */}
+                <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/60"></div>
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_transparent_40%,_rgba(0,0,0,0.6)_100%)]"></div>
             </div>
 
             <div className="container mx-auto px-6 relative z-10">

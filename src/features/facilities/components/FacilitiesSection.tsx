@@ -98,11 +98,14 @@ export default function FacilitiesSection() {
         <section id="instalaciones" ref={containerRef} className="relative py-16 md:py-48 bg-black overflow-hidden">
             {/* Background Narrative Layer */}
             <div className="absolute inset-0 z-0">
-                <img
-                    src="/assets/backgrounds/facilities.png"
-                    alt="Blackbird House Facilities"
-                    className="w-full h-full object-cover fixed-background"
-                />
+                <picture>
+                    <source srcSet="/assets/mobile/temple_mobile.png" media="(max-width: 768px)" />
+                    <img
+                        src="/assets/backgrounds/facilities.png"
+                        alt="Blackbird House Facilities"
+                        className="w-full h-full object-cover fixed-background"
+                    />
+                </picture>
                 {/* Cinematic Overlay: Deep shadows with subtle golden bleed */}
                 <motion.div
                     style={{ opacity: overlayOpacity }}
