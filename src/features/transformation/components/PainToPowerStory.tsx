@@ -94,8 +94,8 @@ export default function PainToPowerStory() {
                         Tu Última Oportunidad
                     </h3>
                     <p className="text-base sm:text-lg md:text-xl text-gray-400 font-light leading-relaxed mb-8">
-                        Tienes dos opciones: cerrar esta página y seguir siendo quien eres, con todos tus miedos intactos.
-                        O venir a Blackbird House y matar a tu antiguo yo. <strong className="text-[var(--accent)] font-bold">Decide.</strong>
+                        Tienes dos opciones: cerrar esta página y seguir siendo quien eres, con todas tus inseguridades intactas.
+                        O venir a la real House Blackbird y matar a tu antiguo yo. <strong className="text-[var(--accent)] font-bold">Decide.</strong>
                     </p>
                 </motion.div>
 
