@@ -29,7 +29,7 @@ export default function TrainingProgramSection({ schedule }: TrainingProgramSect
     const activeDisciplineInfo = disciplines.find(d => d.id === activeTab);
 
     return (
-        <section id="programa" className="relative min-h-screen flex flex-col bg-black overflow-hidden py-24">
+        <section id="programa" className="relative min-h-[100dvh] flex flex-col bg-black overflow-hidden py-16 md:py-24">
 
             {/* --- 1. IMMERSIVE BACKGROUND LAYER --- */}
             <div className="absolute inset-0 z-0">
@@ -77,7 +77,7 @@ export default function TrainingProgramSection({ schedule }: TrainingProgramSect
                         <span className="text-[var(--accent)] font-bold tracking-[0.3em] text-xs uppercase mb-4 block animate-fade-in drop-shadow-md">
                             SISTEMA INTEGRAL
                         </span>
-                        <h2 className="text-5xl md:text-8xl font-black text-white tracking-tighter uppercase leading-none drop-shadow-2xl">
+                        <h2 className="text-4xl sm:text-5xl md:text-8xl font-black text-white tracking-tighter uppercase leading-none drop-shadow-2xl">
                             INGENIERÍA <br />
                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--accent)] to-white">
                                 DEL COMBATE
@@ -136,7 +136,7 @@ export default function TrainingProgramSection({ schedule }: TrainingProgramSect
                                 className="lg:col-span-5"
                             >
                                 {/* Giant Title for Texture */}
-                                <h3 className="text-6xl md:text-9xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white/20 to-transparent absolute -top-20 -left-10 select-none pointer-events-none opacity-50">
+                                <h3 className="text-5xl md:text-9xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white/20 to-transparent absolute -top-20 -left-10 select-none pointer-events-none opacity-50">
                                     {activeDisciplineInfo.id === 'mma' ? 'MMA' : activeDisciplineInfo.name.split(' ')[0]}
                                 </h3>
 
@@ -239,6 +239,6 @@ export default function TrainingProgramSection({ schedule }: TrainingProgramSect
 
                 </div>
             </div>
-        </section>
+        </section >
     );
 }

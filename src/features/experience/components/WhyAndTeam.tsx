@@ -84,7 +84,7 @@ export default function WhyAndTeam() {
     };
 
     return (
-        <section id="experiencia" className="py-24 md:py-32 bg-black relative overflow-hidden">
+        <section id="experiencia" className="py-16 md:py-32 bg-black relative overflow-hidden">
             {/* Background Gradient */}
             <div className="absolute inset-0 z-0">
                 <img
@@ -111,7 +111,7 @@ export default function WhyAndTeam() {
                         <span className="text-[var(--accent)] font-bold tracking-[0.2em] text-sm uppercase mb-4 block">
                             Metodología Evolutiva
                         </span>
-                        <h2 className="text-4xl md:text-6xl font-black text-white leading-tight mb-6">
+                        <h2 className="text-3xl sm:text-4xl md:text-6xl font-black text-white leading-tight mb-6">
                             EL CAMINO DEL <br className="hidden lg:block" />
                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--accent)] to-yellow-600">INICIADO</span>
                         </h2>
@@ -240,7 +240,7 @@ export default function WhyAndTeam() {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 transition={{ delay: index * 0.1 }}
                                 viewport={{ once: true }}
-                                className={cn(glass.card, "group relative h-[450px] overflow-hidden rounded-sm bg-zinc-900 border-none")}
+                                className={cn(glass.card, "group relative h-[400px] md:h-[450px] overflow-hidden rounded-sm bg-zinc-900 border-none")}
                             >
                                 {/* Image */}
                                 <img

@@ -95,7 +95,7 @@ export default function FacilitiesSection() {
     };
 
     return (
-        <section id="instalaciones" ref={containerRef} className="relative py-32 md:py-48 bg-black overflow-hidden">
+        <section id="instalaciones" ref={containerRef} className="relative py-16 md:py-48 bg-black overflow-hidden">
             {/* Background Narrative Layer */}
             <div className="absolute inset-0 z-0">
                 <img
@@ -113,7 +113,7 @@ export default function FacilitiesSection() {
 
             <div className="container mx-auto px-6 relative z-20">
                 {/* 1. EL MANIFESTO (Split View) */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-32 items-center mb-40">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-32 items-center mb-24 md:mb-40">
                     <motion.div
                         initial={{ opacity: 0, x: -50 }}
                         whileInView={{ opacity: 1, x: 0 }}
@@ -123,7 +123,7 @@ export default function FacilitiesSection() {
                         <span className="text-[var(--accent)] font-black tracking-[0.4em] text-sm uppercase mb-6 block">
                             Infraestructura de Guerra
                         </span>
-                        <h2 className="text-6xl md:text-8xl font-black text-white leading-[0.9] tracking-tighter mb-8 uppercase">
+                        <h2 className="text-4xl sm:text-5xl md:text-8xl font-black text-white leading-[0.9] tracking-tighter mb-8 uppercase">
                             EL TEMPLO <br />
                             <span className="text-zinc-600 font-outline">DEL TRABAJO</span> <br />
                             SILENCIOSO

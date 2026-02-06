@@ -53,7 +53,7 @@ export default function PlansSection() {
     const description = headerConfig?.description || 'Promociones válidas por tiempo limitado.';
 
     return (
-        <section id="planes" className="py-32 bg-black relative overflow-hidden min-h-[140vh] flex flex-col items-center justify-start">
+        <section id="planes" className="py-16 md:py-32 bg-black relative overflow-hidden min-h-[100dvh] flex flex-col items-center justify-start">
             {/* Background Image Layer */}
             <div className="absolute inset-0 z-0">
                 <div
@@ -84,7 +84,7 @@ export default function PlansSection() {
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.1 }}
                         viewport={{ once: true }}
-                        className="text-4xl md:text-5xl font-black text-white mb-6 leading-tight"
+                        className="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-6 leading-tight"
                     >
                         Elige tu camino <br />
                         <span className="text-zinc-500">hacia la grandeza</span>

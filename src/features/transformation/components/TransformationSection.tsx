@@ -4,7 +4,7 @@ import PainToPowerStory from './PainToPowerStory';
 
 export default function TransformationSection() {
     return (
-        <section className="relative min-h-screen bg-black overflow-hidden flex items-center justify-center">
+        <section className="relative min-h-[100dvh] bg-black overflow-hidden flex items-center justify-center">
             {/* Texture Overlay */}
             <div className="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] pointer-events-none" />
 

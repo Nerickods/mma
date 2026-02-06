@@ -47,7 +47,7 @@ export default function FAQSection() {
 
 
   return (
-    <section id="faq" ref={containerRef} className="py-24 md:py-40 bg-black relative overflow-hidden">
+    <section id="faq" ref={containerRef} className="py-16 md:py-40 bg-black relative overflow-hidden">
       {/* Parallax Fence Background */}
       <motion.div
         className="absolute inset-0 z-0 opacity-40"
@@ -77,7 +77,7 @@ export default function FAQSection() {
           <span className="text-[var(--accent)] font-bold tracking-[0.3em] text-xs uppercase mb-4 block">
             Inteligencia de Combate
           </span>
-          <h2 className="text-5xl md:text-7xl font-black text-white tracking-tighter mb-6">
+          <h2 className="text-3xl sm:text-5xl md:text-7xl font-black text-white tracking-tighter mb-6">
             PROTOCOLO <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-700 via-gray-500 to-gray-800">
               SIN EXCUSAS

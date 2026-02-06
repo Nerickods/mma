@@ -43,7 +43,7 @@ export default function EssenceSection() {
     const [activePillar, setActivePillar] = useState<PillarKey | null>(null);
 
     return (
-        <section className="relative py-24 md:py-32 bg-black overflow-hidden min-h-screen flex flex-col justify-center">
+        <section className="relative py-16 md:py-32 bg-black overflow-hidden min-h-[100dvh] flex flex-col justify-center">
 
             {/* --- ATMOSPHERIC BACKGROUND --- */}
             {/* --- ATMOSPHERIC BACKGROUND --- */}
@@ -76,7 +76,7 @@ export default function EssenceSection() {
                         whileInView={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 0.8 }}
                         viewport={{ once: true }}
-                        className="text-5xl md:text-8xl font-black text-white tracking-tighter leading-none mb-6"
+                        className="text-4xl sm:text-5xl md:text-8xl font-black text-white tracking-tighter leading-none mb-6"
                     >
                         EL ARTE DE <br />
                         <span className="text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-gray-600">
