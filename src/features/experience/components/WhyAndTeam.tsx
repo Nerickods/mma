@@ -78,6 +78,7 @@ const coaches = [
 
 export default function WhyAndTeam() {
     const [expandedStage, setExpandedStage] = useState<string | null>('stage-1');
+    const [isCoachesExpanded, setIsCoachesExpanded] = useState(false);
 
     const toggleStage = (id: string) => {
         setExpandedStage(current => current === id ? null : id);
@@ -240,7 +241,11 @@ export default function WhyAndTeam() {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 transition={{ delay: index * 0.1 }}
                                 viewport={{ once: true }}
-                                className={cn(glass.card, "group relative h-[400px] md:h-[450px] overflow-hidden rounded-sm bg-zinc-900 border-none")}
+                                className={cn(
+                                    glass.card,
+                                    "group relative h-[400px] md:h-[450px] overflow-hidden rounded-sm bg-zinc-900 border-none",
+                                    index > 0 && !isCoachesExpanded ? "hidden md:block" : "block"
+                                )}
                             >
                                 {/* Image */}
                                 <img
@@ -279,6 +284,28 @@ export default function WhyAndTeam() {
                             </motion.div>
                         ))}
                     </div>
+
+                    {/* Mobile View More Button */}
+                    {!isCoachesExpanded && (
+                        <div className="mt-8 text-center md:hidden">
+                            <button
+                                onClick={() => setIsCoachesExpanded(true)}
+                                className="px-8 py-3 bg-white/5 border border-white/10 text-white text-xs font-bold uppercase tracking-widest hover:bg-[var(--accent)] hover:text-black transition-all duration-300 rounded-full w-full"
+                            >
+                                Ver todo el Escuadrón (+{coaches.length - 1})
+                            </button>
+                        </div>
+                    )}
+                    {isCoachesExpanded && (
+                        <div className="mt-8 text-center md:hidden">
+                            <button
+                                onClick={() => setIsCoachesExpanded(false)}
+                                className="text-zinc-500 text-xs font-bold uppercase tracking-widest hover:text-white transition-colors"
+                            >
+                                Mostrar menos
+                            </button>
+                        </div>
+                    )}
                 </div>
 
             </div>

@@ -15,6 +15,8 @@ export default function PlansSection() {
     const [promotions, setPromotions] = useState<Promotion[]>([]);
     const [headerConfig, setHeaderConfig] = useState<SectionConfig | null>(null);
     const [loading, setLoading] = useState(true);
+    const [isPlansExpanded, setIsPlansExpanded] = useState(false);
+    const [isPromosExpanded, setIsPromosExpanded] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -113,14 +115,38 @@ export default function PlansSection() {
                                 className={cn(
                                     "flex flex-col",
                                     plan.highlight && "md:col-span-1 lg:col-span-1 xl:col-span-1",
-                                    index >= 3 && "lg:col-span-1 lg:first-of-type:ml-[16.666%] lg:last-of-type:mr-[16.666%]"
+                                    index >= 3 && "lg:col-span-1 lg:first-of-type:ml-[16.666%] lg:last-of-type:mr-[16.666%]",
+                                    index > 0 && !isPlansExpanded ? "hidden md:flex" : "flex"
                                 )}
                             >
                                 <PlanCard plan={plan} index={index} />
                             </div>
                         ))
                     )}
+
                 </div>
+
+                {/* Mobile View More (Plans) */}
+                {plans.length > 1 && !isPlansExpanded && (
+                    <div className="text-center md:hidden -mt-16 mb-24">
+                        <button
+                            onClick={() => setIsPlansExpanded(true)}
+                            className="px-8 py-3 bg-white/5 border border-white/10 text-white text-xs font-bold uppercase tracking-widest hover:bg-[var(--accent)] hover:text-black transition-all duration-300 rounded-full w-full max-w-xs"
+                        >
+                            Ver todos los planes (+{plans.length - 1})
+                        </button>
+                    </div>
+                )}
+                {isPlansExpanded && (
+                    <div className="text-center md:hidden -mt-16 mb-24">
+                        <button
+                            onClick={() => setIsPlansExpanded(false)}
+                            className="text-zinc-500 text-xs font-bold uppercase tracking-widest hover:text-white transition-colors"
+                        >
+                            Mostrar menos
+                        </button>
+                    </div>
+                )}
 
                 {/* 🏆 PROMOCIONES 2026: THE GOLDEN ERA 🏆 */}
                 {showPromotions && (
@@ -165,7 +191,10 @@ export default function PlansSection() {
                                     {promotions.map((promo, idx) => (
                                         <div
                                             key={promo.id}
-                                            className="relative p-8 group transition-all duration-500 overflow-hidden"
+                                            className={cn(
+                                                "relative p-8 group transition-all duration-500 overflow-hidden",
+                                                idx > 0 && !isPromosExpanded ? "hidden md:block" : "block"
+                                            )}
                                         >
                                             {/* 0. Background Image with Zoom Effect */}
                                             {promo.backgroundImage && (
@@ -230,6 +259,28 @@ export default function PlansSection() {
                                     ))}
                                 </div>
                             </GlassCard>
+                        )}
+
+                        {/* Mobile View More (Promos) */}
+                        {promotions.length > 1 && !isPromosExpanded && (
+                            <div className="mt-8 text-center md:hidden">
+                                <button
+                                    onClick={() => setIsPromosExpanded(true)}
+                                    className="px-8 py-3 bg-[var(--accent)]/10 border border-[var(--accent)]/30 text-[var(--accent)] text-xs font-bold uppercase tracking-widest hover:bg-[var(--accent)] hover:text-black transition-all duration-300 rounded-full w-full max-w-xs"
+                                >
+                                    Ver todas las promos (+{promotions.length - 1})
+                                </button>
+                            </div>
+                        )}
+                        {isPromosExpanded && (
+                            <div className="mt-8 text-center md:hidden">
+                                <button
+                                    onClick={() => setIsPromosExpanded(false)}
+                                    className="text-zinc-500 text-xs font-bold uppercase tracking-widest hover:text-white transition-colors"
+                                >
+                                    Ocultar promociones
+                                </button>
+                            </div>
                         )}
                     </div>
                 )}
