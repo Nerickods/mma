@@ -91,14 +91,14 @@ export default function WhyAndTeam() {
                 <img
                     src="/assets/backgrounds/initiate.png"
                     alt="Path of the Initiate"
-                    className="w-full h-full object-cover opacity-40"
+                    className="w-full h-full object-cover opacity-40 md:opacity-70"
                 />
-                {/* Global Dark Overlay for Contrast */}
-                <div className="absolute inset-0 bg-black/50" />
+                {/* Global Dark Overlay for Contrast (Mobile Only) */}
+                <div className="absolute inset-0 bg-black/50 md:hidden" />
 
                 {/* Smart Gradient: Tunnel effect (Vignette) */}
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_10%,black_90%)]" />
-                <div className="absolute inset-0 bg-gradient-to-b from-black via-black/20 to-black" />
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_10%,black_90%)] md:bg-[radial-gradient(circle_at_center,transparent_20%,black_100%)]" />
+                <div className="absolute inset-0 bg-gradient-to-b from-black via-black/20 to-black md:via-transparent" />
             </div>
 
             <div className="container mx-auto px-6 relative z-10">
