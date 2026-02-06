@@ -304,6 +304,11 @@ test('should calculate total with tax', () => {
 - **Fix**: Siempre usar `npm run dev` (auto-detecta puerto)
 - **Aplicar en**: Todos los proyectos
 
+### 2025-02-06: Optimización Móvil (Carrusel & Imágenes)
+- **Error**: Carruseles con lag y imágenes cortadas en iPhone
+- **Fix**: Usar `will-change: transform`, `dvh` units para altura, y `clamp()` para anchos responsivos
+- **Aplicar en**: Todos los componentes de animación infinita y Hero sections
+
 ---
 
 *Este archivo es el cerebro de la fábrica. Cada error documentado la hace más fuerte.*
