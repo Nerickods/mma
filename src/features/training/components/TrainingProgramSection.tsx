@@ -45,15 +45,23 @@ export default function TrainingProgramSection({ schedule }: TrainingProgramSect
                             transition={{ duration: 0.8, ease: "easeInOut" }} // Sincronizado para fluidez premium
                             className="absolute inset-0"
                         >
-                            {/* Main Image */}
-                            <img
-                                src={activeDisciplineInfo.image}
-                                alt={activeDisciplineInfo.name}
-                                className="w-full h-full object-cover brightness-[1.1] contrast-[1.1]"
-                                onError={(e) => {
-                                    (e.target as HTMLImageElement).src = '/images/discipline_grappling.png';
-                                }}
-                            />
+                            {/* Main Image with Mobile Optimization */}
+                            <picture className="absolute inset-0 w-full h-full">
+                                {activeDisciplineInfo.mobileImage && (
+                                    <source
+                                        media="(max-width: 768px)"
+                                        srcSet={activeDisciplineInfo.mobileImage}
+                                    />
+                                )}
+                                <img
+                                    src={activeDisciplineInfo.image}
+                                    alt={activeDisciplineInfo.name}
+                                    className="w-full h-full object-cover brightness-[1.1] contrast-[1.1]"
+                                    onError={(e) => {
+                                        (e.target as HTMLImageElement).src = '/images/discipline_grappling.png';
+                                    }}
+                                />
+                            </picture>
 
                             {/* --- OVERLAYS FOR READABILITY --- */}
                             {/* Base Darkening with Adaptive Tint - Higher clarity */}

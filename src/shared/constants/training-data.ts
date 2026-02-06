@@ -10,6 +10,7 @@ export const disciplines = [
         description: "No se trata de pelear, se trata de sobrevivir. Aprende a controlar el caos y descubre una versión de ti que no conocías.",
         benefits: ["Confianza Absoluta", "Defensa Real", "Cuerpo Atlético", "Mente Estratégica"],
         image: "/assets/generated/mma_luxury_bw.png",
+        mobileImage: "/assets/generated/mma_luxury_bw.png", // TODO: Replace with vertical version
         icon: FaFistRaised,
         accentColor: "text-yellow-500",
         gradient: "from-yellow-900/20 to-black"
@@ -21,6 +22,7 @@ export const disciplines = [
         description: "Desconecta del estrés diario golpeando el saco. Desarrolla una concentración láser y libera toda la tensión acumulada.",
         benefits: ["Adiós Estrés", "Reflejos Rápidos", "Brazos Tonificados", "Mente Clara"],
         image: "/assets/generated/boxing_luxury_bw.png",
+        mobileImage: "/assets/generated/boxing_luxury_bw.png",
         icon: FaFistRaised,
         accentColor: "text-red-500",
         gradient: "from-red-900/20 to-black"
@@ -32,6 +34,7 @@ export const disciplines = [
         description: "Descubre la fuerza que hay en tus piernas y codos. Una disciplina intensa que forjará un carácter de hierro.",
         benefits: ["Defensa Integral", "Carácter Fuerte", "Piernas de Acero", "Quema Grasa"],
         image: "/assets/generated/muaythai_luxury_bw.png",
+        mobileImage: "/assets/generated/muaythai_luxury_bw.png",
         icon: FaFire,
         accentColor: "text-orange-500",
         gradient: "from-orange-900/20 to-black"
@@ -43,6 +46,7 @@ export const disciplines = [
         description: "Aprende que la técnica vence a la fuerza. Ideal para ganar seguridad sin necesidad de ser el más grande o fuerte.",
         benefits: ["Seguridad Real", "Control Técnico", "Paciencia", "Resolución Problemas"],
         image: "/assets/generated/bjj_technical_bw.png",
+        mobileImage: "/assets/generated/bjj_technical_bw.png",
         icon: FaShieldAlt,
         accentColor: "text-blue-500",
         gradient: "from-blue-900/20 to-black"
@@ -54,6 +58,7 @@ export const disciplines = [
         description: "La evolución del combate de pie. Combina el boxeo occidental con patadas devastadoras.",
         benefits: ["Distancia Perfecta", "Cuerpo Blindado", "Combos Letales", "Explosividad"],
         image: "/assets/generated/kickboxing_action_bw.png",
+        mobileImage: "/assets/generated/kickboxing_action_bw.png",
         icon: FaBolt,
         accentColor: "text-purple-500",
         gradient: "from-purple-900/20 to-black"
@@ -65,6 +70,7 @@ export const disciplines = [
         description: "Construye la energía para rendir en tu vida diaria. No es solo ejercicio, es el combustible para tu día a día.",
         benefits: ["Energía Infinita", "Salud Integral", "Mejor Descanso", "Cuerpo Funcional"],
         image: "/assets/generated/conditioning_grit_bw.png",
+        mobileImage: "/assets/generated/conditioning_grit_bw.png",
         icon: FaDumbbell,
         accentColor: "text-green-500",
         gradient: "from-green-900/20 to-black"
