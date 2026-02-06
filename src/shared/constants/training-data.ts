@@ -10,7 +10,7 @@ export const disciplines = [
         description: "No se trata de pelear, se trata de sobrevivir. Aprende a controlar el caos y descubre una versión de ti que no conocías.",
         benefits: ["Confianza Absoluta", "Defensa Real", "Cuerpo Atlético", "Mente Estratégica"],
         image: "/assets/generated/mma_luxury_bw.png",
-        mobileImage: "/assets/generated/mma_mobile_recreation.png",
+        mobileImage: "/assets/generated/mma_mobile_recreation_v2.png",
         icon: FaFistRaised,
         accentColor: "text-yellow-500",
         gradient: "from-yellow-900/20 to-black"

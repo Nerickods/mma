@@ -65,13 +65,14 @@ export default function TrainingProgramSection({ schedule }: TrainingProgramSect
 
                             {/* --- OVERLAYS FOR READABILITY --- */}
                             {/* Base Darkening with Adaptive Tint - Higher clarity */}
-                            <div className="absolute inset-0 bg-black/40 backdrop-grayscale-[0.1]" />
+                            {/* Base Darkening with Adaptive Tint - Higher clarity */}
+                            <div className="absolute inset-0 bg-black/20 backdrop-grayscale-[0.1]" />
 
                             {/* Bottom Fade (for smooth footer transition) */}
-                            <div className="absolute inset-x-0 bottom-0 h-[40%] bg-gradient-to-t from-black via-black/80 to-transparent" />
+                            <div className="absolute inset-x-0 bottom-0 h-[40%] bg-gradient-to-t from-black via-black/60 to-transparent" />
 
                             {/* Left Side Fade (Critical for readability on lighter backgrounds) */}
-                            <div className="absolute inset-y-0 left-0 w-full md:w-[75%] bg-gradient-to-r from-black via-black/95 via-[30%] to-transparent" />
+                            <div className="absolute inset-y-0 left-0 w-full md:w-[75%] bg-gradient-to-r from-black via-black/80 via-[30%] to-transparent" />
                         </motion.div>
                     )}
                 </AnimatePresence>
