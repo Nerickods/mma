@@ -35,6 +35,7 @@ const faqs = [
 export default function FAQSection() {
   const { toggleOpen } = useChatStore();
   const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const [isExpanded, setIsExpanded] = useState(false);
   const containerRef = useRef<HTMLElement>(null);
 
   const { scrollYProgress } = useScroll({
@@ -101,6 +102,7 @@ export default function FAQSection() {
                 ${openIndex === index
                   ? 'bg-zinc-900/50 border-[var(--accent)]/50 shadow-[0_0_40px_-10px_rgba(255,215,0,0.2)] scale-[1.01]'
                   : 'bg-zinc-900/30 border-white/5 hover:border-white/10 hover:bg-zinc-900/40'}
+                ${index > 0 && !isExpanded ? 'hidden md:block' : 'block'}
               `}
             >
               <button
@@ -140,6 +142,28 @@ export default function FAQSection() {
             </motion.div>
           ))}
         </div>
+
+        {/* Mobile View More Items */}
+        {!isExpanded && (
+          <div className="mt-8 text-center md:hidden">
+            <button
+              onClick={() => setIsExpanded(true)}
+              className="px-8 py-3 bg-white/5 border border-white/10 text-white text-xs font-bold uppercase tracking-widest hover:bg-[var(--accent)] hover:text-black transition-all duration-300 rounded-full w-full"
+            >
+              Ver más preguntas frecuentas (+{faqs.length - 1})
+            </button>
+          </div>
+        )}
+        {isExpanded && (
+          <div className="mt-8 text-center md:hidden">
+            <button
+              onClick={() => setIsExpanded(false)}
+              className="text-zinc-500 text-xs font-bold uppercase tracking-widest hover:text-white transition-colors"
+            >
+              Mostrar menos
+            </button>
+          </div>
+        )}
 
         {/* Chatbot CTA */}
         <motion.div

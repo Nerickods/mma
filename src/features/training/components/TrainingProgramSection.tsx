@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { cn } from '@/shared/utils/cn';
 import {
     FaFistRaised, FaFire, FaShieldAlt, FaBolt,
     FaClock, FaCalendarAlt, FaUser, FaStar,
@@ -18,6 +19,7 @@ interface TrainingProgramSectionProps {
 
 export default function TrainingProgramSection({ schedule }: TrainingProgramSectionProps) {
     const [activeTab, setActiveTab] = useState<string>('mma'); // Default to MMA
+    const [isScheduleExpanded, setIsScheduleExpanded] = useState(false);
 
     const handleReserve = (className: string) => {
         document.getElementById('formulario')?.scrollIntoView({ behavior: 'smooth' });
@@ -192,7 +194,10 @@ export default function TrainingProgramSection({ schedule }: TrainingProgramSect
                                             animate={{ opacity: 1, y: 0 }}
                                             transition={{ delay: index * 0.05 }}
                                             onClick={() => handleReserve(item.id)}
-                                            className="group relative flex items-center justify-between p-4 rounded-xl cursor-pointer border border-white/5 bg-black/40 backdrop-blur-sm hover:bg-white/10 hover:border-white/20 transition-all duration-300"
+                                            className={cn(
+                                                "group relative flex items-center justify-between p-4 rounded-xl cursor-pointer border border-white/5 bg-black/40 backdrop-blur-sm hover:bg-white/10 hover:border-white/20 transition-all duration-300",
+                                                index > 0 && !isScheduleExpanded ? "hidden md:flex" : "flex"
+                                            )}
                                         >
                                             {/* Glow Effect on Hover */}
                                             <div className="absolute inset-0 bg-gradient-to-r from-[var(--accent)]/0 to-transparent opacity-0 group-hover:from-[var(--accent)]/10 group-hover:opacity-100 transition-opacity duration-500 rounded-xl" />
@@ -233,8 +238,31 @@ export default function TrainingProgramSection({ schedule }: TrainingProgramSect
                                         <p className="text-gray-400">No hay clases programadas actualmente.</p>
                                     </div>
                                 )}
+
                             </motion.div>
                         </AnimatePresence>
+
+                        {/* Mobile View More Button */}
+                        {filteredSchedule.length > 1 && !isScheduleExpanded && (
+                            <div className="mt-8 text-center md:hidden">
+                                <button
+                                    onClick={() => setIsScheduleExpanded(true)}
+                                    className="px-8 py-3 bg-[var(--accent)]/10 border border-[var(--accent)]/30 text-[var(--accent)] text-xs font-bold uppercase tracking-widest hover:bg-[var(--accent)] hover:text-black transition-all duration-300 rounded-full w-full"
+                                >
+                                    Ver todos los horarios (+{filteredSchedule.length - 1})
+                                </button>
+                            </div>
+                        )}
+                        {isScheduleExpanded && (
+                            <div className="mt-8 text-center md:hidden">
+                                <button
+                                    onClick={() => setIsScheduleExpanded(false)}
+                                    className="text-zinc-500 text-xs font-bold uppercase tracking-widest hover:text-white transition-colors"
+                                >
+                                    Mostrar menos
+                                </button>
+                            </div>
+                        )}
                     </div>
 
                 </div>
