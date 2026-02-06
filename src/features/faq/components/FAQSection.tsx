@@ -49,22 +49,23 @@ export default function FAQSection() {
 
   return (
     <section id="faq" ref={containerRef} className="py-16 md:py-40 bg-black relative overflow-hidden">
-      {/* Parallax Fence Background */}
-      <motion.div
-        className="absolute inset-0 z-0 opacity-40 will-change-transform"
-        style={{ y: backgroundY }}
-      >
+      {/* Parallax Fence Background - Disabled on Mobile for performance */}
+      <div className="absolute inset-0 z-0 opacity-40">
         <div
-          className="w-full h-[120%] bg-cover bg-center"
+          className="w-full h-full bg-cover bg-center md:hidden"
           style={{ backgroundImage: 'url("/assets/faq-bg-fence.jpg")' }}
+        />
+        <motion.div
+          className="hidden md:block w-full h-[120%] bg-cover bg-center will-change-transform"
+          style={{ y: backgroundY, backgroundImage: 'url("/assets/faq-bg-fence.jpg")' }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black" />
         <div className="absolute inset-0 bg-black/40" />
-      </motion.div>
+      </div>
 
-      {/* Background Accents */}
-      <div className="absolute top-0 right-0 w-1/3 h-1/2 bg-[var(--accent)]/5 blur-[120px] rounded-full -translate-y-1/2 translate-x-1/2 z-0 pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-1/4 h-1/3 bg-[var(--accent)]/5 blur-[100px] rounded-full translate-y-1/2 -translate-x-1/2 z-0 pointer-events-none" />
+      {/* Background Accents - Hidden on Mobile */}
+      <div className="hidden md:block absolute top-0 right-0 w-1/3 h-1/2 bg-[var(--accent)]/5 blur-[120px] rounded-full -translate-y-1/2 translate-x-1/2 z-0 pointer-events-none" />
+      <div className="hidden md:block absolute bottom-0 left-0 w-1/4 h-1/3 bg-[var(--accent)]/5 blur-[100px] rounded-full translate-y-1/2 -translate-x-1/2 z-0 pointer-events-none" />
 
       <div className="container mx-auto px-6 max-w-4xl relative z-10">
         <motion.div
@@ -158,6 +159,7 @@ export default function FAQSection() {
 }
 
 function FAQItem({ faq, index, isOpen, onToggle, isExpanded }: { faq: any, index: number, isOpen: boolean, onToggle: () => void, isExpanded: boolean }) {
+  // Solo anclamos el scroll si estamos en Desktop. En móvil el momentum del usuario debe mandar.
   const itemRef = useScrollAnchor(isOpen, 120);
 
   return (
@@ -186,18 +188,21 @@ function FAQItem({ faq, index, isOpen, onToggle, isExpanded }: { faq: any, index
           {isOpen ? <FaMinus size={14} /> : <FaPlus size={14} />}
         </span>
       </button>
-      <AnimatePresence>
+      <AnimatePresence initial={false}>
         {isOpen && (
           <motion.div
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.4, ease: [0.04, 0.62, 0.23, 0.98] }}
+            transition={{
+              duration: typeof window !== 'undefined' && window.innerWidth < 768 ? 0.25 : 0.4,
+              ease: "easeInOut"
+            }}
             className="overflow-hidden"
           >
             <div className="px-6 md:px-8 pb-8">
               <div className="h-px w-full bg-white/5 mb-6" />
-              <div className="text-gray-400 text-lg leading-relaxed max-w-3xl">
+              <div className="text-gray-400 text-base md:text-lg leading-relaxed max-w-3xl">
                 {faq.a}
               </div>
             </div>
@@ -206,7 +211,7 @@ function FAQItem({ faq, index, isOpen, onToggle, isExpanded }: { faq: any, index
       </AnimatePresence>
 
       {isOpen && (
-        <div className="absolute inset-0 pointer-events-none border border-[var(--accent)]/20 rounded-2xl animate-pulse" />
+        <div className="absolute inset-0 pointer-events-none border border-[var(--accent)]/20 rounded-2xl md:animate-pulse" />
       )}
     </motion.div>
   );
