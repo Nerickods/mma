@@ -91,11 +91,14 @@ export default function WhyAndTeam() {
                 <img
                     src="/assets/backgrounds/initiate.png"
                     alt="Path of the Initiate"
-                    className="w-full h-full object-cover opacity-70"
+                    className="w-full h-full object-cover opacity-40"
                 />
+                {/* Global Dark Overlay for Contrast */}
+                <div className="absolute inset-0 bg-black/50" />
+
                 {/* Smart Gradient: Tunnel effect (Vignette) */}
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_20%,black_100%)]" />
-                <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black" />
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_10%,black_90%)]" />
+                <div className="absolute inset-0 bg-gradient-to-b from-black via-black/20 to-black" />
             </div>
 
             <div className="container mx-auto px-6 relative z-10">
@@ -112,9 +115,9 @@ export default function WhyAndTeam() {
                         <span className="text-[var(--accent)] font-bold tracking-[0.2em] text-sm uppercase mb-4 block">
                             Metodología Evolutiva
                         </span>
-                        <h2 className="text-3xl sm:text-4xl md:text-6xl font-black text-white leading-tight mb-6">
+                        <h2 className="text-3xl sm:text-4xl md:text-6xl font-black text-white leading-tight mb-6 drop-shadow-2xl">
                             EL CAMINO DEL <br className="hidden lg:block" />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--accent)] to-yellow-600">INICIADO</span>
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--accent)] to-yellow-600 drop-shadow-sm">INICIADO</span>
                         </h2>
                         <p className="text-gray-400 text-lg max-w-2xl mx-auto leading-relaxed">
                             No vendemos clases sueltas. Diseñamos tu evolución completa, desde el primer día hasta tu transformación total.
