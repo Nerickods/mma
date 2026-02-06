@@ -51,7 +51,7 @@ export default function FAQSection() {
     <section id="faq" ref={containerRef} className="py-16 md:py-40 bg-black relative overflow-hidden">
       {/* Parallax Fence Background */}
       <motion.div
-        className="absolute inset-0 z-0 opacity-40"
+        className="absolute inset-0 z-0 opacity-40 will-change-transform"
         style={{ y: backgroundY }}
       >
         <div
@@ -63,8 +63,8 @@ export default function FAQSection() {
       </motion.div>
 
       {/* Background Accents */}
-      <div className="absolute top-0 right-0 w-1/3 h-1/2 bg-[var(--accent)]/5 blur-[120px] rounded-full -translate-y-1/2 translate-x-1/2 z-0" />
-      <div className="absolute bottom-0 left-0 w-1/4 h-1/3 bg-[var(--accent)]/5 blur-[100px] rounded-full translate-y-1/2 -translate-x-1/2 z-0" />
+      <div className="absolute top-0 right-0 w-1/3 h-1/2 bg-[var(--accent)]/5 blur-[120px] rounded-full -translate-y-1/2 translate-x-1/2 z-0 pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-1/4 h-1/3 bg-[var(--accent)]/5 blur-[100px] rounded-full translate-y-1/2 -translate-x-1/2 z-0 pointer-events-none" />
 
       <div className="container mx-auto px-6 max-w-4xl relative z-10">
         <motion.div
@@ -168,10 +168,10 @@ function FAQItem({ faq, index, isOpen, onToggle, isExpanded }: { faq: any, index
       transition={{ duration: 0.5, delay: index * 0.1 }}
       viewport={{ once: true }}
       className={`
-        group rounded-2xl border transition-all duration-500 overflow-hidden backdrop-blur-md
+        group rounded-2xl border transition-all duration-500 overflow-hidden will-change-transform
         ${isOpen
-          ? 'bg-zinc-900/50 border-[var(--accent)]/50 shadow-[0_0_40px_-10px_rgba(255,215,0,0.2)] scale-[1.01]'
-          : 'bg-zinc-900/30 border-white/5 hover:border-white/10 hover:bg-zinc-900/40'}
+          ? 'bg-zinc-900/90 md:bg-zinc-900/50 border-[var(--accent)]/50 shadow-[0_0_40px_-10px_rgba(255,215,0,0.2)] scale-[1.01] backdrop-blur-none md:backdrop-blur-md'
+          : 'bg-zinc-900/40 md:bg-zinc-900/30 border-white/5 hover:border-white/10 hover:bg-zinc-900/50 backdrop-blur-none md:backdrop-blur-md'}
         ${index > 0 && !isExpanded ? 'hidden md:block' : 'block'}
       `}
     >
